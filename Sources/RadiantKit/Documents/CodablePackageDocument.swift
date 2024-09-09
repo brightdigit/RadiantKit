@@ -4,8 +4,6 @@
 //
 
 #if canImport(SwiftUI)
-  
- 
 
   public import Foundation
 
@@ -14,24 +12,16 @@
   public import UniformTypeIdentifiers
 
   public struct CodablePackageDocument<T: CodablePackage>: FileDocument {
-    internal enum ReadError: Error {
-      case missingConfigurationAtKey(String)
-    }
+    internal enum ReadError: Error { case missingConfigurationAtKey(String) }
 
-    public static var readableContentTypes: [UTType] {
-      T.readableContentTypes.map(UTType.init)
-    }
+    public static var readableContentTypes: [UTType] { T.readableContentTypes.map(UTType.init) }
 
     let configuration: T
 
-    public init(configuration: T) {
-      self.configuration = configuration
-    }
+    public init(configuration: T) { self.configuration = configuration }
 
     public init(configuration: ReadConfiguration) throws {
-      let regularFileContents = configuration
-        .file
-        .fileWrappers?[T.configurationFileWrapperKey]?
+      let regularFileContents = configuration.file.fileWrappers?[T.configurationFileWrapperKey]?
         .regularFileContents
       guard let configJSONWrapperData = regularFileContents else {
         throw ReadError.missingConfigurationAtKey(T.configurationFileWrapperKey)
@@ -42,7 +32,8 @@
     }
 
     public func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-      let rootFileWrapper = configuration.existingFile ?? FileWrapper(directoryWithFileWrappers: [:])
+      let rootFileWrapper =
+        configuration.existingFile ?? FileWrapper(directoryWithFileWrappers: [:])
 
       if let oldConfigJSONWrapper = rootFileWrapper.fileWrappers?[T.configurationFileWrapperKey] {
         rootFileWrapper.removeFileWrapper(oldConfigJSONWrapper)
@@ -58,8 +49,6 @@
   }
 
   extension CodablePackageDocument where T: InitializablePackage {
-    public init() {
-      self.init(configuration: .init())
-    }
+    public init() { self.init(configuration: .init()) }
   }
 #endif

@@ -27,7 +27,6 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-
 #if canImport(UniformTypeIdentifiers)
   public import UniformTypeIdentifiers
 
@@ -35,7 +34,8 @@
     public init(fileType: FileType) {
       if fileType.isOwned {
         self.init(exportedAs: fileType.utIdentifier)
-      } else {
+      }
+      else {
         // swiftlint:disable:next force_unwrapping
         self.init(fileType.utIdentifier)!
       }
@@ -44,32 +44,25 @@
     public static func allowedContentTypes(for fileType: FileType) -> [UTType] {
       var types = [UTType]()
 
-      if fileType.isOwned {
-        types.append(.init(exportedAs: fileType.utIdentifier))
-      }
+      if fileType.isOwned { types.append(.init(exportedAs: fileType.utIdentifier)) }
 
       if let fileExtensionType = fileType.fileExtension.flatMap({ UTType(filenameExtension: $0) }) {
         types.append(fileExtensionType)
       }
 
-      if let utIdentified = UTType(fileType.utIdentifier) {
-        types.append(utIdentified)
-      }
+      if let utIdentified = UTType(fileType.utIdentifier) { types.append(utIdentified) }
 
       return types
     }
 
-    public static func allowedContentTypes(for fileTypes: FileType ...) -> [UTType] {
+    public static func allowedContentTypes(for fileTypes: FileType...) -> [UTType] {
       fileTypes.flatMap(allowedContentTypes(for:))
     }
   }
 
   extension FileType {
-    @Sendable
-    public init?(url: URL) {
-      guard let utType = UTType(filenameExtension: url.pathExtension) else {
-        return nil
-      }
+    @Sendable public init?(url: URL) {
+      guard let utType = UTType(filenameExtension: url.pathExtension) else { return nil }
       self.init(stringLiteral: utType.identifier)
     }
   }

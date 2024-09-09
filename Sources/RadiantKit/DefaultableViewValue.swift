@@ -1,6 +1,6 @@
 //
-//  KeyType.swift
-//  BushelKit
+//  DefaultableViewValue.swift
+//  RadiantKit
 //
 //  Created by Leo Dion.
 //  Copyright © 2024 BrightDigit.
@@ -27,9 +27,6 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
- import Foundation
-
-public enum KeyType: Sendable {
-  case describing
-  case reflecting
+public protocol DefaultableViewValue: Codable, Hashable, Sendable {
+  static var `default`: Self { get }
 }

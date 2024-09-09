@@ -1,6 +1,30 @@
 //
-// ValueTextBubble.swift
-// Copyright (c) 2024 BrightDigit.
+//  ValueTextBubble.swift
+//  RadiantKit
+//
+//  Created by Leo Dion.
+//  Copyright © 2024 BrightDigit.
+//
+//  Permission is hereby granted, free of charge, to any person
+//  obtaining a copy of this software and associated documentation
+//  files (the “Software”), to deal in the Software without
+//  restriction, including without limitation the rights to use,
+//  copy, modify, merge, publish, distribute, sublicense, and/or
+//  sell copies of the Software, and to permit persons to whom the
+//  Software is furnished to do so, subject to the following
+//  conditions:
+//
+//  The above copyright notice and this permission notice shall be
+//  included in all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
+//  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+//  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+//  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+//  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+//  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+//  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+//  OTHER DEALINGS IN THE SOFTWARE.
 //
 
 #if canImport(SwiftUI)
@@ -12,9 +36,7 @@
     ShapeStyleType: ShapeStyle,
     ValueType: Equatable,
     FormatStyleType: FormatStyle
-  >: View where
-    FormatStyleType.FormatInput == ValueType,
-    FormatStyleType.FormatOutput == String {
+  >: View where FormatStyleType.FormatInput == ValueType, FormatStyleType.FormatOutput == String {
     public let value: ValueType
     public let format: FormatStyleType
     public let backgroundStyle: ShapeStyleType
@@ -23,9 +45,7 @@
     public var body: some View {
       Text(value, format: format)
         .background {
-          RoundedRectangle(cornerRadius: cornerRadius)
-            .padding(-2)
-            .padding(.horizontal, -4)
+          RoundedRectangle(cornerRadius: cornerRadius).padding(-2).padding(.horizontal, -4)
             .foregroundStyle(backgroundStyle)
         }
         .padding(.horizontal, 2)

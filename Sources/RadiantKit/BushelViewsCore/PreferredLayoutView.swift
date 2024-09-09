@@ -1,6 +1,30 @@
 //
-// PreferredLayoutView.swift
-// Copyright (c) 2024 BrightDigit.
+//  PreferredLayoutView.swift
+//  RadiantKit
+//
+//  Created by Leo Dion.
+//  Copyright © 2024 BrightDigit.
+//
+//  Permission is hereby granted, free of charge, to any person
+//  obtaining a copy of this software and associated documentation
+//  files (the “Software”), to deal in the Software without
+//  restriction, including without limitation the rights to use,
+//  copy, modify, merge, publish, distribute, sublicense, and/or
+//  sell copies of the Software, and to permit persons to whom the
+//  Software is furnished to do so, subject to the following
+//  conditions:
+//
+//  The above copyright notice and this permission notice shall be
+//  included in all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
+//  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+//  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+//  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+//  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+//  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+//  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+//  OTHER DEALINGS IN THE SOFTWARE.
 //
 
 #if canImport(SwiftUI)
@@ -21,9 +45,7 @@
 
     // swiftlint:enable strict_fileprivate
 
-    public func get() -> Value? {
-      value
-    }
+    public func get() -> Value? { value }
   }
 
   public struct PreferredLayoutView<Content: View, ValueType>: View {
@@ -57,26 +79,20 @@
   }
 
   extension View {
-    public func apply<V>(
-      _ keyPath: KeyPath<GeometryProxy, V>,
-      with valueType: Value<V>
-    ) -> some View {
-      self.apply(keyPath, with: valueType) {
-        Color.clear
-      }
-    }
+    public func apply<V>(_ keyPath: KeyPath<GeometryProxy, V>, with valueType: Value<V>)
+      -> some View
+    { self.apply(keyPath, with: valueType) { Color.clear } }
 
     public func apply<V>(
       _ keyPath: KeyPath<GeometryProxy, V>,
       with valueType: Value<V>,
       backgroundView: @escaping () -> some View
     ) -> some View {
-      self
-        .background(GeometryReader { geometry in
-          backgroundView().onAppear(perform: {
-            valueType.update(geometry[keyPath: keyPath])
-          })
-        })
+      self.background(
+        GeometryReader { geometry in
+          backgroundView().onAppear(perform: { valueType.update(geometry[keyPath: keyPath]) })
+        }
+      )
     }
   }
 #endif

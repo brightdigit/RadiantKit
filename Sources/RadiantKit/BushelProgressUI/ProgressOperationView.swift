@@ -1,5 +1,5 @@
 //
-//  GuidedLabeledContentDescriptionView.swift
+//  ProgressOperationView.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -30,55 +30,46 @@
 #if canImport(SwiftUI)
   public import SwiftUI
 
-  public struct GuidedLabeledContentDescriptionView: View {
-    public enum Alignment {
-      case leading
-      case trailing
-    }
-
-    @Environment(\.layoutDirection) var layoutDirection
-    let text: () -> Text
-    let alignment: Alignment?
-
-    var multilineTextAlignment: TextAlignment {
-      switch alignment { case .leading: .leading
-
-        case .trailing: .trailing
-
-        case nil: .center
-      }
-    }
-
-    var leftSpacer: Bool {
-      switch (alignment, layoutDirection) { case (.trailing, .leftToRight): true
-
-        case (.leading, .rightToLeft): true
-
-        default: false
-      }
-    }
-
-    var rightSpacer: Bool {
-      switch (alignment, layoutDirection) { case (.leading, .leftToRight): true
-
-        case (.trailing, .rightToLeft): true
-
-        default: false
-      }
-    }
+  public struct ProgressOperationView<Icon: View, ProgressText: View>: View {
+    private let progress: FileOperationProgress<Int>
+    private let title: any StringProtocol
+    private let text: (FileOperationProgress<Int>) -> ProgressText
+    private let icon: () -> Icon
 
     public var body: some View {
-      HStack {
-        if leftSpacer { Spacer() }
-        text().font(.callout).multilineTextAlignment(self.multilineTextAlignment)
-
-        if rightSpacer { Spacer() }
+      VStack {
+        HStack {
+          icon()  // .accessibilityIdentifier(Progress.icon.identifier)
+          VStack(alignment: .leading) {
+            Text(title).lineLimit(1).font(.title)
+              // .accessibilityIdentifier(Progress.title.identifier)
+              .accessibilityLabel(title)
+            HStack {
+              if let totalValue = progress.totalValue {
+                ProgressView(value: progress.currentValue, total: totalValue)
+              }
+              else {
+                ProgressView(value: progress.currentValue)
+              }
+            }
+            // .accessibilityIdentifier(Progress.view.identifier)
+            text(progress)
+          }
+        }
       }
+      .padding()
     }
 
-    internal init(alignment: Alignment? = nil, text: @escaping () -> Text) {
+    public init(
+      progress: FileOperationProgress<Int>,
+      title: any StringProtocol,
+      text: @escaping (FileOperationProgress<Int>) -> ProgressText,
+      icon: @escaping () -> Icon
+    ) {
+      self.progress = progress
+      self.title = title
       self.text = text
-      self.alignment = alignment
+      self.icon = icon
     }
   }
 #endif

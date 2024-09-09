@@ -1,6 +1,6 @@
 //
 //  AppStored.swift
-//  BushelKit
+//  RadiantKit
 //
 //  Created by Leo Dion.
 //  Copyright © 2024 BrightDigit.
@@ -37,16 +37,13 @@ public protocol AppStored {
 
 extension AppStored {
   public static var key: String {
-    switch self.keyType {
-    case .describing:
-      String(describing: Self.self)
+    switch self.keyType { case .describing: String(describing: Self.self)
 
-    case .reflecting:
-      String(reflecting: Self.self).components(separatedBy: ".").dropFirst().joined(separator: ".")
+      case .reflecting:
+        String(reflecting: Self.self).components(separatedBy: ".").dropFirst()
+          .joined(separator: ".")
     }
   }
 
-  public static var keyType: KeyType {
-    .describing
-  }
+  public static var keyType: KeyType { .describing }
 }

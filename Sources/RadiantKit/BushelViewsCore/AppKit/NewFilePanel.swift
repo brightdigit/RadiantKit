@@ -1,5 +1,5 @@
 //
-//  OpenFileURLAction.swift
+//  NewFilePanel.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,38 +27,41 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
+#if canImport(AppKit) && canImport(SwiftUI)
+  import AppKit
 
-  public import Foundation
+  import Foundation
 
   public import SwiftUI
 
-  fileprivate struct OpenFileURLKey: EnvironmentKey, Sendable {
-    typealias Value = OpenFileURLAction
+  import UniformTypeIdentifiers
 
-    static let defaultValue: OpenFileURLAction = .default
-  }
+  public struct NewFilePanel<FileType: InitializableFileTypeSpecification>: Sendable {
+    public init() {}
 
-  public typealias OpenWindowURLAction = OpenWindowWithValueAction<URL>
+    public init(_: FileType.Type) {}
 
-  public typealias OpenFileURLAction = OpenWindowURLAction
-
-  extension EnvironmentValues {
-    public var openFileURL: OpenFileURLAction {
-      get { self[OpenFileURLKey.self] }
-      set { self[OpenFileURLKey.self] = newValue }
+    @MainActor public func callAsFunction(with openWindow: OpenWindowAction) {
+      let openPanel = NSSavePanel()
+      openPanel.allowedContentTypes = [UTType(fileType: FileType.fileType)]
+      openPanel.isExtensionHidden = true
+      openPanel.begin { response in
+        guard let fileURL = openPanel.url, response == .OK else { return }
+        let value: FileType.WindowValueType
+        do { value = try FileType.createAt(fileURL) }
+        catch {
+          openPanel.presentError(error)
+          return
+        }
+        openWindow(value: value)
+      }
     }
   }
 
-  extension Scene {
-    public func openFileURL(
-      _ closure: @escaping @Sendable @MainActor (URL, OpenWindowAction) -> Void
-    ) -> some Scene { self.environment(\.openFileURL, .init(closure: closure)) }
+  extension OpenWindowAction {
+    @MainActor public func callAsFunction(
+      newFileOf valueType: (some InitializableFileTypeSpecification).Type
+    ) { NewFilePanel(valueType)(with: self) }
   }
 
-  @available(*, deprecated, message: "Use on Scene only.") extension View {
-    public func openFileURL(
-      _ closure: @Sendable @escaping @MainActor (URL, OpenWindowAction) -> Void
-    ) -> some View { self.environment(\.openFileURL, .init(closure: closure)) }
-  }
 #endif

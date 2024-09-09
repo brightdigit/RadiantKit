@@ -1,6 +1,6 @@
 //
-//  DocumentFile.swift
-//  BushelKit
+//  OpenAnyFilePanel.swift
+//  RadiantKit
 //
 //  Created by Leo Dion.
 //  Copyright © 2024 BrightDigit.
@@ -27,25 +27,42 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-public import Foundation
+#if canImport(AppKit) && canImport(SwiftUI)
+  import AppKit
 
-public struct DocumentFile<FileType: FileTypeSpecification>: Codable, Hashable {
-  public let url: URL
+  import Foundation
 
-  public init(url: URL) {
-    self.url = url
-  }
+  public import SwiftUI
 
-  public func hash(into hasher: inout Hasher) {
-    hasher.combine(url)
-  }
-}
+  import UniformTypeIdentifiers
 
-extension DocumentFile {
-  public static func documentFile(from url: URL) -> Self? {
-    guard url.pathExtension == FileType.fileType.fileExtension else {
-      return nil
+  public struct OpenAnyFilePanel {
+    let fileTypes: [FileType]
+
+    internal init(fileTypes: [FileType]) {
+      assert(!fileTypes.isEmpty)
+      self.fileTypes = fileTypes
     }
-    return Self(url: url)
+
+    @MainActor public func callAsFunction(
+      with openFileURL: OpenFileURLAction,
+      using openWindow: OpenWindowAction
+    ) {
+      let openPanel = NSOpenPanel()
+      openPanel.allowedContentTypes = fileTypes.map(UTType.init(fileType:))
+      openPanel.isExtensionHidden = true
+      openPanel.begin { response in
+        guard let fileURL = openPanel.url, response == .OK else { return }
+        openFileURL(fileURL, with: openWindow)
+      }
+    }
   }
-}
+
+  extension OpenFileURLAction {
+    @MainActor public func callAsFunction(
+      ofFileTypes fileTypes: [FileType],
+      using openWindow: OpenWindowAction
+    ) { OpenAnyFilePanel(fileTypes: fileTypes).callAsFunction(with: self, using: openWindow) }
+  }
+
+#endif

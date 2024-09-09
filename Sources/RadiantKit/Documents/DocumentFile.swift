@@ -1,5 +1,5 @@
 //
-//  OpenFileURLAction.swift
+//  DocumentFile.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,38 +27,19 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
+public import Foundation
 
-  public import Foundation
+public struct DocumentFile<FileType: FileTypeSpecification>: Codable, Hashable {
+  public let url: URL
 
-  public import SwiftUI
+  public init(url: URL) { self.url = url }
 
-  fileprivate struct OpenFileURLKey: EnvironmentKey, Sendable {
-    typealias Value = OpenFileURLAction
+  public func hash(into hasher: inout Hasher) { hasher.combine(url) }
+}
 
-    static let defaultValue: OpenFileURLAction = .default
+extension DocumentFile {
+  public static func documentFile(from url: URL) -> Self? {
+    guard url.pathExtension == FileType.fileType.fileExtension else { return nil }
+    return Self(url: url)
   }
-
-  public typealias OpenWindowURLAction = OpenWindowWithValueAction<URL>
-
-  public typealias OpenFileURLAction = OpenWindowURLAction
-
-  extension EnvironmentValues {
-    public var openFileURL: OpenFileURLAction {
-      get { self[OpenFileURLKey.self] }
-      set { self[OpenFileURLKey.self] = newValue }
-    }
-  }
-
-  extension Scene {
-    public func openFileURL(
-      _ closure: @escaping @Sendable @MainActor (URL, OpenWindowAction) -> Void
-    ) -> some Scene { self.environment(\.openFileURL, .init(closure: closure)) }
-  }
-
-  @available(*, deprecated, message: "Use on Scene only.") extension View {
-    public func openFileURL(
-      _ closure: @Sendable @escaping @MainActor (URL, OpenWindowAction) -> Void
-    ) -> some View { self.environment(\.openFileURL, .init(closure: closure)) }
-  }
-#endif
+}

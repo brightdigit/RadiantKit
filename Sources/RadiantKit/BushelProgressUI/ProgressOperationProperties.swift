@@ -1,5 +1,5 @@
 //
-//  OpenFileURLAction.swift
+//  ProgressOperationProperties.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,38 +27,40 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
-
+#if canImport(Observation) && (os(macOS) || os(iOS))
   public import Foundation
 
-  public import SwiftUI
+  public struct ProgressOperationProperties: Identifiable, Sendable {
+    internal let imageName: String
+    internal let text: any (StringProtocol & Sendable)
+    internal let progress: FileOperationProgress<Int>
 
-  fileprivate struct OpenFileURLKey: EnvironmentKey, Sendable {
-    typealias Value = OpenFileURLAction
+    public var id: URL { progress.id }
 
-    static let defaultValue: OpenFileURLAction = .default
-  }
-
-  public typealias OpenWindowURLAction = OpenWindowWithValueAction<URL>
-
-  public typealias OpenFileURLAction = OpenWindowURLAction
-
-  extension EnvironmentValues {
-    public var openFileURL: OpenFileURLAction {
-      get { self[OpenFileURLKey.self] }
-      set { self[OpenFileURLKey.self] = newValue }
+    public init(
+      imageName: String,
+      text: any (StringProtocol & Sendable),
+      progress: FileOperationProgress<Int>
+    ) {
+      self.imageName = imageName
+      self.text = text
+      self.progress = progress
     }
   }
 
-  extension Scene {
-    public func openFileURL(
-      _ closure: @escaping @Sendable @MainActor (URL, OpenWindowAction) -> Void
-    ) -> some Scene { self.environment(\.openFileURL, .init(closure: closure)) }
-  }
+  #if canImport(SwiftUI)
+    extension ProgressOperationView {
+      public typealias Properties = ProgressOperationProperties
+      public init(
+        _ properties: Properties,
+        text: @escaping (FileOperationProgress<Int>) -> ProgressText,
+        image: @escaping (String) -> Icon
+      ) {
+        self.init(progress: properties.progress, title: properties.text, text: text) {
+          image(properties.imageName)
+        }
+      }
+    }
+  #endif
 
-  @available(*, deprecated, message: "Use on Scene only.") extension View {
-    public func openFileURL(
-      _ closure: @Sendable @escaping @MainActor (URL, OpenWindowAction) -> Void
-    ) -> some View { self.environment(\.openFileURL, .init(closure: closure)) }
-  }
 #endif

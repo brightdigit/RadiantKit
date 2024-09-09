@@ -1,6 +1,6 @@
 //
-//  OpenFileURLAction.swift
-//  RadiantKit
+//  InitializablePackage.swift
+//  BushelKit
 //
 //  Created by Leo Dion.
 //  Copyright © 2024 BrightDigit.
@@ -27,38 +27,25 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
+public import Foundation
 
-  public import Foundation
-
-  public import SwiftUI
-
-  fileprivate struct OpenFileURLKey: EnvironmentKey, Sendable {
-    typealias Value = OpenFileURLAction
-
-    static let defaultValue: OpenFileURLAction = .default
-  }
-
-  public typealias OpenWindowURLAction = OpenWindowWithValueAction<URL>
-
-  public typealias OpenFileURLAction = OpenWindowURLAction
-
-  extension EnvironmentValues {
-    public var openFileURL: OpenFileURLAction {
-      get { self[OpenFileURLKey.self] }
-      set { self[OpenFileURLKey.self] = newValue }
-    }
-  }
-
-  extension Scene {
-    public func openFileURL(
-      _ closure: @escaping @Sendable @MainActor (URL, OpenWindowAction) -> Void
-    ) -> some Scene { self.environment(\.openFileURL, .init(closure: closure)) }
-  }
-
-  @available(*, deprecated, message: "Use on Scene only.") extension View {
-    public func openFileURL(
-      _ closure: @Sendable @escaping @MainActor (URL, OpenWindowAction) -> Void
-    ) -> some View { self.environment(\.openFileURL, .init(closure: closure)) }
-  }
+#if canImport(FoundationNetworking)
+  public import FoundationNetworking
 #endif
+
+public protocol InitializablePackage: CodablePackage { init() }
+
+extension InitializablePackage {
+  #warning("logging-note: let's log what is going on here")
+  #warning("Might want to add parameters for creating data and creating directory.")
+  @discardableResult public static func createAt(_ fileURL: URL, using encoder: JSONEncoder) throws
+    -> Self
+  {
+    let library = self.init()
+    try FileManager.default.createDirectory(at: fileURL, withIntermediateDirectories: false)
+    let metadataJSONPath = fileURL.appendingPathComponent(self.configurationFileWrapperKey)
+    let data = try encoder.encode(library)
+    try data.write(to: metadataJSONPath)
+    return library
+  }
+}

@@ -1,6 +1,6 @@
 //
-//  InitializableFileTypeSpecification.swift
-//  BushelKit
+//  FileOperationProgress.swift
+//  RadiantKit
 //
 //  Created by Leo Dion.
 //  Copyright © 2024 BrightDigit.
@@ -27,9 +27,24 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-public import Foundation
+#if canImport(Observation) && (os(macOS) || os(iOS))
+  public import Foundation
+  import Observation
 
-public protocol InitializableFileTypeSpecification: FileTypeSpecification {
-  associatedtype WindowValueType: Codable & Hashable
-  static func createAt(_ url: URL) throws -> WindowValueType
-}
+  @MainActor @Observable
+  public final class FileOperationProgress<ValueType: BinaryInteger>: Identifiable {
+    public let operation: any ProgressOperation<ValueType>
+
+    public nonisolated var id: URL { operation.id }
+
+    public var totalValueBytes: Int64? { operation.totalValue.map(Int64.init) }
+
+    public var currentValueBytes: Int64 { Int64(operation.currentValue) }
+
+    internal var currentValue: Double { Double(operation.currentValue) }
+
+    internal var totalValue: Double? { operation.totalValue.map(Double.init) }
+
+    public init(_ operation: any ProgressOperation<ValueType>) { self.operation = operation }
+  }
+#endif

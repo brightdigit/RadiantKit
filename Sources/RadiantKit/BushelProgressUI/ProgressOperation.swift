@@ -1,6 +1,6 @@
 //
-//  FileTypeSpecification.swift
-//  BushelKit
+//  ProgressOperation.swift
+//  RadiantKit
 //
 //  Created by Leo Dion.
 //  Copyright © 2024 BrightDigit.
@@ -27,8 +27,29 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import Foundation
+public import Foundation
 
-public protocol FileTypeSpecification: Sendable {
-  static var fileType: FileType { get }
+@MainActor public protocol ProgressOperation<ValueType>: Identifiable, Sendable where ID == URL {
+  associatedtype ValueType: BinaryInteger & Sendable
+  var currentValue: ValueType { get }
+  var totalValue: ValueType? { get }
+  func execute() async throws
+}
+
+extension ProgressOperation {
+  public func percentValue(withFractionDigits fractionDigits: Int = 0) -> String? {
+    guard let totalValue else {
+      #warning("logging-note: should we log something here?")
+      return nil
+    }
+    let formatter = NumberFormatter()
+    formatter.maximumFractionDigits = fractionDigits
+    formatter.minimumFractionDigits = fractionDigits
+    let ratioValue = Double(currentValue) / Double(totalValue) * 100.0
+    let string = formatter.string(from: .init(value: ratioValue))
+
+    #warning("logging-note: let's log the calculated percent value if not done somewhere")
+    assert(string != nil)
+    return string
+  }
 }

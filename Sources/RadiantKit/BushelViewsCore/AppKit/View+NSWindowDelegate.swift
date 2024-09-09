@@ -1,5 +1,5 @@
 //
-//  GuidedLabeledContent.swift
+//  View+NSWindowDelegate.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,43 +27,45 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
+#if canImport(AppKit) && canImport(SwiftUI)
+  import AppKit
 
   public import SwiftUI
 
-  public struct GuidedLabeledContent<Label: View, Content: View, Description: View>: View {
-    let content: () -> Content
-    let label: () -> Label
-    let description: () -> Description
+  fileprivate struct NSWindowDelegateAdaptorModifier: ViewModifier {
+    @Binding var binding: (any NSWindowDelegate)?
+    // swiftlint:disable:next weak_delegate
+    let delegate: any NSWindowDelegate
 
-    public var body: some View {
-      VStack {
-        LabeledContent(content: content, label: label)
-        self.description()
-      }
+    init(
+      binding: Binding<(any NSWindowDelegate)?>,
+      delegate: @autoclosure () -> any NSWindowDelegate
+    ) {
+      self._binding = binding
+      self.delegate = binding.wrappedValue ?? delegate()
+
+      // swiftlint:disable:next line_length
+      #warning(
+        "Issue 100 - We can't set binding here - Modifying state during view update, this will cause undefined behavior."
+      )
+      self.binding = self.delegate
     }
 
-    public init(
-      _ content: @escaping () -> Content,
-      label: @escaping () -> Label,
-      description: @escaping () -> Description
-    ) {
-      self.content = content
-      self.label = label
-      self.description = description
+    func body(content: Content) -> some View {
+      content.nsWindowAdaptor { window in
+        assert(!self.delegate.isEqual(window?.delegate))
+        assert(window != nil)
+        window?.delegate = delegate
+      }
     }
   }
 
-  extension GuidedLabeledContent where Description == GuidedLabeledContentDescriptionView {
-    public init(
-      _ content: @escaping () -> Content,
-      label: @escaping () -> Label,
-      text: @escaping () -> Text,
-      descriptionAlignment: GuidedLabeledContentDescriptionView.Alignment? = .leading
-    ) {
-      self.init(content, label: label) {
-        GuidedLabeledContentDescriptionView(alignment: descriptionAlignment, text: text)
-      }
+  extension View {
+    public func nsWindowDelegateAdaptor(
+      _ binding: Binding<(any NSWindowDelegate)?>,
+      _ delegate: @autoclosure () -> any NSWindowDelegate
+    ) -> some View {
+      self.modifier(NSWindowDelegateAdaptorModifier(binding: binding, delegate: delegate()))
     }
   }
 #endif
