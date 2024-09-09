@@ -29,9 +29,9 @@
 
 #if canImport(SwiftUI)
   import Foundation
-  import SwiftUI
+  public import SwiftUI
 
-  private struct PreviousPageKey: EnvironmentKey, Sendable {
+  fileprivate struct PreviousPageKey: EnvironmentKey, Sendable {
     static let defaultValue: PreviousPageAction = .default
   }
 
@@ -40,9 +40,7 @@
   extension EnvironmentValues {
     public var previousPage: PreviousPageAction {
       get { self[PreviousPageKey.self] }
-      set {
-        self[PreviousPageKey.self] = newValue
-      }
+      set { self[PreviousPageKey.self] = newValue }
     }
   }
 #endif

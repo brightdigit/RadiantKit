@@ -29,26 +29,21 @@
 
 #if canImport(SwiftUI)
   import Foundation
-  import SwiftUI
+  public import SwiftUI
 
-  private struct NextPageKey: EnvironmentKey, Sendable {
+  fileprivate struct NextPageKey: EnvironmentKey, Sendable {
     fileprivate static let defaultValue: NextPageAction = .default
   }
 
   public struct PageAction: Sendable {
-    internal static let `default`: PageAction = .init {
-      assertionFailure()
-    }
+    internal static let `default`: PageAction = .init { assertionFailure() }
 
     private let pageFunction: @Sendable @MainActor () -> Void
     internal init(_ pageFunction: @Sendable @MainActor @escaping () -> Void) {
       self.pageFunction = pageFunction
     }
 
-    @MainActor
-    public func callAsFunction() {
-      pageFunction()
-    }
+    @MainActor public func callAsFunction() { pageFunction() }
   }
 
   public typealias NextPageAction = PageAction
@@ -56,9 +51,7 @@
   extension EnvironmentValues {
     public var nextPage: NextPageAction {
       get { self[NextPageKey.self] }
-      set {
-        self[NextPageKey.self] = newValue
-      }
+      set { self[NextPageKey.self] = newValue }
     }
   }
 #endif

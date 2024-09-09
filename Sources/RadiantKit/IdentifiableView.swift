@@ -28,16 +28,13 @@
 //
 
 #if canImport(SwiftUI)
-  import SwiftUI
+  public import SwiftUI
 
-  @MainActor
-  public struct IdentifiableView: Identifiable, View, Sendable {
+  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
     private let content: any View
     public let id: Int
 
-    public var body: some View {
-      AnyView(content)
-    }
+    public var body: some View { AnyView(content) }
 
     public init(_ content: any View, id: Int) {
       self.content = content

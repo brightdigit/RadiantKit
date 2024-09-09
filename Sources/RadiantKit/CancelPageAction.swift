@@ -29,9 +29,9 @@
 
 #if canImport(SwiftUI)
   import Foundation
-  import SwiftUI
+  public import SwiftUI
 
-  private struct CancelPageKey: EnvironmentKey, Sendable {
+  fileprivate struct CancelPageKey: EnvironmentKey, Sendable {
     static let defaultValue: CancelPageAction = .default
   }
 
@@ -40,9 +40,7 @@
   extension EnvironmentValues {
     public var cancelPage: CancelPageAction {
       get { self[CancelPageKey.self] }
-      set {
-        self[CancelPageKey.self] = newValue
-      }
+      set { self[CancelPageKey.self] = newValue }
     }
   }
 #endif

@@ -29,9 +29,9 @@
 
 #if canImport(SwiftUI)
   import Foundation
-  import SwiftUI
+  public import SwiftUI
 
-  private struct PageNavigationAvailabilityKey: EnvironmentKey, Sendable {
+  fileprivate struct PageNavigationAvailabilityKey: EnvironmentKey, Sendable {
     static let defaultValue: PageNavigationAvailability = .default
   }
 
@@ -55,9 +55,7 @@
   extension EnvironmentValues {
     public var pageNavigationAvailability: PageNavigationAvailability {
       get { self[PageNavigationAvailabilityKey.self] }
-      set {
-        self[PageNavigationAvailabilityKey.self] = newValue
-      }
+      set { self[PageNavigationAvailabilityKey.self] = newValue }
     }
   }
 #endif

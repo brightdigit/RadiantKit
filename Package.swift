@@ -1,9 +1,33 @@
-// swift-tools-version: 5.10
+// swift-tools-version: 6.0
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
-// swiftlint:disable explicit_acl explicit_top_level_acl
+let swiftSettings: [SwiftSetting] = [
+  SwiftSetting.enableExperimentalFeature("AccessLevelOnImport"),
+  SwiftSetting.enableExperimentalFeature("BitwiseCopyable"),
+  SwiftSetting.enableExperimentalFeature("GlobalActorIsolatedTypesUsability"),
+  SwiftSetting.enableExperimentalFeature("IsolatedAny"),
+  SwiftSetting.enableExperimentalFeature("MoveOnlyPartialConsumption"),
+  SwiftSetting.enableExperimentalFeature("NestedProtocols"),
+  SwiftSetting.enableExperimentalFeature("NoncopyableGenerics"),
+  SwiftSetting.enableExperimentalFeature("RegionBasedIsolation"),
+  SwiftSetting.enableExperimentalFeature("TransferringArgsAndResults"),
+  SwiftSetting.enableExperimentalFeature("VariadicGenerics"),
+
+  SwiftSetting.enableUpcomingFeature("FullTypedThrows"),
+  SwiftSetting.enableUpcomingFeature("InternalImportsByDefault"),
+
+  SwiftSetting.unsafeFlags([
+    "-Xfrontend",
+    "-warn-long-function-bodies=100"
+  ]),
+  SwiftSetting.unsafeFlags([
+    "-Xfrontend",
+    "-warn-long-expression-type-checking=100"
+  ])
+]
+
 let package = Package(
   name: "RadiantKit",
   platforms: [.iOS(.v17), .macCatalyst(.v17), .macOS(.v14), .tvOS(.v17), .visionOS(.v1), .watchOS(.v10)],
@@ -13,25 +37,20 @@ let package = Package(
       targets: ["RadiantKit"]
     )
   ],
+  dependencies: [
+      .package(url: "https://github.com/swiftlang/swift-testing.git", from: "0.12.0"),
+  ],
   targets: [
     .target(
       name: "RadiantKit",
-      swiftSettings: [
-        SwiftSetting.enableUpcomingFeature("BareSlashRegexLiterals"),
-        SwiftSetting.enableUpcomingFeature("ConciseMagicFile"),
-        SwiftSetting.enableUpcomingFeature("ExistentialAny"),
-        SwiftSetting.enableUpcomingFeature("ForwardTrailingClosures"),
-        SwiftSetting.enableUpcomingFeature("ImplicitOpenExistentials"),
-        SwiftSetting.enableUpcomingFeature("StrictConcurrency"),
-        SwiftSetting.enableUpcomingFeature("DisableOutwardActorInference"),
-        SwiftSetting.enableExperimentalFeature("StrictConcurrency"),
-        SwiftSetting.unsafeFlags(["-warn-concurrency", "-enable-actor-data-race-checks"])
-      ]
+      swiftSettings: swiftSettings
     ),
     .testTarget(
       name: "RadiantKitTests",
-      dependencies: ["RadiantKit"]
+      dependencies: [
+        "RadiantKit", 
+        .product(name: "Testing", package: "swift-testing")
+      ]
     )
   ]
 )
-// swiftlint:enable explicit_acl explicit_top_level_acl

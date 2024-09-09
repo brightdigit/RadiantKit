@@ -28,10 +28,9 @@
 //
 
 #if canImport(SwiftUI)
-  import SwiftUI
+  public import SwiftUI
 
-  @MainActor
-  public struct SliderStepperView<Content: View, Label: View, TitleType>: View {
+  @MainActor public struct SliderStepperView<Content: View, Label: View, TitleType>: View {
     private let title: TitleType
     private let label: @Sendable (TitleType) -> Label
     private let bounds: ClosedRange<Float>
@@ -42,25 +41,11 @@
     public var body: some View {
       LabeledContent {
         HStack {
-          Slider(
-            value: $value,
-            in: bounds,
-            step: step
-          )
-          self.content(self.title)
-            .labelsHidden()
-            .frame(width: 50)
-            .padding(.horizontal, 6.0)
+          Slider(value: $value, in: bounds, step: step)
+          self.content(self.title).labelsHidden().frame(width: 50).padding(.horizontal, 6.0)
 
-          Stepper(
-            value: $value,
-            in: bounds,
-            step: 1.0,
-            label: {
-              self.label(self.title)
-            }
-          )
-          .labelsHidden()
+          Stepper(value: $value, in: bounds, step: 1.0, label: { self.label(self.title) })
+            .labelsHidden()
         }
       } label: {
         self.label(self.title)
