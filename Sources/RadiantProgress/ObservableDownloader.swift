@@ -27,7 +27,7 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(Combine) && canImport(Observation) && (os(macOS) || os(iOS))
+#if canImport(Combine) && canImport(Observation)
   public import Combine
 
   public import Foundation
@@ -115,7 +115,6 @@
     public internal(set) var totalBytesWritten: Int64 = 0
     public internal(set) var totalBytesExpectedToWrite: Int64?
 
-    // swiftlint:disable:next implicitly_unwrapped_optional
     internal private(set) var session: URLSession!
 
     internal let resumeDataSubject = PassthroughSubject<Data, Never>()

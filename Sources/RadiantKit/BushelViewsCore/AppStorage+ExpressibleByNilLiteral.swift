@@ -35,11 +35,7 @@
 
   extension AppStorage where Value: ExpressibleByNilLiteral {
     public init<AppStoredType: AppStored>(for type: AppStoredType.Type, store: UserDefaults? = nil)
-    where
-      AppStoredType.Value == Value,
-      // swiftlint:disable:next discouraged_optional_boolean
-      Value == Bool?
-    { self.init(type.key, store: store) }
+    where AppStoredType.Value == Value, Value == Bool? { self.init(type.key, store: store) }
 
     public init<AppStoredType: AppStored>(for type: AppStoredType.Type, store: UserDefaults? = nil)
     where AppStoredType.Value == Value, Value == Int? { self.init(type.key, store: store) }

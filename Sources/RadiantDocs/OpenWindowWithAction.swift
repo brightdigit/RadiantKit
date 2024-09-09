@@ -1,5 +1,5 @@
 //
-//  OpenAnyFilePanel.swift
+//  OpenWindowWithAction.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,42 +27,22 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(AppKit) && canImport(SwiftUI)
-  import AppKit
+#if canImport(SwiftUI)
+  #if os(macOS) || os(iOS) || os(visionOS)
+    import Foundation
 
-  import Foundation
+    public import SwiftUI
 
-  public import SwiftUI
+    public typealias OpenWindowWithAction = OpenWindowWithValueAction<Void>
 
-  import UniformTypeIdentifiers
+    @MainActor extension OpenWindowWithAction {
+      public init(closure: @escaping @Sendable @MainActor (OpenWindowAction) -> Void) {
+        self.init { _, action in closure(action) }
+      }
 
-  public struct OpenAnyFilePanel {
-    let fileTypes: [FileType]
-
-    internal init(fileTypes: [FileType]) {
-      assert(!fileTypes.isEmpty)
-      self.fileTypes = fileTypes
-    }
-
-    @MainActor public func callAsFunction(
-      with openFileURL: OpenFileURLAction,
-      using openWindow: OpenWindowAction
-    ) {
-      let openPanel = NSOpenPanel()
-      openPanel.allowedContentTypes = fileTypes.map(UTType.init(fileType:))
-      openPanel.isExtensionHidden = true
-      openPanel.begin { response in
-        guard let fileURL = openPanel.url, response == .OK else { return }
-        openFileURL(fileURL, with: openWindow)
+      @MainActor public func callAsFunction(with openWidow: OpenWindowAction) {
+        closure((), openWidow)
       }
     }
-  }
-
-  extension OpenFileURLAction {
-    @MainActor public func callAsFunction(
-      ofFileTypes fileTypes: [FileType],
-      using openWindow: OpenWindowAction
-    ) { OpenAnyFilePanel(fileTypes: fileTypes).callAsFunction(with: self, using: openWindow) }
-  }
-
+  #endif
 #endif

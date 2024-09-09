@@ -1,6 +1,6 @@
 //
-//  InitializablePackage.swift
-//  BushelKit
+//  DismissParameters.swift
+//  RadiantKit
 //
 //  Created by Leo Dion.
 //  Copyright © 2024 BrightDigit.
@@ -27,25 +27,22 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-public import Foundation
+import Foundation
+public import RadiantKit
 
-#if canImport(FoundationNetworking)
-  public import FoundationNetworking
-#endif
-
-public protocol InitializablePackage: CodablePackage { init() }
-
-extension InitializablePackage {
-  #warning("logging-note: let's log what is going on here")
-  #warning("Might want to add parameters for creating data and creating directory.")
-  @discardableResult public static func createAt(_ fileURL: URL, using encoder: JSONEncoder) throws
-    -> Self
-  {
-    let library = self.init()
-    try FileManager.default.createDirectory(at: fileURL, withIntermediateDirectories: false)
-    let metadataJSONPath = fileURL.appendingPathComponent(self.configurationFileWrapperKey)
-    let data = try encoder.encode(library)
-    try data.write(to: metadataJSONPath)
-    return library
+public struct DismissParameters {
+  #if canImport(SwiftUI)
+    public typealias PageID = IdentifiableView.ID
+  #else
+    public typealias PageID = Int
+  #endif
+  public enum Action {
+    case previous
+    case next
+    case cancel
   }
+
+  public let currentPageIndex: Int
+  public let currentPageID: PageID?
+  public let action: Action
 }

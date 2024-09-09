@@ -35,15 +35,12 @@
   public struct Value<Value> {
     private let value: Value?
 
-    // swiftlint:disable strict_fileprivate
     fileprivate let update: (Value) -> Void
 
     fileprivate init(value: Value?, update: @escaping (Value) -> Void) {
       self.value = value
       self.update = update
     }
-
-    // swiftlint:enable strict_fileprivate
 
     public func get() -> Value? { value }
   }

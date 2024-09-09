@@ -1,6 +1,6 @@
 //
 //  CodablePackage.swift
-//  BushelKit
+//  RadiantKit
 //
 //  Created by Leo Dion.
 //  Copyright © 2024 BrightDigit.
@@ -28,6 +28,7 @@
 //
 
 public import Foundation
+public import RadiantKit
 
 public protocol CodablePackage: Sendable, Codable {
   static var decoder: JSONDecoder { get }

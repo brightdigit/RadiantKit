@@ -1,5 +1,5 @@
 //
-//  OpenWindowWithAction.swift
+//  FileOperationProgress.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,21 +27,24 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
+#if canImport(Observation)
+  public import Foundation
+  import Observation
 
-  import Foundation
+  @MainActor @Observable
+  public final class FileOperationProgress<ValueType: BinaryInteger>: Identifiable {
+    public let operation: any ProgressOperation<ValueType>
 
-  public import SwiftUI
+    public nonisolated var id: URL { operation.id }
 
-  public typealias OpenWindowWithAction = OpenWindowWithValueAction<Void>
+    public var totalValueBytes: Int64? { operation.totalValue.map(Int64.init) }
 
-  @MainActor extension OpenWindowWithAction {
-    public init(closure: @escaping @Sendable @MainActor (OpenWindowAction) -> Void) {
-      self.init { _, action in closure(action) }
-    }
+    public var currentValueBytes: Int64 { Int64(operation.currentValue) }
 
-    @MainActor public func callAsFunction(with openWidow: OpenWindowAction) {
-      closure((), openWidow)
-    }
+    internal var currentValue: Double { Double(operation.currentValue) }
+
+    internal var totalValue: Double? { operation.totalValue.map(Double.init) }
+
+    public init(_ operation: any ProgressOperation<ValueType>) { self.operation = operation }
   }
 #endif

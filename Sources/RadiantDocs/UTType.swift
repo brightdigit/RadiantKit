@@ -1,6 +1,6 @@
 //
 //  UTType.swift
-//  BushelKit
+//  RadiantKit
 //
 //  Created by Leo Dion.
 //  Copyright © 2024 BrightDigit.
@@ -29,14 +29,13 @@
 
 #if canImport(UniformTypeIdentifiers)
   public import UniformTypeIdentifiers
-
+  public import RadiantKit
   extension UTType {
     public init(fileType: FileType) {
       if fileType.isOwned {
         self.init(exportedAs: fileType.utIdentifier)
       }
       else {
-        // swiftlint:disable:next force_unwrapping
         self.init(fileType.utIdentifier)!
       }
     }

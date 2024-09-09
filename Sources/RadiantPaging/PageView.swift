@@ -29,6 +29,7 @@
 
 #if canImport(SwiftUI)
   public import SwiftUI
+  public import RadiantKit
 
   @MainActor public struct PageView: View, Sendable {
     @Environment(\.dismiss) private var dismiss

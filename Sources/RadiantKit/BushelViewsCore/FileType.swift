@@ -1,6 +1,6 @@
 //
 //  FileType.swift
-//  BushelKit
+//  RadiantKit
 //
 //  Created by Leo Dion.
 //  Copyright © 2024 BrightDigit.
@@ -50,24 +50,24 @@ public struct FileType: Hashable, ExpressibleByStringLiteral, Sendable {
     .init(utIdentifier: utIdentifier, isOwned: true, fileExtension: fileExtension)
   }
 }
-
-extension FileType {
-  public static let ipswFileExtension = "ipsw"
-  public static let iTunesIPSW: FileType = "com.apple.itunes.ipsw"
-  public static let iPhoneIPSW: FileType = "com.apple.iphone.ipsw"
-
-  public static let virtualMachineFileExtension = "bshvm"
-  public static let restoreImageLibraryFileExtension = "bshrilib"
-
-  public static let virtualMachine: FileType = .exportedAs(
-    "com.brightdigit.bushel-vm",
-    virtualMachineFileExtension
-  )
-
-  public static let restoreImageLibrary: FileType = .exportedAs(
-    "com.brightdigit.bushel-rilib",
-    restoreImageLibraryFileExtension
-  )
-
-  public static let ipswTypes = [iTunesIPSW, iPhoneIPSW]
-}
+//
+//extension FileType {
+//  public static let ipswFileExtension = "ipsw"
+//  public static let iTunesIPSW: FileType = "com.apple.itunes.ipsw"
+//  public static let iPhoneIPSW: FileType = "com.apple.iphone.ipsw"
+//
+//  public static let virtualMachineFileExtension = "bshvm"
+//  public static let restoreImageLibraryFileExtension = "bshrilib"
+//
+//  public static let virtualMachine: FileType = .exportedAs(
+//    "com.brightdigit.bushel-vm",
+//    virtualMachineFileExtension
+//  )
+//
+//  public static let restoreImageLibrary: FileType = .exportedAs(
+//    "com.brightdigit.bushel-rilib",
+//    restoreImageLibraryFileExtension
+//  )
+//
+//  public static let ipswTypes = [iTunesIPSW, iPhoneIPSW]
+//}

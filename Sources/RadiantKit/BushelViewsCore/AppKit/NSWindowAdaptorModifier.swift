@@ -35,7 +35,6 @@ import Foundation
   #if canImport(AppKit)
     import AppKit
 
-    // swiftlint:disable strict_fileprivate
     fileprivate struct NSWindowAdaptorHostingView: NSViewRepresentable {
       #warning(
         """
@@ -79,5 +78,5 @@ import Foundation
       public func nsWindowAdaptor(_: @escaping (Any?) -> Void) -> some View { self }
     }
   #endif
-// swiftlint:enable strict_fileprivate
+
 #endif

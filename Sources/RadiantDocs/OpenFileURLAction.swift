@@ -28,37 +28,38 @@
 //
 
 #if canImport(SwiftUI)
+  #if os(macOS) || os(iOS) || os(visionOS)
+    public import Foundation
 
-  public import Foundation
+    public import SwiftUI
 
-  public import SwiftUI
+    fileprivate struct OpenFileURLKey: EnvironmentKey, Sendable {
+      typealias Value = OpenFileURLAction
 
-  fileprivate struct OpenFileURLKey: EnvironmentKey, Sendable {
-    typealias Value = OpenFileURLAction
-
-    static let defaultValue: OpenFileURLAction = .default
-  }
-
-  public typealias OpenWindowURLAction = OpenWindowWithValueAction<URL>
-
-  public typealias OpenFileURLAction = OpenWindowURLAction
-
-  extension EnvironmentValues {
-    public var openFileURL: OpenFileURLAction {
-      get { self[OpenFileURLKey.self] }
-      set { self[OpenFileURLKey.self] = newValue }
+      static let defaultValue: OpenFileURLAction = .default
     }
-  }
 
-  extension Scene {
-    public func openFileURL(
-      _ closure: @escaping @Sendable @MainActor (URL, OpenWindowAction) -> Void
-    ) -> some Scene { self.environment(\.openFileURL, .init(closure: closure)) }
-  }
+    public typealias OpenWindowURLAction = OpenWindowWithValueAction<URL>
 
-  @available(*, deprecated, message: "Use on Scene only.") extension View {
-    public func openFileURL(
-      _ closure: @Sendable @escaping @MainActor (URL, OpenWindowAction) -> Void
-    ) -> some View { self.environment(\.openFileURL, .init(closure: closure)) }
-  }
+    public typealias OpenFileURLAction = OpenWindowURLAction
+
+    extension EnvironmentValues {
+      public var openFileURL: OpenFileURLAction {
+        get { self[OpenFileURLKey.self] }
+        set { self[OpenFileURLKey.self] = newValue }
+      }
+    }
+
+    extension Scene {
+      public func openFileURL(
+        _ closure: @escaping @Sendable @MainActor (URL, OpenWindowAction) -> Void
+      ) -> some Scene { self.environment(\.openFileURL, .init(closure: closure)) }
+    }
+
+    @available(*, deprecated, message: "Use on Scene only.") extension View {
+      public func openFileURL(
+        _ closure: @Sendable @escaping @MainActor (URL, OpenWindowAction) -> Void
+      ) -> some View { self.environment(\.openFileURL, .init(closure: closure)) }
+    }
+  #endif
 #endif

@@ -1,5 +1,5 @@
 //
-//  OpenWindowWithValueAction.swift
+//  InitializablePackage.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,28 +27,25 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
+public import Foundation
 
-  import Foundation
-
-  public import SwiftUI
-
-  public struct OpenWindowWithValueAction<ValueType: Sendable>: Sendable {
-    public static var `default`: Self {
-      .init { value, action in defaultClosure(value, with: action) }
-    }
-
-    let closure: @Sendable @MainActor (ValueType, OpenWindowAction) -> Void
-    public init(closure: @escaping @MainActor @Sendable (ValueType, OpenWindowAction) -> Void) {
-      self.closure = closure
-    }
-
-    private static func defaultClosure(_: ValueType, with _: OpenWindowAction) {
-      assertionFailure()
-    }
-
-    @MainActor public func callAsFunction(_ value: ValueType, with openWidow: OpenWindowAction) {
-      closure(value, openWidow)
-    }
-  }
+#if canImport(FoundationNetworking)
+  public import FoundationNetworking
 #endif
+
+public protocol InitializablePackage: CodablePackage { init() }
+
+extension InitializablePackage {
+  #warning("logging-note: let's log what is going on here")
+  #warning("Might want to add parameters for creating data and creating directory.")
+  @discardableResult public static func createAt(_ fileURL: URL, using encoder: JSONEncoder) throws
+    -> Self
+  {
+    let library = self.init()
+    try FileManager.default.createDirectory(at: fileURL, withIntermediateDirectories: false)
+    let metadataJSONPath = fileURL.appendingPathComponent(self.configurationFileWrapperKey)
+    let data = try encoder.encode(library)
+    try data.write(to: metadataJSONPath)
+    return library
+  }
+}

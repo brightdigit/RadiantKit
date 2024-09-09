@@ -46,14 +46,16 @@
 
   extension SingleWindowView { public init(_: Binding<Value>) { self.init() } }
 
-  extension WindowGroup {
-    @MainActor public init<V: SingleWindowView>(singleOf _: V.Type)
-    where Content == PresentedWindowContent<V.Value, V> {
-      self.init { value in
-        V(value)
-      } defaultValue: {
-        V.Value.default
+  #if os(macOS) || os(iOS) || os(visionOS)
+    extension WindowGroup {
+      @MainActor public init<V: SingleWindowView>(singleOf _: V.Type)
+      where Content == PresentedWindowContent<V.Value, V> {
+        self.init { value in
+          V(value)
+        } defaultValue: {
+          V.Value.default
+        }
       }
     }
-  }
+  #endif
 #endif

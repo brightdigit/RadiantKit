@@ -14,10 +14,10 @@ let swiftSettings: [SwiftSetting] = [
   SwiftSetting.enableExperimentalFeature("RegionBasedIsolation"),
   SwiftSetting.enableExperimentalFeature("TransferringArgsAndResults"),
   SwiftSetting.enableExperimentalFeature("VariadicGenerics"),
-
+  
   SwiftSetting.enableUpcomingFeature("FullTypedThrows"),
   SwiftSetting.enableUpcomingFeature("InternalImportsByDefault"),
-
+  
   SwiftSetting.unsafeFlags([
     "-Xfrontend",
     "-warn-long-function-bodies=100"
@@ -35,21 +35,47 @@ let package = Package(
     .library(
       name: "RadiantKit",
       targets: ["RadiantKit"]
+    ),
+    .library(
+      name: "RadiantDocs",
+      targets: ["RadiantDocs"]
+    ),
+    .library(
+      name: "RadiantPaging",
+      targets: ["RadiantPaging"]
+    ),
+    .library(
+      name: "RadiantProgress",
+      targets: ["RadiantProgress"]
     )
   ],
   dependencies: [
-      .package(url: "https://github.com/swiftlang/swift-testing.git", from: "0.12.0"),
+    .package(url: "https://github.com/swiftlang/swift-testing.git", from: "0.12.0"),
   ],
   targets: [
     .target(
       name: "RadiantKit",
       swiftSettings: swiftSettings
     ),
+    .target(
+      name: "RadiantDocs",
+      dependencies: ["RadiantKit"],
+      swiftSettings: swiftSettings
+    ),
+    .target(
+      name: "RadiantPaging",
+      dependencies: ["RadiantKit"],
+      swiftSettings: swiftSettings
+    ),
+    .target(
+      name: "RadiantProgress",
+      swiftSettings: swiftSettings
+    ),
     .testTarget(
       name: "RadiantKitTests",
       dependencies: [
-        "RadiantKit", 
-        .product(name: "Testing", package: "swift-testing")
+        "RadiantKit",
+          .product(name: "Testing", package: "swift-testing")
       ]
     )
   ]

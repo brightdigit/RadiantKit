@@ -1,5 +1,5 @@
 //
-//  DismissParameters.swift
+//  FileTypeSpecification.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -28,20 +28,6 @@
 //
 
 import Foundation
+public import RadiantKit
 
-public struct DismissParameters {
-  #if canImport(SwiftUI)
-    public typealias PageID = IdentifiableView.ID
-  #else
-    public typealias PageID = Int
-  #endif
-  public enum Action {
-    case previous
-    case next
-    case cancel
-  }
-
-  public let currentPageIndex: Int
-  public let currentPageID: PageID?
-  public let action: Action
-}
+public protocol FileTypeSpecification: Sendable { static var fileType: FileType { get } }

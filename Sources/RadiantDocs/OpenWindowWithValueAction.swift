@@ -1,5 +1,5 @@
 //
-//  FileOperationProgress.swift
+//  OpenWindowWithValueAction.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,24 +27,29 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(Observation) && (os(macOS) || os(iOS))
-  public import Foundation
-  import Observation
+#if canImport(SwiftUI)
+  #if os(macOS) || os(iOS) || os(visionOS)
+    import Foundation
 
-  @MainActor @Observable
-  public final class FileOperationProgress<ValueType: BinaryInteger>: Identifiable {
-    public let operation: any ProgressOperation<ValueType>
+    public import SwiftUI
 
-    public nonisolated var id: URL { operation.id }
+    public struct OpenWindowWithValueAction<ValueType: Sendable>: Sendable {
+      public static var `default`: Self {
+        .init { value, action in defaultClosure(value, with: action) }
+      }
 
-    public var totalValueBytes: Int64? { operation.totalValue.map(Int64.init) }
+      let closure: @Sendable @MainActor (ValueType, OpenWindowAction) -> Void
+      public init(closure: @escaping @MainActor @Sendable (ValueType, OpenWindowAction) -> Void) {
+        self.closure = closure
+      }
 
-    public var currentValueBytes: Int64 { Int64(operation.currentValue) }
+      private static func defaultClosure(_: ValueType, with _: OpenWindowAction) {
+        assertionFailure()
+      }
 
-    internal var currentValue: Double { Double(operation.currentValue) }
-
-    internal var totalValue: Double? { operation.totalValue.map(Double.init) }
-
-    public init(_ operation: any ProgressOperation<ValueType>) { self.operation = operation }
-  }
+      @MainActor public func callAsFunction(_ value: ValueType, with openWidow: OpenWindowAction) {
+        closure(value, openWidow)
+      }
+    }
+  #endif
 #endif
