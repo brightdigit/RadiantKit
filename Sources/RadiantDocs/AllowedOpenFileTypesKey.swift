@@ -27,7 +27,7 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(AppKit) && canImport(SwiftUI)
+#if canImport(SwiftUI)
   import Foundation
 
   public import SwiftUI
