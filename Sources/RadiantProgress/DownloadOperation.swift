@@ -27,16 +27,6 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-@MainActor public protocol Downloader {
-  var totalBytesWritten: Int64 { get }
-  var totalBytesExpectedToWrite: Int64? { get }
-  func begin(
-    from downloadSourceURL: URL,
-    to destinationFileURL: URL,
-    _ completion: @escaping @Sendable (Result<Void, any Error>) -> Void
-  )
-}
-
 #if canImport(Observation)
   public import Foundation
   public import Observation

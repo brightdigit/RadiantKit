@@ -99,11 +99,6 @@
     { container.on { observer in observer.didComplete(withError: error) } }
   }
 
-  internal struct DownloadUpdate: Sendable {
-    internal let totalBytesWritten: Int64
-    internal let totalBytesExpectedToWrite: Int64?
-  }
-
   @Observable @MainActor public final class ObservableDownloader: DownloadObserver, Downloader {
     internal struct DownloadRequest {
       internal let downloadSourceURL: URL
@@ -134,7 +129,19 @@
 
     public convenience init(
       totalBytesExpectedToWrite: (some BinaryInteger)?,
-      setupPublishers: SetupPublishers = .init(),
+      configuration: URLSessionConfiguration? = nil,
+      queue: OperationQueue? = nil
+    ) {
+      self.init(
+        totalBytesExpectedToWrite: totalBytesExpectedToWrite,
+        setupPublishers: .init(),
+        configuration: configuration,
+        queue: queue
+      )
+    }
+    internal convenience init(
+      totalBytesExpectedToWrite: (some BinaryInteger)?,
+      setupPublishers: SetupPublishers,
       configuration: URLSessionConfiguration? = nil,
       queue: OperationQueue? = nil
     ) {

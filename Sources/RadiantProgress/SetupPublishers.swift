@@ -35,7 +35,7 @@
   #warning(
     "logging-note: can we have some operators for logging the recieved stuff in these subscriptions"
   )
-  public struct SetupPublishers {
+  internal struct SetupPublishers {
     public init() {}
 
     @MainActor private func setupDownloadPublsihers(_ downloader: ObservableDownloader)
