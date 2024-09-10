@@ -1,5 +1,5 @@
 //
-//  CancelPageAction.swift
+//  OpenFileURLAction.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -28,21 +28,38 @@
 //
 
 #if canImport(SwiftUI)
-  import Foundation
-  import SwiftUI
+  #if os(macOS) || os(iOS) || os(visionOS)
+    public import Foundation
 
-  private struct CancelPageKey: EnvironmentKey, Sendable {
-    static let defaultValue: CancelPageAction = .default
-  }
+    public import SwiftUI
 
-  public typealias CancelPageAction = PageAction
+    fileprivate struct OpenFileURLKey: EnvironmentKey, Sendable {
+      typealias Value = OpenFileURLAction
 
-  extension EnvironmentValues {
-    public var cancelPage: CancelPageAction {
-      get { self[CancelPageKey.self] }
-      set {
-        self[CancelPageKey.self] = newValue
+      static let defaultValue: OpenFileURLAction = .default
+    }
+
+    public typealias OpenWindowURLAction = OpenWindowWithValueAction<URL>
+
+    public typealias OpenFileURLAction = OpenWindowURLAction
+
+    extension EnvironmentValues {
+      public var openFileURL: OpenFileURLAction {
+        get { self[OpenFileURLKey.self] }
+        set { self[OpenFileURLKey.self] = newValue }
       }
     }
-  }
+
+    extension Scene {
+      public func openFileURL(
+        _ closure: @escaping @Sendable @MainActor (URL, OpenWindowAction) -> Void
+      ) -> some Scene { self.environment(\.openFileURL, .init(closure: closure)) }
+    }
+
+    @available(*, deprecated, message: "Use on Scene only.") extension View {
+      public func openFileURL(
+        _ closure: @Sendable @escaping @MainActor (URL, OpenWindowAction) -> Void
+      ) -> some View { self.environment(\.openFileURL, .init(closure: closure)) }
+    }
+  #endif
 #endif

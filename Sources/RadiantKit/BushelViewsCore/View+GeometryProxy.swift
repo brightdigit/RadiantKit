@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  View+GeometryProxy.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -28,22 +28,15 @@
 //
 
 #if canImport(SwiftUI)
+  import Foundation
+
   public import SwiftUI
 
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
-    private let content: any View
-    public let id: Int
-
-    public var body: some View { AnyView(content) }
-
-    public init(_ content: any View, id: Int) {
-      self.content = content
-      self.id = id
-    }
-
-    public init(_ content: @escaping () -> some View, id: Int) {
-      self.content = content()
-      self.id = id
+  extension View {
+    public func onGeometry(_ action: @escaping (GeometryProxy) -> Void) -> some View {
+      self.overlay {
+        GeometryReader(content: { geometry in Color.clear.onAppear(perform: { action(geometry) }) })
+      }
     }
   }
 #endif

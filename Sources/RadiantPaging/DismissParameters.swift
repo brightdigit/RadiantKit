@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  DismissParameters.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,23 +27,22 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
-  public import SwiftUI
+import Foundation
+public import RadiantKit
 
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
-    private let content: any View
-    public let id: Int
-
-    public var body: some View { AnyView(content) }
-
-    public init(_ content: any View, id: Int) {
-      self.content = content
-      self.id = id
-    }
-
-    public init(_ content: @escaping () -> some View, id: Int) {
-      self.content = content()
-      self.id = id
-    }
+public struct DismissParameters {
+  #if canImport(SwiftUI)
+    public typealias PageID = IdentifiableView.ID
+  #else
+    public typealias PageID = Int
+  #endif
+  public enum Action {
+    case previous
+    case next
+    case cancel
   }
-#endif
+
+  public let currentPageIndex: Int
+  public let currentPageID: PageID?
+  public let action: Action
+}

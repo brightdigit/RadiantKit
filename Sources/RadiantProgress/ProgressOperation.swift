@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  ProgressOperation.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,23 +27,29 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
-  public import SwiftUI
+public import Foundation
 
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
-    private let content: any View
-    public let id: Int
+@MainActor public protocol ProgressOperation<ValueType>: Identifiable, Sendable where ID == URL {
+  associatedtype ValueType: BinaryInteger & Sendable
+  var currentValue: ValueType { get }
+  var totalValue: ValueType? { get }
+  func execute() async throws
+}
 
-    public var body: some View { AnyView(content) }
-
-    public init(_ content: any View, id: Int) {
-      self.content = content
-      self.id = id
+extension ProgressOperation {
+  public func percentValue(withFractionDigits fractionDigits: Int = 0) -> String? {
+    guard let totalValue else {
+      #warning("logging-note: should we log something here?")
+      return nil
     }
+    let formatter = NumberFormatter()
+    formatter.maximumFractionDigits = fractionDigits
+    formatter.minimumFractionDigits = fractionDigits
+    let ratioValue = Double(currentValue) / Double(totalValue) * 100.0
+    let string = formatter.string(from: .init(value: ratioValue))
 
-    public init(_ content: @escaping () -> some View, id: Int) {
-      self.content = content()
-      self.id = id
-    }
+    #warning("logging-note: let's log the calculated percent value if not done somewhere")
+    assert(string != nil)
+    return string
   }
-#endif
+}

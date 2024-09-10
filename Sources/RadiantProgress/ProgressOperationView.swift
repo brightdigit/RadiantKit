@@ -1,5 +1,5 @@
 //
-//  SliderStepperView.swift
+//  ProgressOperationView.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -30,43 +30,46 @@
 #if canImport(SwiftUI)
   public import SwiftUI
 
-  @MainActor public struct SliderStepperView<Content: View, Label: View, TitleType>: View {
-    private let title: TitleType
-    private let label: @Sendable (TitleType) -> Label
-    private let bounds: ClosedRange<Float>
-    private let step: Float
-    private let content: @Sendable @MainActor (TitleType) -> Content
-    @Binding private var value: Float
+  public struct ProgressOperationView<Icon: View, ProgressText: View>: View {
+    private let progress: FileOperationProgress<Int>
+    private let title: any StringProtocol
+    private let text: (FileOperationProgress<Int>) -> ProgressText
+    private let icon: () -> Icon
 
     public var body: some View {
-      LabeledContent {
+      VStack {
         HStack {
-          Slider(value: $value, in: bounds, step: step)
-          self.content(self.title).labelsHidden().frame(width: 50).padding(.horizontal, 6.0)
-
-          Stepper(value: $value, in: bounds, step: 1.0, label: { self.label(self.title) })
-            .labelsHidden()
+          icon()  // .accessibilityIdentifier(Progress.icon.identifier)
+          VStack(alignment: .leading) {
+            Text(title).lineLimit(1).font(.title)
+              // .accessibilityIdentifier(Progress.title.identifier)
+              .accessibilityLabel(title)
+            HStack {
+              if let totalValue = progress.totalValue {
+                ProgressView(value: progress.currentValue, total: totalValue)
+              }
+              else {
+                ProgressView(value: progress.currentValue)
+              }
+            }
+            // .accessibilityIdentifier(Progress.view.identifier)
+            text(progress)
+          }
         }
-      } label: {
-        self.label(self.title)
       }
+      .padding()
     }
 
     public init(
-      title: TitleType,
-      label: @escaping @Sendable (TitleType) -> Label,
-      value: Binding<Float>,
-      bounds: ClosedRange<Float>,
-      step: Float,
-      content: @escaping @MainActor @Sendable (TitleType) -> Content
+      progress: FileOperationProgress<Int>,
+      title: any StringProtocol,
+      text: @escaping (FileOperationProgress<Int>) -> ProgressText,
+      icon: @escaping () -> Icon
     ) {
+      self.progress = progress
       self.title = title
-      self.label = label
-      self._value = value
-      self.bounds = bounds
-      self.step = step
-      self.content = content
+      self.text = text
+      self.icon = icon
     }
   }
-
 #endif

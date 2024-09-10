@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  UTType.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,23 +27,42 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
-  public import SwiftUI
-
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
-    private let content: any View
-    public let id: Int
-
-    public var body: some View { AnyView(content) }
-
-    public init(_ content: any View, id: Int) {
-      self.content = content
-      self.id = id
+#if canImport(UniformTypeIdentifiers)
+  public import UniformTypeIdentifiers
+  public import RadiantKit
+  extension UTType {
+    public init(fileType: FileType) {
+      if fileType.isOwned {
+        self.init(exportedAs: fileType.utIdentifier)
+      }
+      else {
+        self.init(fileType.utIdentifier)!
+      }
     }
 
-    public init(_ content: @escaping () -> some View, id: Int) {
-      self.content = content()
-      self.id = id
+    public static func allowedContentTypes(for fileType: FileType) -> [UTType] {
+      var types = [UTType]()
+
+      if fileType.isOwned { types.append(.init(exportedAs: fileType.utIdentifier)) }
+
+      if let fileExtensionType = fileType.fileExtension.flatMap({ UTType(filenameExtension: $0) }) {
+        types.append(fileExtensionType)
+      }
+
+      if let utIdentified = UTType(fileType.utIdentifier) { types.append(utIdentified) }
+
+      return types
+    }
+
+    public static func allowedContentTypes(for fileTypes: FileType...) -> [UTType] {
+      fileTypes.flatMap(allowedContentTypes(for:))
+    }
+  }
+
+  extension FileType {
+    @Sendable public init?(url: URL) {
+      guard let utType = UTType(filenameExtension: url.pathExtension) else { return nil }
+      self.init(stringLiteral: utType.identifier)
     }
   }
 #endif

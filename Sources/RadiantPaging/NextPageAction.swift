@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  NextPageAction.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -28,22 +28,30 @@
 //
 
 #if canImport(SwiftUI)
+  import Foundation
   public import SwiftUI
 
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
-    private let content: any View
-    public let id: Int
+  fileprivate struct NextPageKey: EnvironmentKey, Sendable {
+    fileprivate static let defaultValue: NextPageAction = .default
+  }
 
-    public var body: some View { AnyView(content) }
+  public struct PageAction: Sendable {
+    internal static let `default`: PageAction = .init { assertionFailure() }
 
-    public init(_ content: any View, id: Int) {
-      self.content = content
-      self.id = id
+    private let pageFunction: @Sendable @MainActor () -> Void
+    internal init(_ pageFunction: @Sendable @MainActor @escaping () -> Void) {
+      self.pageFunction = pageFunction
     }
 
-    public init(_ content: @escaping () -> some View, id: Int) {
-      self.content = content()
-      self.id = id
+    @MainActor public func callAsFunction() { pageFunction() }
+  }
+
+  public typealias NextPageAction = PageAction
+
+  extension EnvironmentValues {
+    public var nextPage: NextPageAction {
+      get { self[NextPageKey.self] }
+      set { self[NextPageKey.self] = newValue }
     }
   }
 #endif

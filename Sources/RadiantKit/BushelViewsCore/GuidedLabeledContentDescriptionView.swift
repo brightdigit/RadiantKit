@@ -1,5 +1,5 @@
 //
-//  PreviousPageAction.swift
+//  GuidedLabeledContentDescriptionView.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -28,21 +28,57 @@
 //
 
 #if canImport(SwiftUI)
-  import Foundation
-  import SwiftUI
+  public import SwiftUI
 
-  private struct PreviousPageKey: EnvironmentKey, Sendable {
-    static let defaultValue: PreviousPageAction = .default
-  }
+  public struct GuidedLabeledContentDescriptionView: View {
+    public enum Alignment {
+      case leading
+      case trailing
+    }
 
-  public typealias PreviousPageAction = PageAction
+    @Environment(\.layoutDirection) var layoutDirection
+    let text: () -> Text
+    let alignment: Alignment?
 
-  extension EnvironmentValues {
-    public var previousPage: PreviousPageAction {
-      get { self[PreviousPageKey.self] }
-      set {
-        self[PreviousPageKey.self] = newValue
+    var multilineTextAlignment: TextAlignment {
+      switch alignment { case .leading: .leading
+
+        case .trailing: .trailing
+
+        case nil: .center
       }
+    }
+
+    var leftSpacer: Bool {
+      switch (alignment, layoutDirection) { case (.trailing, .leftToRight): true
+
+        case (.leading, .rightToLeft): true
+
+        default: false
+      }
+    }
+
+    var rightSpacer: Bool {
+      switch (alignment, layoutDirection) { case (.leading, .leftToRight): true
+
+        case (.trailing, .rightToLeft): true
+
+        default: false
+      }
+    }
+
+    public var body: some View {
+      HStack {
+        if leftSpacer { Spacer() }
+        text().font(.callout).multilineTextAlignment(self.multilineTextAlignment)
+
+        if rightSpacer { Spacer() }
+      }
+    }
+
+    internal init(alignment: Alignment? = nil, text: @escaping () -> Text) {
+      self.text = text
+      self.alignment = alignment
     }
   }
 #endif

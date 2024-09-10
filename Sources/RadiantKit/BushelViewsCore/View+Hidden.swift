@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  View+Hidden.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -28,22 +28,19 @@
 //
 
 #if canImport(SwiftUI)
+
   public import SwiftUI
 
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
-    private let content: any View
-    public let id: Int
-
-    public var body: some View { AnyView(content) }
-
-    public init(_ content: any View, id: Int) {
-      self.content = content
-      self.id = id
-    }
-
-    public init(_ content: @escaping () -> some View, id: Int) {
-      self.content = content()
-      self.id = id
+  extension View {
+    public func isHidden(_ value: Bool) -> some View {
+      Group {
+        if value {
+          self.hidden()
+        }
+        else {
+          self
+        }
+      }
     }
   }
 #endif

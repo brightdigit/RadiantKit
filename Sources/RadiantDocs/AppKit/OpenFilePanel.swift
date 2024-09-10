@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  OpenFilePanel.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,23 +27,39 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
+#if canImport(AppKit) && canImport(SwiftUI)
+  import AppKit
+
+  import Foundation
+
   public import SwiftUI
 
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
-    private let content: any View
-    public let id: Int
+  import UniformTypeIdentifiers
 
-    public var body: some View { AnyView(content) }
+  public struct OpenFilePanel<FileType: FileTypeSpecification>: Sendable {
+    public init() {}
 
-    public init(_ content: any View, id: Int) {
-      self.content = content
-      self.id = id
-    }
+    public init(_: FileType.Type) {}
 
-    public init(_ content: @escaping () -> some View, id: Int) {
-      self.content = content()
-      self.id = id
+    @MainActor public func callAsFunction(with openWindow: OpenWindowAction) {
+      let openPanel = NSOpenPanel()
+      openPanel.allowedContentTypes = [UTType(fileType: FileType.fileType)]
+      openPanel.isExtensionHidden = true
+      openPanel.begin { response in
+        guard let fileURL = openPanel.url, response == .OK else {
+          #warning("logging-note: should we log something here?")
+          return
+        }
+        let libraryFile = DocumentFile<FileType>(url: fileURL)
+        openWindow(value: libraryFile)
+      }
     }
   }
+
+  extension OpenWindowAction {
+    @MainActor public func callAsFunction(_ valueType: (some FileTypeSpecification).Type) {
+      OpenFilePanel(valueType)(with: self)
+    }
+  }
+
 #endif

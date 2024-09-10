@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  AppStored.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,23 +27,23 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
-  public import SwiftUI
+import Foundation
 
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
-    private let content: any View
-    public let id: Int
+public protocol AppStored {
+  associatedtype Value
+  static var keyType: KeyType { get }
+  static var key: String { get }
+}
 
-    public var body: some View { AnyView(content) }
+extension AppStored {
+  public static var key: String {
+    switch self.keyType { case .describing: String(describing: Self.self)
 
-    public init(_ content: any View, id: Int) {
-      self.content = content
-      self.id = id
-    }
-
-    public init(_ content: @escaping () -> some View, id: Int) {
-      self.content = content()
-      self.id = id
+      case .reflecting:
+        String(reflecting: Self.self).components(separatedBy: ".").dropFirst()
+          .joined(separator: ".")
     }
   }
-#endif
+
+  public static var keyType: KeyType { .describing }
+}

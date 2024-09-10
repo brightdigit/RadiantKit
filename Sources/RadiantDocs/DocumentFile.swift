@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  DocumentFile.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,23 +27,19 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
-  public import SwiftUI
+public import Foundation
 
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
-    private let content: any View
-    public let id: Int
+public struct DocumentFile<FileType: FileTypeSpecification>: Codable, Hashable {
+  public let url: URL
 
-    public var body: some View { AnyView(content) }
+  public init(url: URL) { self.url = url }
 
-    public init(_ content: any View, id: Int) {
-      self.content = content
-      self.id = id
-    }
+  public func hash(into hasher: inout Hasher) { hasher.combine(url) }
+}
 
-    public init(_ content: @escaping () -> some View, id: Int) {
-      self.content = content()
-      self.id = id
-    }
+extension DocumentFile {
+  public static func documentFile(from url: URL) -> Self? {
+    guard url.pathExtension == FileType.fileType.fileExtension else { return nil }
+    return Self(url: url)
   }
-#endif
+}

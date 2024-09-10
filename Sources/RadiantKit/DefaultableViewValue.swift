@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  DefaultableViewValue.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,23 +27,6 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
-  public import SwiftUI
-
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
-    private let content: any View
-    public let id: Int
-
-    public var body: some View { AnyView(content) }
-
-    public init(_ content: any View, id: Int) {
-      self.content = content
-      self.id = id
-    }
-
-    public init(_ content: @escaping () -> some View, id: Int) {
-      self.content = content()
-      self.id = id
-    }
-  }
-#endif
+public protocol DefaultableViewValue: Codable, Hashable, Sendable {
+  static var `default`: Self { get }
+}

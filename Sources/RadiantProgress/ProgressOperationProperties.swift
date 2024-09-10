@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  ProgressOperationProperties.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,23 +27,40 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
-  public import SwiftUI
+#if canImport(Observation) && (os(macOS) || os(iOS))
+  public import Foundation
 
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
-    private let content: any View
-    public let id: Int
+  public struct ProgressOperationProperties: Identifiable, Sendable {
+    internal let imageName: String
+    internal let text: any (StringProtocol & Sendable)
+    internal let progress: FileOperationProgress<Int>
 
-    public var body: some View { AnyView(content) }
+    public var id: URL { progress.id }
 
-    public init(_ content: any View, id: Int) {
-      self.content = content
-      self.id = id
-    }
-
-    public init(_ content: @escaping () -> some View, id: Int) {
-      self.content = content()
-      self.id = id
+    public init(
+      imageName: String,
+      text: any (StringProtocol & Sendable),
+      progress: FileOperationProgress<Int>
+    ) {
+      self.imageName = imageName
+      self.text = text
+      self.progress = progress
     }
   }
+
+  #if canImport(SwiftUI)
+    extension ProgressOperationView {
+      public typealias Properties = ProgressOperationProperties
+      public init(
+        _ properties: Properties,
+        text: @escaping (FileOperationProgress<Int>) -> ProgressText,
+        image: @escaping (String) -> Icon
+      ) {
+        self.init(progress: properties.progress, title: properties.text, text: text) {
+          image(properties.imageName)
+        }
+      }
+    }
+  #endif
+
 #endif

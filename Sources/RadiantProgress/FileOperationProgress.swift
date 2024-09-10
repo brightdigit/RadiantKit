@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  FileOperationProgress.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,23 +27,24 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
-  public import SwiftUI
+#if canImport(Observation)
+  public import Foundation
+  public import Observation
 
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
-    private let content: any View
-    public let id: Int
+  @MainActor @Observable
+  public final class FileOperationProgress<ValueType: BinaryInteger>: Identifiable {
+    public let operation: any ProgressOperation<ValueType>
 
-    public var body: some View { AnyView(content) }
+    public nonisolated var id: URL { operation.id }
 
-    public init(_ content: any View, id: Int) {
-      self.content = content
-      self.id = id
-    }
+    public var totalValueBytes: Int64? { operation.totalValue.map(Int64.init) }
 
-    public init(_ content: @escaping () -> some View, id: Int) {
-      self.content = content()
-      self.id = id
-    }
+    public var currentValueBytes: Int64 { Int64(operation.currentValue) }
+
+    internal var currentValue: Double { Double(operation.currentValue) }
+
+    internal var totalValue: Double? { operation.totalValue.map(Double.init) }
+
+    public init(_ operation: any ProgressOperation<ValueType>) { self.operation = operation }
   }
 #endif

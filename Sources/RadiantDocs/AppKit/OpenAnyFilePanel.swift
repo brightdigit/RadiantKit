@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  OpenAnyFilePanel.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,23 +27,42 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
+#if canImport(AppKit) && canImport(SwiftUI)
+  import AppKit
+
+  import Foundation
+
   public import SwiftUI
 
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
-    private let content: any View
-    public let id: Int
+  import UniformTypeIdentifiers
+  public import RadiantKit
+  public struct OpenAnyFilePanel {
+    let fileTypes: [FileType]
 
-    public var body: some View { AnyView(content) }
-
-    public init(_ content: any View, id: Int) {
-      self.content = content
-      self.id = id
+    internal init(fileTypes: [FileType]) {
+      assert(!fileTypes.isEmpty)
+      self.fileTypes = fileTypes
     }
 
-    public init(_ content: @escaping () -> some View, id: Int) {
-      self.content = content()
-      self.id = id
+    @MainActor public func callAsFunction(
+      with openFileURL: OpenFileURLAction,
+      using openWindow: OpenWindowAction
+    ) {
+      let openPanel = NSOpenPanel()
+      openPanel.allowedContentTypes = fileTypes.map(UTType.init(fileType:))
+      openPanel.isExtensionHidden = true
+      openPanel.begin { response in
+        guard let fileURL = openPanel.url, response == .OK else { return }
+        openFileURL(fileURL, with: openWindow)
+      }
     }
   }
+
+  extension OpenFileURLAction {
+    @MainActor public func callAsFunction(
+      ofFileTypes fileTypes: [FileType],
+      using openWindow: OpenWindowAction
+    ) { OpenAnyFilePanel(fileTypes: fileTypes).callAsFunction(with: self, using: openWindow) }
+  }
+
 #endif

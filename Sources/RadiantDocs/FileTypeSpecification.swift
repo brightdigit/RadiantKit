@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  FileTypeSpecification.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,23 +27,7 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
-  public import SwiftUI
+import Foundation
+public import RadiantKit
 
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
-    private let content: any View
-    public let id: Int
-
-    public var body: some View { AnyView(content) }
-
-    public init(_ content: any View, id: Int) {
-      self.content = content
-      self.id = id
-    }
-
-    public init(_ content: @escaping () -> some View, id: Int) {
-      self.content = content()
-      self.id = id
-    }
-  }
-#endif
+public protocol FileTypeSpecification: Sendable { static var fileType: FileType { get } }

@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  OpenWindowWithAction.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -28,22 +28,21 @@
 //
 
 #if canImport(SwiftUI)
-  public import SwiftUI
+  #if os(macOS) || os(iOS) || os(visionOS)
+    import Foundation
 
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
-    private let content: any View
-    public let id: Int
+    public import SwiftUI
 
-    public var body: some View { AnyView(content) }
+    public typealias OpenWindowWithAction = OpenWindowWithValueAction<Void>
 
-    public init(_ content: any View, id: Int) {
-      self.content = content
-      self.id = id
+    @MainActor extension OpenWindowWithAction {
+      public init(closure: @escaping @Sendable @MainActor (OpenWindowAction) -> Void) {
+        self.init { _, action in closure(action) }
+      }
+
+      @MainActor public func callAsFunction(with openWidow: OpenWindowAction) {
+        closure((), openWidow)
+      }
     }
-
-    public init(_ content: @escaping () -> some View, id: Int) {
-      self.content = content()
-      self.id = id
-    }
-  }
+  #endif
 #endif

@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  Button.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -30,20 +30,12 @@
 #if canImport(SwiftUI)
   public import SwiftUI
 
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
-    private let content: any View
-    public let id: Int
-
-    public var body: some View { AnyView(content) }
-
-    public init(_ content: any View, id: Int) {
-      self.content = content
-      self.id = id
+  extension Button {
+    public init(_ openURL: OpenURLAction, _ url: URL, @ViewBuilder _ label: () -> Label) {
+      self.init(action: { openURL.callAsFunction(url) }, label: label)
     }
 
-    public init(_ content: @escaping () -> some View, id: Int) {
-      self.content = content()
-      self.id = id
-    }
+    public init(_ titleKey: LocalizedStringKey, _ openURL: OpenURLAction, _ url: URL)
+    where Label == Text { self.init(openURL, url) { Text(titleKey) } }
   }
 #endif

@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  CodablePackage.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,23 +27,19 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
-  public import SwiftUI
+public import Foundation
+public import RadiantKit
 
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
-    private let content: any View
-    public let id: Int
+public protocol CodablePackage: Sendable, Codable {
+  static var decoder: JSONDecoder { get }
+  static var encoder: JSONEncoder { get }
+  static var configurationFileWrapperKey: String { get }
+  static var readableContentTypes: [FileType] { get }
+}
 
-    public var body: some View { AnyView(content) }
-
-    public init(_ content: any View, id: Int) {
-      self.content = content
-      self.id = id
-    }
-
-    public init(_ content: @escaping () -> some View, id: Int) {
-      self.content = content()
-      self.id = id
-    }
+extension CodablePackage {
+  public init(contentsOf url: URL) throws {
+    let data = try Data(contentsOf: url.appendingPathComponent(Self.configurationFileWrapperKey))
+    self = try Self.decoder.decode(Self.self, from: data)
   }
-#endif
+}

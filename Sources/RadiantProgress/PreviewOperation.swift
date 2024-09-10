@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  PreviewOperation.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,23 +27,26 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
-  public import SwiftUI
+public import Foundation
 
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
-    private let content: any View
-    public let id: Int
+@MainActor public struct PreviewOperation<ValueType: BinaryInteger & Sendable>: ProgressOperation {
+  public let currentValue: ValueType
 
-    public var body: some View { AnyView(content) }
+  public let totalValue: ValueType?
 
-    public init(_ content: any View, id: Int) {
-      self.content = content
-      self.id = id
-    }
+  public let id: URL
 
-    public init(_ content: @escaping () -> some View, id: Int) {
-      self.content = content()
-      self.id = id
-    }
+  public init(currentValue: ValueType, totalValue: ValueType?, id: URL) {
+    self.currentValue = currentValue
+    self.totalValue = totalValue
+    self.id = id
   }
+
+  public func execute() async throws {}
+
+  public func cancel() {}
+}
+
+#if canImport(FoundationNetworking)
+  extension URL: @unchecked Sendable {}
 #endif

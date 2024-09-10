@@ -1,5 +1,5 @@
 //
-//  NextPageAction.swift
+//  GuidedLabeledContent.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -28,36 +28,41 @@
 //
 
 #if canImport(SwiftUI)
-  import Foundation
-  import SwiftUI
 
-  private struct NextPageKey: EnvironmentKey, Sendable {
-    fileprivate static let defaultValue: NextPageAction = .default
+  public import SwiftUI
+
+  public struct GuidedLabeledContent<Label: View, Content: View, Description: View>: View {
+    let content: () -> Content
+    let label: () -> Label
+    let description: () -> Description
+
+    public var body: some View {
+      VStack {
+        LabeledContent(content: content, label: label)
+        self.description()
+      }
+    }
+
+    public init(
+      _ content: @escaping () -> Content,
+      label: @escaping () -> Label,
+      description: @escaping () -> Description
+    ) {
+      self.content = content
+      self.label = label
+      self.description = description
+    }
   }
 
-  public struct PageAction: Sendable {
-    internal static let `default`: PageAction = .init {
-      assertionFailure()
-    }
-
-    private let pageFunction: @Sendable @MainActor () -> Void
-    internal init(_ pageFunction: @Sendable @MainActor @escaping () -> Void) {
-      self.pageFunction = pageFunction
-    }
-
-    @MainActor
-    public func callAsFunction() {
-      pageFunction()
-    }
-  }
-
-  public typealias NextPageAction = PageAction
-
-  extension EnvironmentValues {
-    public var nextPage: NextPageAction {
-      get { self[NextPageKey.self] }
-      set {
-        self[NextPageKey.self] = newValue
+  extension GuidedLabeledContent where Description == GuidedLabeledContentDescriptionView {
+    public init(
+      _ content: @escaping () -> Content,
+      label: @escaping () -> Label,
+      text: @escaping () -> Text,
+      descriptionAlignment: GuidedLabeledContentDescriptionView.Alignment? = .leading
+    ) {
+      self.init(content, label: label) {
+        GuidedLabeledContentDescriptionView(alignment: descriptionAlignment, text: text)
       }
     }
   }

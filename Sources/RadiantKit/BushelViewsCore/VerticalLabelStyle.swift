@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  VerticalLabelStyle.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -30,20 +30,40 @@
 #if canImport(SwiftUI)
   public import SwiftUI
 
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
-    private let content: any View
-    public let id: Int
+  public struct VerticalLabelStyle: LabeledContentStyle {
+    let alignment: HorizontalAlignment
+    let labelFont: Font
+    let labelPaddingEdgeInsets: EdgeInsets
 
-    public var body: some View { AnyView(content) }
-
-    public init(_ content: any View, id: Int) {
-      self.content = content
-      self.id = id
+    public init(
+      alignment: HorizontalAlignment = .leading,
+      labelFont: Font = .subheadline,
+      labelPaddingEdgeInsets: EdgeInsets = .init(top: 0, leading: 4.0, bottom: 0.0, trailing: 0.0)
+    ) {
+      self.alignment = alignment
+      self.labelFont = labelFont
+      self.labelPaddingEdgeInsets = labelPaddingEdgeInsets
     }
 
-    public init(_ content: @escaping () -> some View, id: Int) {
-      self.content = content()
-      self.id = id
+    public func makeBody(configuration: Configuration) -> some View {
+      VStack(alignment: alignment) {
+        configuration.content.labelsHidden()
+        configuration.label.font(labelFont).padding(labelPaddingEdgeInsets)
+      }
+    }
+  }
+
+  extension LabeledContentStyle {
+    public static func vertical(
+      alignment: HorizontalAlignment = .leading,
+      labelFont: Font = .subheadline,
+      labelPaddingEdgeInsets: EdgeInsets = .init(top: 0, leading: 2.0, bottom: 0.0, trailing: 0.0)
+    ) -> Self where Self == VerticalLabelStyle {
+      .init(
+        alignment: alignment,
+        labelFont: labelFont,
+        labelPaddingEdgeInsets: labelPaddingEdgeInsets
+      )
     }
   }
 #endif

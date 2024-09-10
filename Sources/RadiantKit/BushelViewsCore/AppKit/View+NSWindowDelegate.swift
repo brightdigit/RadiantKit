@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  View+NSWindowDelegate.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,23 +27,43 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
+#if canImport(AppKit) && canImport(SwiftUI)
+  import AppKit
+
   public import SwiftUI
 
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
-    private let content: any View
-    public let id: Int
+  fileprivate struct NSWindowDelegateAdaptorModifier: ViewModifier {
+    @Binding var binding: (any NSWindowDelegate)?
+    let delegate: any NSWindowDelegate
 
-    public var body: some View { AnyView(content) }
+    init(
+      binding: Binding<(any NSWindowDelegate)?>,
+      delegate: @autoclosure () -> any NSWindowDelegate
+    ) {
+      self._binding = binding
+      self.delegate = binding.wrappedValue ?? delegate()
 
-    public init(_ content: any View, id: Int) {
-      self.content = content
-      self.id = id
+      #warning(
+        "Issue 100 - We can't set binding here - Modifying state during view update, this will cause undefined behavior."
+      )
+      self.binding = self.delegate
     }
 
-    public init(_ content: @escaping () -> some View, id: Int) {
-      self.content = content()
-      self.id = id
+    func body(content: Content) -> some View {
+      content.nsWindowAdaptor { window in
+        assert(!self.delegate.isEqual(window?.delegate))
+        assert(window != nil)
+        window?.delegate = delegate
+      }
+    }
+  }
+
+  extension View {
+    public func nsWindowDelegateAdaptor(
+      _ binding: Binding<(any NSWindowDelegate)?>,
+      _ delegate: @autoclosure () -> any NSWindowDelegate
+    ) -> some View {
+      self.modifier(NSWindowDelegateAdaptorModifier(binding: binding, delegate: delegate()))
     }
   }
 #endif

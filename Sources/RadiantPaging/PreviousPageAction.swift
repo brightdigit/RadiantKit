@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  PreviousPageAction.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -28,22 +28,19 @@
 //
 
 #if canImport(SwiftUI)
+  import Foundation
   public import SwiftUI
 
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
-    private let content: any View
-    public let id: Int
+  fileprivate struct PreviousPageKey: EnvironmentKey, Sendable {
+    static let defaultValue: PreviousPageAction = .default
+  }
 
-    public var body: some View { AnyView(content) }
+  public typealias PreviousPageAction = PageAction
 
-    public init(_ content: any View, id: Int) {
-      self.content = content
-      self.id = id
-    }
-
-    public init(_ content: @escaping () -> some View, id: Int) {
-      self.content = content()
-      self.id = id
+  extension EnvironmentValues {
+    public var previousPage: PreviousPageAction {
+      get { self[PreviousPageKey.self] }
+      set { self[PreviousPageKey.self] = newValue }
     }
   }
 #endif

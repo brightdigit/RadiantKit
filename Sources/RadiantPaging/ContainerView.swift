@@ -28,7 +28,7 @@
 //
 
 #if canImport(SwiftUI)
-  import SwiftUI
+  public import SwiftUI
 
   public struct ContainerView<Label: View, Content: View>: View {
     @Environment(\.pageNavigationAvailability) private var pageNavigationAvailability
@@ -39,13 +39,9 @@
     private let label: () -> Label
     @State private var isNextReady = false
 
-    private var isPreviousDisabled: Bool {
-      !pageNavigationAvailability.contains(.previous)
-    }
+    private var isPreviousDisabled: Bool { !pageNavigationAvailability.contains(.previous) }
 
-    private var isNextDisabled: Bool {
-      !isNextReady
-    }
+    private var isNextDisabled: Bool { !isNextReady }
 
     public var body: some View {
       VStack {
@@ -76,35 +72,29 @@
             previousPage()
           } label: {
             Text("Previous").padding(.horizontal)
-          }.disabled(isPreviousDisabled).opacity(isPreviousDisabled ? 0.8 : 1.0)
+          }
+          .disabled(isPreviousDisabled).opacity(isPreviousDisabled ? 0.8 : 1.0)
           Button {
             nextPage()
           } label: {
             Text("Next").padding(.horizontal)
-          }.disabled(isNextDisabled).opacity(isNextDisabled ? 0.8 : 1.0)
+          }
+          .disabled(isNextDisabled).opacity(isNextDisabled ? 0.8 : 1.0)
         }
       }
       .padding()
     }
 
-    public init(
-      label: @escaping () -> Label,
-      content: @escaping (Binding<Bool>) -> Content
-    ) {
+    public init(label: @escaping () -> Label, content: @escaping (Binding<Bool>) -> Content) {
       self.label = label
       self.content = content
     }
   }
 
   #Preview {
-    ContainerView(label: {
-      Text("Hello World")
-    }, content: { _ in
-      Form {
-        Section {
-          Text("Hello World")
-        }
-      }
-    })
+    ContainerView(
+      label: { Text("Hello World") },
+      content: { _ in Form { Section { Text("Hello World") } } }
+    )
   }
 #endif

@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  Video.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,23 +27,27 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
+#if canImport(SwiftUI) && canImport(AppKit)
+  public import AVKit
+
   public import SwiftUI
 
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
-    private let content: any View
-    public let id: Int
+  public struct Video: NSViewRepresentable {
+    let player: AVPlayer?
 
-    public var body: some View { AnyView(content) }
-
-    public init(_ content: any View, id: Int) {
-      self.content = content
-      self.id = id
+    public init(using player: AVPlayer!) {
+      assert(player != nil)
+      self.player = player
     }
 
-    public init(_ content: @escaping () -> some View, id: Int) {
-      self.content = content()
-      self.id = id
+    public func makeNSView(context _: Context) -> AVPlayerView {
+      let view = AVPlayerView()
+      view.controlsStyle = .none
+      view.player = player
+      player?.play()
+      return view
     }
+
+    public func updateNSView(_: AVPlayerView, context _: Context) {}
   }
 #endif

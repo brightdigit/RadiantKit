@@ -1,5 +1,5 @@
 //
-//  IdentifiableView.swift
+//  InitializablePackage.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,23 +27,25 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
-  public import SwiftUI
+public import Foundation
 
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
-    private let content: any View
-    public let id: Int
-
-    public var body: some View { AnyView(content) }
-
-    public init(_ content: any View, id: Int) {
-      self.content = content
-      self.id = id
-    }
-
-    public init(_ content: @escaping () -> some View, id: Int) {
-      self.content = content()
-      self.id = id
-    }
-  }
+#if canImport(FoundationNetworking)
+  public import FoundationNetworking
 #endif
+
+public protocol InitializablePackage: CodablePackage { init() }
+
+extension InitializablePackage {
+  #warning("logging-note: let's log what is going on here")
+  #warning("Might want to add parameters for creating data and creating directory.")
+  @discardableResult public static func createAt(_ fileURL: URL, using encoder: JSONEncoder) throws
+    -> Self
+  {
+    let library = self.init()
+    try FileManager.default.createDirectory(at: fileURL, withIntermediateDirectories: false)
+    let metadataJSONPath = fileURL.appendingPathComponent(self.configurationFileWrapperKey)
+    let data = try encoder.encode(library)
+    try data.write(to: metadataJSONPath)
+    return library
+  }
+}
