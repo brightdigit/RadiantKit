@@ -51,6 +51,7 @@ let package = Package(
   ],
   dependencies: [
     .package(url: "https://github.com/swiftlang/swift-testing.git", from: "0.12.0"),
+    .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
   ],
   targets: [
     .target(
@@ -69,6 +70,9 @@ let package = Package(
     ),
     .target(
       name: "RadiantProgress",
+      dependencies: [
+        .product(name: "Logging", package: "swift-log", condition: .when(platforms: [.linux]))
+      ],
       swiftSettings: swiftSettings
     ),
     .testTarget(

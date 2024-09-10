@@ -104,7 +104,7 @@
     internal let totalBytesExpectedToWrite: Int64?
   }
 
-  @Observable @MainActor public final class ObservableDownloader: DownloadObserver {
+  @Observable @MainActor public final class ObservableDownloader: DownloadObserver, Downloader {
     internal struct DownloadRequest {
       internal let downloadSourceURL: URL
       internal let destinationFileURL: URL
@@ -213,12 +213,13 @@
         resumeDataSubject.send(resumeData)
       }
     }
-
-    //    deinit {
-    //      self.cancellables.forEach { $0.cancel() }
-    //      self.cancellables.removeAll()
-    //      self.session = nil
-    //      self.task = nil
-    //    }
+    deinit {
+      MainActor.assumeIsolated {
+        self.cancellables.forEach { $0.cancel() }
+        self.cancellables.removeAll()
+        self.session = nil
+        self.task = nil
+      }
+    }
   }
 #endif

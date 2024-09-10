@@ -27,16 +27,30 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(Observation) && (os(macOS) || os(iOS))
+@MainActor public protocol Downloader {
+  var totalBytesWritten: Int64 { get }
+  var totalBytesExpectedToWrite: Int64? { get }
+  func begin(
+    from downloadSourceURL: URL,
+    to destinationFileURL: URL,
+    _ completion: @escaping @Sendable (Result<Void, any Error>) -> Void
+  )
+}
+
+#if canImport(Observation)
   public import Foundation
-  import Observation
+  public import Observation
+
+  #if canImport(FoundationNetworking)
+    public import FoundationNetworking
+  #endif
 
   @MainActor @Observable
   public final class DownloadOperation<ValueType: BinaryInteger & Sendable>:
 
     Identifiable, ProgressOperation, Sendable
   {
-    private let download: ObservableDownloader
+    private let download: Downloader
     private let sourceURL: URL
     private let destinationURL: URL
 
@@ -46,22 +60,29 @@
 
     public var totalValue: ValueType? { download.totalBytesExpectedToWrite.map(ValueType.init(_:)) }
 
-    public init(
-      sourceURL: URL,
-      destinationURL: URL,
-      totalBytesExpectedToWrite: ValueType?,
-      configuration: URLSessionConfiguration? = nil,
-      queue: OperationQueue? = nil
-    ) {
-      assert(!sourceURL.isFileURL)
-      assert(totalBytesExpectedToWrite != nil)
+    #if canImport(Combine)
+      public init(
+        sourceURL: URL,
+        destinationURL: URL,
+        totalBytesExpectedToWrite: ValueType?,
+        configuration: URLSessionConfiguration? = nil,
+        queue: OperationQueue? = nil
+      ) {
+        assert(!sourceURL.isFileURL)
+        assert(totalBytesExpectedToWrite != nil)
+        self.sourceURL = sourceURL
+        self.destinationURL = destinationURL
+        self.download = ObservableDownloader(
+          totalBytesExpectedToWrite: totalBytesExpectedToWrite,
+          configuration: configuration,
+          queue: queue
+        )
+      }
+    #endif
+    public init(sourceURL: URL, destinationURL: URL, download: Downloader) {
+      self.download = download
       self.sourceURL = sourceURL
       self.destinationURL = destinationURL
-      self.download = .init(
-        totalBytesExpectedToWrite: totalBytesExpectedToWrite,
-        configuration: configuration,
-        queue: queue
-      )
     }
 
     public func execute() async throws {

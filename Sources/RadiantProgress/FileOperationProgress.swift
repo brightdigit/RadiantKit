@@ -29,7 +29,7 @@
 
 #if canImport(Observation)
   public import Foundation
-  import Observation
+  public import Observation
 
   @MainActor @Observable
   public final class FileOperationProgress<ValueType: BinaryInteger>: Identifiable {

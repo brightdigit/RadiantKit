@@ -27,11 +27,15 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(Observation) && (os(macOS) || os(iOS))
+#if canImport(Observation)
   public import Foundation
-  import Observation
+  public import Observation
 
-  public import OSLog
+  #if canImport(OSLog)
+    public import OSLog
+  #else
+    public import Logging
+  #endif
 
   @MainActor @Observable
   public final class CopyOperation<ValueType: BinaryInteger & Sendable>: Identifiable {
