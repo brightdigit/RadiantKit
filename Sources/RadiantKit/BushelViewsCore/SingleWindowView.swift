@@ -33,6 +33,7 @@
 
   public import SwiftUI
 
+  // periphery:ignore
   public struct SingleWindowViewValue<ViewType: SingleWindowView>: DefaultableViewValue {
     public static var `default`: Self { .init() }
 

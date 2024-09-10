@@ -28,7 +28,6 @@
 //
 
 public import Foundation
-public import RadiantKit
 
 public protocol CodablePackage: Sendable, Codable {
   static var decoder: JSONDecoder { get }

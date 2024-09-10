@@ -29,13 +29,14 @@
 
 #if canImport(UniformTypeIdentifiers)
   public import UniformTypeIdentifiers
-  public import RadiantKit
+
   extension UTType {
     public init(fileType: FileType) {
       if fileType.isOwned {
         self.init(exportedAs: fileType.utIdentifier)
       }
       else {
+        // swift-format-ignore: NeverForceUnwrap
         self.init(fileType.utIdentifier)!
       }
     }

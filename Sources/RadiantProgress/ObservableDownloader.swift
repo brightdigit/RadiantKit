@@ -105,12 +105,14 @@
       internal let destinationFileURL: URL
     }
 
+    // swift-format-ignore: NeverUseImplicitlyUnwrappedOptionals
     @ObservationIgnored private var delegate: DownloadDelegate!
 
     public internal(set) var totalBytesWritten: Int64 = 0
     public internal(set) var totalBytesExpectedToWrite: Int64?
 
-    internal private(set) var session: URLSession!
+    // swift-format-ignore: NeverUseImplicitlyUnwrappedOptionals
+    @ObservationIgnored internal private(set) var session: URLSession!
 
     internal let resumeDataSubject = PassthroughSubject<Data, Never>()
     internal var task: URLSessionDownloadTask?
@@ -222,7 +224,7 @@
     }
     deinit {
       MainActor.assumeIsolated {
-        self.cancellables.forEach { $0.cancel() }
+        for cancellable in self.cancellables { cancellable.cancel() }
         self.cancellables.removeAll()
         self.session = nil
         self.task = nil

@@ -28,6 +28,5 @@
 //
 
 import Foundation
-public import RadiantKit
 
 public protocol FileTypeSpecification: Sendable { static var fileType: FileType { get } }

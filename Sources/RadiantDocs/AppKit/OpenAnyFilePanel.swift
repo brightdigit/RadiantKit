@@ -35,7 +35,7 @@
   public import SwiftUI
 
   import UniformTypeIdentifiers
-  public import RadiantKit
+
   public struct OpenAnyFilePanel {
     let fileTypes: [FileType]
 
