@@ -12,7 +12,7 @@
 
 [![Codecov](https://img.shields.io/codecov/c/github/brightdigit/RadiantKit)](https://codecov.io/gh/brightdigit/RadiantKit)
 [![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/brightdigit/RadiantKit)](https://www.codefactor.io/repository/github/brightdigit/RadiantKit)
-[![codebeat badge](https://codebeat.co/badges/63949717-cda3-46c7-b1cb-60a0c2fe9c72)](https://codebeat.co/projects/github-com-brightdigit-RadiantKit-main)
+[![codebeat badge](https://codebeat.co/badges/ba6d29a8-1d14-4c0c-9993-5cad98664300)](https://codebeat.co/projects/github-com-brightdigit-RadiantKit-main)
 [![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/brightdigit/RadiantKit)](https://codeclimate.com/github/brightdigit/RadiantKit)
 [![Code Climate technical debt](https://img.shields.io/codeclimate/tech-debt/brightdigit/RadiantKit?label=debt)](https://codeclimate.com/github/brightdigit/RadiantKit)
 [![Code Climate issues](https://img.shields.io/codeclimate/issues/brightdigit/RadiantKit)](https://codeclimate.com/github/brightdigit/RadiantKit)
