@@ -29,24 +29,26 @@
 
 #if canImport(AppKit) && canImport(SwiftUI)
   import AppKit
-
   public import SwiftUI
 
+
   fileprivate struct NSWindowDelegateAdaptorModifier: ViewModifier {
-    @Binding var binding: (any NSWindowDelegate)?
+    let container :  any NSWindowDelegateContainer
     let delegate: any NSWindowDelegate
 
     init(
-      binding: Binding<(any NSWindowDelegate)?>,
+      container :  any NSWindowDelegateContainer,
       delegate: @autoclosure () -> any NSWindowDelegate
     ) {
-      self._binding = binding
-      self.delegate = binding.wrappedValue ?? delegate()
-
-      #warning(
-        "Issue 100 - We can't set binding here - Modifying state during view update, this will cause undefined behavior."
-      )
-      self.binding = self.delegate
+      self.container = container
+      if let windowDelegate = container.windowDelegate {
+        self.delegate = windowDelegate
+      } else {
+        let newDelegate = delegate()
+        print("Creating a New Window Delegate")
+        self.delegate = newDelegate
+        self.container.windowDelegate = newDelegate
+      }
     }
 
     func body(content: Content) -> some View {
@@ -60,10 +62,10 @@
 
   extension View {
     public func nsWindowDelegateAdaptor(
-      _ binding: Binding<(any NSWindowDelegate)?>,
+      _ container :  any NSWindowDelegateContainer,
       _ delegate: @autoclosure () -> any NSWindowDelegate
     ) -> some View {
-      self.modifier(NSWindowDelegateAdaptorModifier(binding: binding, delegate: delegate()))
+      self.modifier(NSWindowDelegateAdaptorModifier(container: container, delegate: delegate()))
     }
   }
 #endif
