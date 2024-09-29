@@ -31,19 +31,19 @@
   import AppKit
   public import SwiftUI
 
-
   fileprivate struct NSWindowDelegateAdaptorModifier: ViewModifier {
-    let container :  any NSWindowDelegateContainer
+    let container: any NSWindowDelegateContainer
     let delegate: any NSWindowDelegate
 
     init(
-      container :  any NSWindowDelegateContainer,
+      container: any NSWindowDelegateContainer,
       delegate: @autoclosure () -> any NSWindowDelegate
     ) {
       self.container = container
       if let windowDelegate = container.windowDelegate {
         self.delegate = windowDelegate
-      } else {
+      }
+      else {
         let newDelegate = delegate()
         print("Creating a New Window Delegate")
         self.delegate = newDelegate
@@ -62,7 +62,7 @@
 
   extension View {
     public func nsWindowDelegateAdaptor(
-      _ container :  any NSWindowDelegateContainer,
+      _ container: any NSWindowDelegateContainer,
       _ delegate: @autoclosure () -> any NSWindowDelegate
     ) -> some View {
       self.modifier(NSWindowDelegateAdaptorModifier(container: container, delegate: delegate()))
