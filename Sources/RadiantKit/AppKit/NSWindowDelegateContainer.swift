@@ -1,5 +1,5 @@
 //
-//  View+NSWindowDelegate.swift
+//  NSWindowDelegateContainer.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -28,44 +28,8 @@
 //
 
 #if canImport(AppKit) && canImport(SwiftUI)
-  import AppKit
-  public import SwiftUI
-
-  fileprivate struct NSWindowDelegateAdaptorModifier: ViewModifier {
-    let container: any NSWindowDelegateContainer
-    let delegate: any NSWindowDelegate
-
-    init(
-      container: any NSWindowDelegateContainer,
-      delegate: @autoclosure () -> any NSWindowDelegate
-    ) {
-      self.container = container
-      if let windowDelegate = container.windowDelegate {
-        self.delegate = windowDelegate
-      }
-      else {
-        let newDelegate = delegate()
-        print("Creating a New Window Delegate")
-        self.delegate = newDelegate
-        self.container.windowDelegate = newDelegate
-      }
-    }
-
-    func body(content: Content) -> some View {
-      content.nsWindowAdaptor { window in
-        assert(!self.delegate.isEqual(window?.delegate))
-        assert(window != nil)
-        window?.delegate = delegate
-      }
-    }
-  }
-
-  extension View {
-    public func nsWindowDelegateAdaptor(
-      _ container: any NSWindowDelegateContainer,
-      _ delegate: @autoclosure () -> any NSWindowDelegate
-    ) -> some View {
-      self.modifier(NSWindowDelegateAdaptorModifier(container: container, delegate: delegate()))
-    }
+  public import AppKit
+  @MainActor public protocol NSWindowDelegateContainer: AnyObject {
+    var windowDelegate: (any NSWindowDelegate)? { get set }
   }
 #endif
