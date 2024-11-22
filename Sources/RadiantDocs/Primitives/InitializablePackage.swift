@@ -36,16 +36,20 @@ public import Foundation
 public protocol InitializablePackage: CodablePackage { init() }
 
 extension InitializablePackage {
-  #warning("logging-note: let's log what is going on here")
-  #warning("Might want to add parameters for creating data and creating directory.")
-  @discardableResult public static func createAt(_ fileURL: URL, using encoder: JSONEncoder) throws
-    -> Self
-  {
+  public typealias Options = InitializablePackageOptions
+  @discardableResult public static func createAt(
+    _ fileURL: URL,
+    using encoder: JSONEncoder,
+    options: Options = .none
+  ) throws -> Self {
     let library = self.init()
-    try FileManager.default.createDirectory(at: fileURL, withIntermediateDirectories: false)
+    try FileManager.default.createDirectory(
+      at: fileURL,
+      withIntermediateDirectories: options.withIntermediateDirectoriesIsEnabled
+    )
     let metadataJSONPath = fileURL.appendingPathComponent(self.configurationFileWrapperKey)
     let data = try encoder.encode(library)
-    try data.write(to: metadataJSONPath)
+    try data.write(to: metadataJSONPath, options: .init(options: options))
     return library
   }
 }
