@@ -1,5 +1,5 @@
 //
-//  InitializablePackage.swift
+//  URLImage.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,29 +27,30 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-public import Foundation
+#if canImport(SwiftUI)
+  public import SwiftUI
 
-#if canImport(FoundationNetworking)
-  public import FoundationNetworking
-#endif
+  public struct URLImage: View {
+    private let path: String
 
-public protocol InitializablePackage: CodablePackage { init() }
+    public var body: some View {
+      Group {
+        #if os(iOS) || os(watchOS) || os(tvOS)
+          if let image = UIImage(contentsOfFile: path) {
+            Image(uiImage: image).resizable().scaledToFit()
+          }
+        #elseif os(macOS)
+          if let image = NSImage(contentsOfFile: path) {
+            Image(nsImage: image).resizable().scaledToFit()
+          }
+        #endif
+      }
+    }
 
-extension InitializablePackage {
-  public typealias Options = InitializablePackageOptions
-  @discardableResult public static func createAt(
-    _ fileURL: URL,
-    using encoder: JSONEncoder,
-    options: Options = .none
-  ) throws -> Self {
-    let library = self.init()
-    try FileManager.default.createDirectory(
-      at: fileURL,
-      withIntermediateDirectories: options.withIntermediateDirectoriesIsEnabled
-    )
-    let metadataJSONPath = fileURL.appendingPathComponent(self.configurationFileWrapperKey)
-    let data = try encoder.encode(library)
-    try data.write(to: metadataJSONPath, options: .init(options: options))
-    return library
+    public init(contentsOf url: URL) {
+      assert(url.isFileURL)
+      self.init(contentsOfFile: url.path())
+    }
+    public init(contentsOfFile path: String) { self.path = path }
   }
-}
+#endif
