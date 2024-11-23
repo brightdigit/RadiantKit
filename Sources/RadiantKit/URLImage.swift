@@ -49,7 +49,7 @@
 
     public init(contentsOf url: URL) {
       assert(url.isFileURL)
-      self.init(contentsOfFile: url.path())
+      self.init(contentsOfFile: url.path)
     }
     public init(contentsOfFile path: String) { self.path = path }
   }
