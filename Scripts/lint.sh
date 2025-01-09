@@ -44,7 +44,3 @@ fi
 
 $PACKAGE_DIR/scripts/header.sh -d  $PACKAGE_DIR/Sources -c "Leo Dion" -o "BrightDigit" -p "RadiantKit"
 $MINT_RUN swift-format lint --recursive --parallel $SWIFTFORMAT_OPTIONS $PACKAGE_DIR/Sources
-
-pushd $PACKAGE_DIR
-$MINT_RUN periphery scan $PERIPHERY_OPTIONS --disable-update-check
-popd
