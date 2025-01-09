@@ -150,9 +150,9 @@ jobs:
         if: matrix.type
         run: >
           xcodebuild test
-          -scheme ${{ env.PACKAGE_NAME }}-Package
-          -sdk ${{ matrix.type == 'ios' && 'iphonesimulator' || 'watchsimulator' }}
-          -destination 'platform=${{ matrix.type == 'ios' && 'iOS Simulator' || 'watchOS Simulator' }},name=${{ matrix.deviceName }},OS=${{ matrix.osVersion }}'
+          -scheme ${{ env.PACKAGE_NAME }}-Package        
+          -sdk ${{ matrix.config.type == 'ios' && 'iphonesimulator' || matrix.config.type == 'watchos' && 'watchsimulator' || 'xrsimulator' }}
+          -destination 'platform=${{ matrix.config.type == 'ios' && 'iOS Simulator' || matrix.config.type == 'watchos' && 'watchOS Simulator' || 'visionOS Simulator' }},name=${{ matrix.config.deviceName }},OS=${{ matrix.config.osVersion }}'
           -enableCodeCoverage YES
           build test
   
