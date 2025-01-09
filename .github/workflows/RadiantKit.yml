@@ -144,7 +144,7 @@ jobs:
         if: matrix.type
         run: >
           xcodebuild test
-          -scheme ${{ env.PACKAGE_NAME }}
+          -scheme ${{ env.PACKAGE_NAME }}-Package
           -sdk ${{ matrix.type == 'ios' && 'iphonesimulator' || 'watchsimulator' }}
           -destination 'platform=${{ matrix.type == 'ios' && 'iOS Simulator' || 'watchOS Simulator' }},name=${{ matrix.deviceName }},OS=${{ matrix.osVersion }}'
           -enableCodeCoverage YES
