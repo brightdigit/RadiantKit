@@ -50,7 +50,6 @@ let package = Package(
     )
   ],
   dependencies: [
-    .package(url: "https://github.com/swiftlang/swift-testing.git", from: "0.12.0"),
     .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
   ],
   targets: [
@@ -78,8 +77,7 @@ let package = Package(
     .testTarget(
       name: "RadiantKitTests",
       dependencies: [
-        "RadiantKit",
-          .product(name: "Testing", package: "swift-testing")
+        "RadiantKit"
       ]
     )
   ]
