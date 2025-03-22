@@ -94,6 +94,15 @@ jobs:
           deviceName: ${{ matrix.deviceName }}
           osVersion: ${{ matrix.osVersion }}
           
+      - name: Build Test Target (Debug)
+        if: matrix.type == 'tvos' # Only for tvOS for now
+        run: >
+          xcodebuild build
+          -scheme ${{ env.PACKAGE_NAME }}-Package
+          -target RadiantKitTests # Explicitly build the test target
+          -sdk tvsimulator # Or appletvsimulator
+          -destination 'platform=tvOS Simulator,name=${{ matrix.deviceName }},OS=${{ matrix.osVersion }}'
+
       # Common iOS/watchOS Test Steps
       - name: Run Device Tests
         if: matrix.type
