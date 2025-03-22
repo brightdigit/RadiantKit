@@ -27,7 +27,7 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(SwiftUI)
+#if canImport(SwiftUI) && !os(tvOS)
   public import SwiftUI
 
   @MainActor public struct SliderStepperView<Content: View, Label: View, TitleType>: View {
