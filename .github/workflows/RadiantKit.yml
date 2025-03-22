@@ -68,6 +68,14 @@ jobs:
             deviceName: "Apple Watch Ultra 2 (49mm)"
             osVersion: "11.2"
 
+          # tvOS Build Matrix
+          - type: tvos
+            runs-on: macos-15
+            xcode: "/Applications/Xcode_16.2.app"
+            deviceName: "Apple TV"
+            osVersion: "18.2"
+
+          # visionOS Build Matrix
           - type: visionos
             runs-on: macos-15
             xcode: "/Applications/Xcode_16.2.app"
