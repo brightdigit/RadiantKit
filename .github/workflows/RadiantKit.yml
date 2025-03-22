@@ -101,7 +101,7 @@ jobs:
           xcodebuild test
           -scheme ${{ env.PACKAGE_NAME }}-Package        
           -sdk ${{ matrix.type == 'ios' && 'iphonesimulator' || matrix.type == 'watchos' && 'watchsimulator' || 'xrsimulator' }}
-          -destination 'platform=${{ matrix.type == 'ios' && 'iOS Simulator' || matrix.type == 'watchos' && 'watchOS Simulator' || 'visionOS Simulator' }},name=${{ matrix.deviceName }},OS=${{ matrix.osVersion }}'
+          -destination 'platform=${{ matrix.type == 'ios' && 'iOS Simulator' || matrix.type == 'watchos' && 'watchOS Simulator' || matrix.type == 'tvos' && 'tvOS Simulator' || 'visionOS Simulator' }},name=${{ matrix.deviceName }},OS=${{ matrix.osVersion }}'
           -enableCodeCoverage YES
           build test    
   
