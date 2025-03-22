@@ -72,7 +72,7 @@ jobs:
           - type: tvos
             runs-on: macos-15
             xcode: "/Applications/Xcode_16.2.app"
-            deviceName: "Apple TV"
+            deviceName: "Apple TV 4K (3rd generation)"
             osVersion: "18.2"
 
           # visionOS Build Matrix
