@@ -93,7 +93,6 @@ jobs:
           xcode: ${{ matrix.xcode }}
           deviceName: ${{ matrix.deviceName }}
           osVersion: ${{ matrix.osVersion }}
-          working-directory: ./Packages/RadiantKit
 
       # Common Coverage Steps
       - name: Process Coverage
