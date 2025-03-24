@@ -36,8 +36,6 @@
     "logging-note: can we have some operators for logging the recieved stuff in these subscriptions"
   )
   internal struct SetupPublishers {
-    public init() {}
-
     @MainActor private func setupDownloadPublsihers(_ downloader: ObservableDownloader)
       -> [AnyCancellable]
     {

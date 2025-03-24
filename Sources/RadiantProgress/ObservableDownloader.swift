@@ -38,7 +38,7 @@
     func didComplete(withError error: Error?)
   }
 
-  private actor ObserverContainer: Sendable {
+  private actor ObserverContainer {
     private nonisolated(unsafe) var observer: DownloadObserver?
 
     nonisolated func setObserver(_ observer: DownloadObserver) {

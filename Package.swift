@@ -14,10 +14,10 @@ let swiftSettings: [SwiftSetting] = [
   SwiftSetting.enableExperimentalFeature("RegionBasedIsolation"),
   SwiftSetting.enableExperimentalFeature("TransferringArgsAndResults"),
   SwiftSetting.enableExperimentalFeature("VariadicGenerics"),
-  
+
   SwiftSetting.enableUpcomingFeature("FullTypedThrows"),
   SwiftSetting.enableUpcomingFeature("InternalImportsByDefault"),
-  
+
   // SwiftSetting.unsafeFlags([
   //   "-Xfrontend",
   //   "-warn-long-function-bodies=100"

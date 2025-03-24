@@ -49,7 +49,7 @@
       }
       return isValid
     }
-    private var blurRadius: CGFloat { return isValidBounds ? 0 : 1 }
+    private var blurRadius: CGFloat { isValidBounds ? 0 : 1 }
 
     public var body: some View {
       LabeledContent {

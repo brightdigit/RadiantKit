@@ -3,35 +3,37 @@ on:
   push:
     branches-ignore:
       - '*WIP'
-
+    
+env:
+  PACKAGE_NAME: RadiantKit      
+  
 jobs:
   build-ubuntu:
     name: Build on Ubuntu
-    env:
-      SWIFT_VER: 6.0
-    if: "!contains(github.event.head_commit.message, 'ci skip')"
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    strategy:
+      matrix:
+        image-name: ["swift:6.0-noble", "swiftlang/swift:nightly-6.1-jammy"]
     container:
-      image: swift:6.0
+      image: ${{ matrix.image-name }}
     steps:
       - uses: actions/checkout@v4
-      - uses: brightdigit/swift-build@v1
+      - uses: brightdigit/swift-build@v1.1.0
       - uses: sersoft-gmbh/swift-coverage-action@v4
         id: coverage-files
-        with:          
+        with:
           fail-on-empty-output: true
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4       
         with:
           fail_ci_if_error: true
-          flags: swift-${{ matrix.swift-version }},ubuntu
+          flags: swift-${{ matrix.image-name }},ubuntu
           verbose: true        
           token: ${{ secrets.CODECOV_TOKEN }}  
-          files: ${{ join(fromJSON(steps.coverage-files.outputs.files), ',') }}  
+          files: ${{ join(fromJSON(steps.coverage-files.outputs.files), ',') }}         
   build-macos:
     name: Build on macOS
-    env:
-      PACKAGE_NAME: RadiantKit
     runs-on: ${{ matrix.runs-on }}
     if: "!contains(github.event.head_commit.message, 'ci skip')"
     strategy:
@@ -68,20 +70,19 @@ jobs:
             deviceName: "Apple Watch Ultra 2 (49mm)"
             osVersion: "11.2"
 
-          # tvOS Build Matrix
-          - type: tvos
-            runs-on: macos-15
-            xcode: "/Applications/Xcode_16.2.app"
-            deviceName: "Apple TV 4K (3rd generation)"
-            osVersion: "18.2"
-
           # visionOS Build Matrix
           - type: visionos
             runs-on: macos-15
             xcode: "/Applications/Xcode_16.2.app"
             deviceName: "Apple Vision Pro"
             osVersion: "2.1"
-  
+    
+          # tvOS Build Matrix
+          - type: tvos
+            runs-on: macos-15
+            xcode: "/Applications/Xcode_16.2.app"
+            deviceName: "Apple TV 4K (3rd generation)"
+            osVersion: "18.2"
     steps:
       - uses: actions/checkout@v4
       
@@ -109,3 +110,33 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: ${{ matrix.type && format('{0}{1}', matrix.type, matrix.osVersion) || 'spm' }}
+  lint:
+    name: Linting
+    if: ${{ !contains(github.event.head_commit.message, 'ci skip') }}  
+    runs-on: ubuntu-latest
+    needs: [build-ubuntu, build-macos]
+    env:
+      MINT_PATH: .mint/lib
+      MINT_LINK_PATH: .mint/bin
+    steps:
+      - uses: actions/checkout@v4    
+      - name: Cache mint
+        id: cache-mint
+        uses: actions/cache@v4  
+        env:
+          cache-name: cache
+        with:
+          path: |
+            .mint
+            Mint         
+          key: ${{ runner.os }}-mint-${{ hashFiles('**/Mintfile') }}
+          restore-keys: |
+            ${{ runner.os }}-mint-  
+      - name: Install mint
+        if: steps.cache-mint.outputs.cache-hit != 'true'
+        run: |
+          git clone https://github.com/yonaskolb/Mint.git
+          cd Mint
+          swift run mint install yonaskolb/mint
+      - name: Lint
+        run: ./Scripts/lint.sh          

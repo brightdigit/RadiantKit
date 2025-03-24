@@ -51,7 +51,7 @@ public struct FileType: Hashable, ExpressibleByStringLiteral, Sendable {
   }
 }
 //
-//extension FileType {
+// extension FileType {
 //  public static let ipswFileExtension = "ipsw"
 //  public static let iTunesIPSW: FileType = "com.apple.itunes.ipsw"
 //  public static let iPhoneIPSW: FileType = "com.apple.iphone.ipsw"
@@ -70,4 +70,4 @@ public struct FileType: Hashable, ExpressibleByStringLiteral, Sendable {
 //  )
 //
 //  public static let ipswTypes = [iTunesIPSW, iPhoneIPSW]
-//}
+// }

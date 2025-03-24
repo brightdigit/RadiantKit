@@ -28,10 +28,10 @@
 //
 
 #if canImport(SwiftUI)
-  public import SwiftUI
   public import RadiantKit
+  public import SwiftUI
 
-  @MainActor public struct PageView: View, Sendable {
+  @MainActor public struct PageView: View, {
     @Environment(\.dismiss) private var dismiss
     @State private var currentPageID: IdentifiableView.ID?
 
@@ -60,8 +60,7 @@
               .environment(\.cancelPage, CancelPageAction { cancelPage() })
           )
           .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
-        else if currentPageID == nil, !pages.isEmpty {
+        } else if currentPageID == nil, !pages.isEmpty {
           Color.clear.onAppear { currentPageID = pages.first?.id }
         }
       }

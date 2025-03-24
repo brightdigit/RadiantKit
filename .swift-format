@@ -26,7 +26,7 @@
     "AlwaysUseLiteralForEmptyCollectionInit" : false,
     "AlwaysUseLowerCamelCase" : true,
     "AmbiguousTrailingClosureOverload" : true,
-    "BeginDocumentationCommentWithOneLineSummary" : false,
+    "BeginDocumentationCommentWithOneLineSummary" : true,
     "DoNotUseSemicolons" : true,
     "DontRepeatTypeInStaticProperties" : true,
     "FileScopedDeclarationPrivacy" : true,
