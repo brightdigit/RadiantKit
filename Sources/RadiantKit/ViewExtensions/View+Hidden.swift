@@ -36,8 +36,7 @@
       Group {
         if value {
           self.hidden()
-        }
-        else {
+        } else {
           self
         }
       }

@@ -90,7 +90,8 @@
       value: $value,
       bounds: 1...1,
       step: 1.0
-    ) { _ in Text("\(value, format: .number)") }
+    ) { _ in Text("\(value, format: .number)")
+    }
   }
   #Preview {
     @Previewable @State var value: Float = 1.0
@@ -100,6 +101,7 @@
       value: $value,
       bounds: 1...20,
       step: 1.0
-    ) { _ in Text("\(value, format: .number)") }
+    ) { _ in Text("\(value, format: .number)")
+    }
   }
 #endif

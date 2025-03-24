@@ -48,8 +48,7 @@
       openPanel.begin { response in
         guard let fileURL = openPanel.url, response == .OK else { return }
         let value: FileType.WindowValueType
-        do { value = try FileType.createAt(fileURL) }
-        catch {
+        do { value = try FileType.createAt(fileURL) } catch {
           openPanel.presentError(error)
           return
         }

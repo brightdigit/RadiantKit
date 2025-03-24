@@ -31,7 +31,7 @@
   import Foundation
   public import SwiftUI
 
-  fileprivate struct PageNavigationAvailabilityKey: EnvironmentKey, Sendable {
+  private struct PageNavigationAvailabilityKey: EnvironmentKey, Sendable {
     static let defaultValue: PageNavigationAvailability = .default
   }
 

@@ -62,8 +62,7 @@
       AppStoredType.Value == R?,
       R: RawRepresentable,
       Value == AppStoredType.Value,
-      R.RawValue == String
-    { self.init(type.key, store: store) }
+      R.RawValue == String { self.init(type.key, store: store) }
 
     public init<AppStoredType: AppStored, R>(
       for type: AppStoredType.Type,
@@ -73,7 +72,6 @@
       AppStoredType.Value == R?,
       R: RawRepresentable,
       Value == AppStoredType.Value,
-      R.RawValue == Int
-    { self.init(type.key, store: store) }
+      R.RawValue == Int { self.init(type.key, store: store) }
   }
 #endif

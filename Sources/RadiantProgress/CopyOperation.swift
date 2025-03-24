@@ -81,8 +81,7 @@
           self.killTimer()
           return
         }
-      }
-      else {
+      } else {
         self.logger?.warning("Total size is missing")
       }
     }
@@ -98,8 +97,7 @@
         assert(weakSelf.logger != nil)
         Task {
           let currentValue: ValueType?
-          do { currentValue = try weakSelf.getSize(weakSelf.destinationURL) }
-          catch {
+          do { currentValue = try weakSelf.getSize(weakSelf.destinationURL) } catch {
             weakSelf.logger?.error("Unable to get size: \(error)")
             assertionFailure("Unable to get size: \(error)")
             currentValue = nil
@@ -107,8 +105,7 @@
           if let currentValue {
             weakSelf.updateValue(currentValue)
             weakSelf.logger?.debug("Updating size to: \(currentValue)")
-          }
-          else {
+          } else {
             weakSelf.logger?.warning("Unable to get size")
           }
         }
@@ -118,8 +115,7 @@
     public func execute() async throws {
       self.logger?.debug("Starting Copy operating")
       await starTimer()
-      do { try await self.copyFile(.init(fromURL: sourceURL, toURL: destinationURL)) }
-      catch {
+      do { try await self.copyFile(.init(fromURL: sourceURL, toURL: destinationURL)) } catch {
         self.logger?.error("Error Copying: \(error)")
         self.killTimer()
         throw error

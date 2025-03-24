@@ -37,13 +37,11 @@
     }
 
     public static func buildPartialBlock(accumulated: [IdentifiableView], next: any View)
-      -> [IdentifiableView]
-    { accumulated + [IdentifiableView(next, id: accumulated.count)] }
+      -> [IdentifiableView] { accumulated + [IdentifiableView(next, id: accumulated.count)] }
 
     public static func buildPartialBlock(first: IdentifiableView) -> [IdentifiableView] { [first] }
 
     public static func buildPartialBlock(accumulated: [IdentifiableView], next: IdentifiableView)
-      -> [IdentifiableView]
-    { accumulated + [next] }
+      -> [IdentifiableView] { accumulated + [next] }
   }
 #endif

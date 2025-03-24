@@ -31,7 +31,7 @@
   import Foundation
   public import SwiftUI
 
-  fileprivate struct PreviousPageKey: EnvironmentKey, Sendable {
+  private struct PreviousPageKey: EnvironmentKey, Sendable {
     static let defaultValue: PreviousPageAction = .default
   }
 

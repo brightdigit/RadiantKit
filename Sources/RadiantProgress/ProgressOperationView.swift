@@ -47,8 +47,7 @@
             HStack {
               if let totalValue = progress.totalValue {
                 ProgressView(value: progress.currentValue, total: totalValue)
-              }
-              else {
+              } else {
                 ProgressView(value: progress.currentValue)
               }
             }

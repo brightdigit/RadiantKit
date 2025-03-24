@@ -35,7 +35,7 @@ import Foundation
   #if canImport(AppKit)
     import AppKit
 
-    fileprivate struct NSWindowAdaptorHostingView: NSViewRepresentable {
+    private struct NSWindowAdaptorHostingView: NSViewRepresentable {
       private var callback: (NSWindow?) -> Void
 
       fileprivate init(callback: @escaping (NSWindow?) -> Void) { self.callback = callback }
@@ -52,7 +52,7 @@ import Foundation
       fileprivate func updateNSView(_: NSView, context _: Context) {}
     }
 
-    fileprivate struct NSWindowAdaptorModifier: ViewModifier {
+    private struct NSWindowAdaptorModifier: ViewModifier {
       private var callback: (NSWindow?) -> Void
 
       fileprivate init(callback: @escaping (NSWindow?) -> Void) { self.callback = callback }

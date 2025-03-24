@@ -31,7 +31,7 @@
   import AppKit
   public import SwiftUI
 
-  fileprivate struct NSWindowDelegateAdaptorModifier: ViewModifier {
+  private struct NSWindowDelegateAdaptorModifier: ViewModifier {
     let container: any NSWindowDelegateContainer
     let delegate: any NSWindowDelegate
 
@@ -42,8 +42,7 @@
       self.container = container
       if let windowDelegate = container.windowDelegate {
         self.delegate = windowDelegate
-      }
-      else {
+      } else {
         let newDelegate = delegate()
         print("Creating a New Window Delegate")
         self.delegate = newDelegate

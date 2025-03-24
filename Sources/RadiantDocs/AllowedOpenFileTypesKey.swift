@@ -34,7 +34,7 @@
 
   import UniformTypeIdentifiers
 
-  fileprivate struct AllowedOpenFileTypesKey: EnvironmentKey {
+  private struct AllowedOpenFileTypesKey: EnvironmentKey {
     typealias Value = [FileType]
     static let defaultValue = [FileType]()
   }

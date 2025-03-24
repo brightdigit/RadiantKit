@@ -31,7 +31,7 @@
   public import RadiantKit
   public import SwiftUI
 
-  @MainActor public struct PageView: View, {
+  @MainActor public struct PageView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var currentPageID: IdentifiableView.ID?
 

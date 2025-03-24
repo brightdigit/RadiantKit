@@ -31,7 +31,7 @@
   import Foundation
   public import SwiftUI
 
-  fileprivate struct CancelPageKey: EnvironmentKey, Sendable {
+  private struct CancelPageKey: EnvironmentKey, Sendable {
     static let defaultValue: CancelPageAction = .default
   }
 

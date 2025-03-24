@@ -38,7 +38,7 @@
   @MainActor @Observable
   public final class DownloadOperation<ValueType: BinaryInteger & Sendable>:
 
-    Identifiable, ProgressOperation, {
+    Identifiable, ProgressOperation {
     private let download: Downloader
     private let sourceURL: URL
     private let destinationURL: URL

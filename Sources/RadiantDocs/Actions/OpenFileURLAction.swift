@@ -33,7 +33,7 @@
 
     public import SwiftUI
 
-    fileprivate struct OpenFileURLKey: EnvironmentKey, Sendable {
+    private struct OpenFileURLKey: EnvironmentKey, Sendable {
       typealias Value = OpenFileURLAction
 
       static let defaultValue: OpenFileURLAction = .default

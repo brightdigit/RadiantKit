@@ -34,8 +34,7 @@
     public init(fileType: FileType) {
       if fileType.isOwned {
         self.init(exportedAs: fileType.utIdentifier)
-      }
-      else {
+      } else {
         // swift-format-ignore: NeverForceUnwrap
         self.init(fileType.utIdentifier)!
       }

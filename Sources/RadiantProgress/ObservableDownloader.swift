@@ -32,7 +32,7 @@
 
   public import Foundation
 
-  fileprivate protocol DownloadObserver {
+  private protocol DownloadObserver {
     func finishedDownloadingTo(_ location: URL)
     func progressUpdated(_ progress: DownloadUpdate)
     func didComplete(withError error: Error?)
@@ -58,7 +58,7 @@
     }
   }
 
-  fileprivate final class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
+  private final class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
     let container = ObserverContainer()
 
     func setObserver(_ observer: DownloadObserver) { self.container.setObserver(observer) }
@@ -70,8 +70,7 @@
     ) {
       let newLocation = FileManager.default.temporaryDirectory
         .appendingPathComponent(UUID().uuidString).appendingPathExtension(location.pathExtension)
-      do { try FileManager.default.copyItem(at: location, to: newLocation) }
-      catch {
+      do { try FileManager.default.copyItem(at: location, to: newLocation) } catch {
         container.on { observer in observer.didComplete(withError: error) }
         return
       }
@@ -95,8 +94,7 @@
       }
     }
 
-    func urlSession(_: URLSession, task _: URLSessionTask, didCompleteWithError error: (any Error)?)
-    { container.on { observer in observer.didComplete(withError: error) } }
+    func urlSession(_: URLSession, task _: URLSessionTask, didCompleteWithError error: (any Error)?) { container.on { observer in observer.didComplete(withError: error) } }
   }
 
   @Observable @MainActor public final class ObservableDownloader: DownloadObserver, Downloader {

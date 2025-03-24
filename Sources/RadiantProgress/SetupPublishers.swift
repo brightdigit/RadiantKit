@@ -37,8 +37,7 @@
   )
   internal struct SetupPublishers {
     @MainActor private func setupDownloadPublsihers(_ downloader: ObservableDownloader)
-      -> [AnyCancellable]
-    {
+      -> [AnyCancellable] {
       var cancellables = [AnyCancellable]()
 
       downloader.requestSubject.share()
@@ -61,8 +60,7 @@
     }
 
     @MainActor private func setupByteUpdatPublishers(_ downloader: ObservableDownloader)
-      -> [AnyCancellable]
-    {
+      -> [AnyCancellable] {
       var cancellables = [AnyCancellable]()
       let downloadUpdate = downloader.downloadUpdate.share()
       downloadUpdate.map(\.totalBytesWritten).assign(to: \.totalBytesWritten, on: downloader)

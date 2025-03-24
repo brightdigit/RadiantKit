@@ -30,7 +30,7 @@
 #if canImport(SwiftUI)
   public import SwiftUI
 
-  @MainActor public struct IdentifiableView: Identifiable, View, {
+  @MainActor public struct IdentifiableView: Identifiable, View {
     private let content: any View
     public let id: Int
 
