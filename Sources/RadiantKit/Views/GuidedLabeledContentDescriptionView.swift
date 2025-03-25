@@ -28,25 +28,29 @@
 //
 
 #if canImport(SwiftUI)
+
   public import SwiftUI
 
+  /// A SwiftUI view that displays a labeled content description with optional alignment.
   public struct GuidedLabeledContentDescriptionView: View {
+    /// Represents the alignment of the content within the view.
     public enum Alignment {
+      /// Aligns the content to the leading edge.
       case leading
+      /// Aligns the content to the trailing edge.
       case trailing
     }
 
     @Environment(\.layoutDirection)
     private var layoutDirection
+
     private let text: () -> Text
     private let alignment: Alignment?
 
     private var multilineTextAlignment: TextAlignment {
       switch alignment {
         case .leading: .leading
-
         case .trailing: .trailing
-
         case nil: .center
       }
     }
@@ -54,9 +58,7 @@
     private var leftSpacer: Bool {
       switch (alignment, layoutDirection) {
         case (.trailing, .leftToRight): true
-
         case (.leading, .rightToLeft): true
-
         default: false
       }
     }
@@ -64,9 +66,7 @@
     private var rightSpacer: Bool {
       switch (alignment, layoutDirection) {
         case (.leading, .leftToRight): true
-
         case (.trailing, .rightToLeft): true
-
         default: false
       }
     }
@@ -75,14 +75,17 @@
       HStack {
         if leftSpacer { Spacer() }
         text().font(.callout).multilineTextAlignment(self.multilineTextAlignment)
-
         if rightSpacer { Spacer() }
       }
     }
 
+    /// Initializes a `GuidedLabeledContentDescriptionView` with the specified alignment and text.
+    /// - Parameter alignment: The alignment of the content within the view. Defaults to `nil`, which centers the content.
+    /// - Parameter text: A closure that returns the text to be displayed in the view.
     internal init(alignment: Alignment? = nil, text: @escaping () -> Text) {
       self.text = text
       self.alignment = alignment
     }
   }
+
 #endif

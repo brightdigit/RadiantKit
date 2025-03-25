@@ -28,26 +28,33 @@
 //
 
 #if canImport(SwiftUI) && !os(tvOS)
-  public import SwiftUI
 
+  public import SwiftUI
+  /// A view that combines a slider and a stepper to allow the user to adjust a floating-point value within a specified range.
+  ///
+  /// - Parameters:
+  ///   - title: The title of the view.
+  ///   - label: A closure that returns a view representing the label for the view.
+  ///   - value: A binding to the value being adjusted.
+  ///   - bounds: The closed range of values the slider and stepper can take.
+  ///   - step: The step size for the slider and stepper.
+  ///   - content: A closure that returns a view representing the content of the view.
   @MainActor
-  public struct SliderStepperView<
-    Content: View,
-    Label: View,
-    TitleType
-  >: View {
+  public struct SliderStepperView<Content: View, Label: View, TitleType>: View {
     private let title: TitleType
     private let label: @Sendable (TitleType) -> Label
     private let bounds: ClosedRange<Float>
     private let step: Float
     private let content: @Sendable @MainActor (TitleType) -> Content
     @Binding private var value: Float
+
     private var safeBounds: ClosedRange<Float> {
       guard isValidBounds else {
         return 0...2
       }
       return bounds
     }
+
     private var isValidBounds: Bool {
       let isValid = bounds.upperBound - bounds.lowerBound > 0
       if !isValid {
@@ -56,6 +63,7 @@
       }
       return isValid
     }
+
     private var blurRadius: CGFloat { isValidBounds ? 0 : 1 }
 
     public var body: some View {
@@ -82,6 +90,15 @@
       }
     }
 
+    /// Initializes a `SliderStepperView`.
+    ///
+    /// - Parameters:
+    ///   - title: The title of the view.
+    ///   - label: A closure that returns a view representing the label for the view.
+    ///   - value: A binding to the value being adjusted.
+    ///   - bounds: The closed range of values the slider and stepper can take.
+    ///   - step: The step size for the slider and stepper.
+    ///   - content: A closure that returns a view representing the content of the view.
     public init(
       title: TitleType,
       label: @escaping @Sendable (TitleType) -> Label,
@@ -98,31 +115,5 @@
       self.content = content
     }
   }
-  #Preview {
-    @Previewable @State var value: Float = 1.0
 
-    SliderStepperView(
-      title: "Hello World",
-      label: { text in Text(text) },
-      value: $value,
-      bounds: 1...1,
-      step: 1.0,
-      content: { _ in
-        Text("\(value, format: .number)")
-      }
-    )
-  }
-  #Preview {
-    @Previewable @State var value: Float = 1.0
-    SliderStepperView(
-      title: "Hello World",
-      label: { text in Text(text) },
-      value: $value,
-      bounds: 1...20,
-      step: 1.0,
-      content: { _ in
-        Text("\(value, format: .number)")
-      }
-    )
-  }
 #endif

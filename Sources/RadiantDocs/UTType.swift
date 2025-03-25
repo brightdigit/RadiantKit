@@ -31,6 +31,9 @@
   public import UniformTypeIdentifiers
 
   extension UTType {
+    /// Initializes a `UTType` instance from a `FileType`.
+    ///
+    /// - Parameter fileType: The `FileType` to use for initialization.
     public init(fileType: FileType) {
       if fileType.isOwned {
         self.init(exportedAs: fileType.utIdentifier)
@@ -42,6 +45,11 @@
       }
     }
 
+    /// Returns an array of `UTType` instances
+    /// that are allowed content types for the given `FileType`.
+    ///
+    /// - Parameter fileType: The `FileType` to get allowed content types for.
+    /// - Returns: An array of `UTType` instances that are allowed content types for the given `FileType`.
     public static func allowedContentTypes(for fileType: FileType) -> [UTType] {
       var types = [UTType]()
 
@@ -57,12 +65,20 @@
       return types
     }
 
+    /// Returns an array of `UTType` instances
+    /// that are allowed content types for the given `FileType` instances.
+    ///
+    /// - Parameter fileTypes: The `FileType` instances to get allowed content types for.
+    /// - Returns: An array of `UTType` instances that are allowed content types for the given `FileType` instances.
     public static func allowedContentTypes(for fileTypes: FileType...) -> [UTType] {
       fileTypes.flatMap(allowedContentTypes(for:))
     }
   }
 
   extension FileType {
+    /// Initializes a `FileType` instance from a `URL`.
+    ///
+    /// - Parameter url: The `URL` to initialize the `FileType` from.
     @Sendable
     public init?(url: URL) {
       guard let utType = UTType(filenameExtension: url.pathExtension) else {

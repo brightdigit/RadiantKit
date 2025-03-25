@@ -29,15 +29,25 @@
 
 public import Foundation
 
+/// Represents a document file with a specific file type.
 public struct DocumentFile<FileType: FileTypeSpecification>: Codable, Hashable {
+  /// The URL of the document file.
   public let url: URL
 
+  /// Initializes a `DocumentFile` with the given URL.
+  /// - Parameter url: The URL of the document file.
   public init(url: URL) { self.url = url }
 
+  /// Hashes the `DocumentFile` instance into the given hasher.
+  /// - Parameter hasher: The hasher to combine the URL with.
   public func hash(into hasher: inout Hasher) { hasher.combine(url) }
 }
 
 extension DocumentFile {
+  /// Creates a `DocumentFile` instance from the given URL
+  ///  if the file type matches the specified `FileType`.
+  /// - Parameter url: The URL of the document file.
+  /// - Returns: A `DocumentFile` instance if the file type matches, or `nil` if it does not.
   public static func documentFile(from url: URL) -> Self? {
     guard url.pathExtension == FileType.fileType.fileExtension else {
       return nil

@@ -36,14 +36,28 @@
 
   import UniformTypeIdentifiers
 
+  /// A struct that provides a convenient way
+  /// to open a file panel and handle the selected file.
   public struct OpenAnyFilePanel {
+    /// The file types that the file panel should allow.
     private let fileTypes: [FileType]
 
+    /// Initializes a new instance of `OpenAnyFilePanel` with the specified file types.
+    ///
+    /// - Parameter fileTypes: An array of `FileType` objects
+    /// representing the file types to allow in the file panel.
     internal init(fileTypes: [FileType]) {
       assert(!fileTypes.isEmpty)
       self.fileTypes = fileTypes
     }
 
+    /// Displays a file panel and calls the provided `OpenFileURLAction`
+    /// with the selected file URL and the `OpenWindowAction`.
+    ///
+    /// - Parameters:
+    ///   - openFileURL: The `OpenFileURLAction` to call with the selected file URL
+    ///   and the `OpenWindowAction`.
+    ///   - openWindow: The `OpenWindowAction` to use when opening the file.
     @MainActor
     public func callAsFunction(
       with openFileURL: OpenFileURLAction,
@@ -62,6 +76,13 @@
   }
 
   extension OpenFileURLAction {
+    /// Displays a file panel with the specified file types and
+    /// calls the provided `OpenFileURLAction` with the selected file URL and the `OpenWindowAction`.
+    ///
+    /// - Parameters:
+    ///   - fileTypes: An array of `FileType` objects representing
+    ///   the file types to allow in the file panel.
+    ///   - openWindow: The `OpenWindowAction` to use when opening the file.
     @MainActor
     public func callAsFunction(
       ofFileTypes fileTypes: [FileType],
@@ -70,5 +91,4 @@
       OpenAnyFilePanel(fileTypes: fileTypes).callAsFunction(with: self, using: openWindow)
     }
   }
-
 #endif

@@ -34,6 +34,14 @@
   public import SwiftUI
 
   extension AppStorage {
+    /// Initializes an `AppStorage` instance with a wrapped value and an `AppStored` type.
+    ///
+    /// - Parameters:
+    ///   - wrappedValue: The initial value for the app-stored value.
+    ///   - type: The `AppStored` type to associate with the app-stored value.
+    ///   - store: The `UserDefaults` instance to use for storing the app-stored value. If `nil`, the standard `UserDefaults` will be used.
+    /// - Requires:
+    ///   - `AppStoredType.Value` must be `Bool` and `Value` must be `Bool`.
     public init<AppStoredType: AppStored>(
       wrappedValue: Value,
       for type: AppStoredType.Type,
@@ -42,6 +50,14 @@
       self.init(wrappedValue: wrappedValue, type.key, store: store)
     }
 
+    /// Initializes an `AppStorage` instance with a wrapped value and an `AppStored` type.
+    ///
+    /// - Parameters:
+    ///   - wrappedValue: The initial value for the app-stored value.
+    ///   - type: The `AppStored` type to associate with the app-stored value.
+    ///   - store: The `UserDefaults` instance to use for storing the app-stored value. If `nil`, the standard `UserDefaults` will be used.
+    /// - Requires:
+    ///   - `AppStoredType.Value` must be `Int` and `Value` must be `Int`.
     public init<AppStoredType: AppStored>(
       wrappedValue: Value,
       for type: AppStoredType.Type,
@@ -50,6 +66,14 @@
       self.init(wrappedValue: wrappedValue, type.key, store: store)
     }
 
+    /// Initializes an `AppStorage` instance with a wrapped value and an `AppStored` type.
+    ///
+    /// - Parameters:
+    ///   - wrappedValue: The initial value for the app-stored value.
+    ///   - type: The `AppStored` type to associate with the app-stored value.
+    ///   - store: The `UserDefaults` instance to use for storing the app-stored value. If `nil`, the standard `UserDefaults` will be used.
+    /// - Requires:
+    ///   - `AppStoredType.Value` must be `Double` and `Value` must be `Double`.
     public init<AppStoredType: AppStored>(
       wrappedValue: Value,
       for type: AppStoredType.Type,
@@ -58,6 +82,14 @@
       self.init(wrappedValue: wrappedValue, type.key, store: store)
     }
 
+    /// Initializes an `AppStorage` instance with a wrapped value and an `AppStored` type.
+    ///
+    /// - Parameters:
+    ///   - wrappedValue: The initial value for the app-stored value.
+    ///   - type: The `AppStored` type to associate with the app-stored value.
+    ///   - store: The `UserDefaults` instance to use for storing the app-stored value. If `nil`, the standard `UserDefaults` will be used.
+    /// - Requires:
+    ///   - `AppStoredType.Value` must be `String` and `Value` must be `String`.
     public init<AppStoredType: AppStored>(
       wrappedValue: Value,
       for type: AppStoredType.Type,
@@ -66,6 +98,14 @@
       self.init(wrappedValue: wrappedValue, type.key, store: store)
     }
 
+    /// Initializes an `AppStorage` instance with a wrapped value and an `AppStored` type.
+    ///
+    /// - Parameters:
+    ///   - wrappedValue: The initial value for the app-stored value.
+    ///   - type: The `AppStored` type to associate with the app-stored value.
+    ///   - store: The `UserDefaults` instance to use for storing the app-stored value. If `nil`, the standard `UserDefaults` will be used.
+    /// - Requires:
+    ///   - `AppStoredType.Value` must be `URL` and `Value` must be `URL`.
     public init<AppStoredType: AppStored>(
       wrappedValue: Value,
       for type: AppStoredType.Type,
@@ -74,6 +114,14 @@
       self.init(wrappedValue: wrappedValue, type.key, store: store)
     }
 
+    /// Initializes an `AppStorage` instance with a wrapped value and an `AppStored` type.
+    ///
+    /// - Parameters:
+    ///   - wrappedValue: The initial value for the app-stored value.
+    ///   - type: The `AppStored` type to associate with the app-stored value.
+    ///   - store: The `UserDefaults` instance to use for storing the app-stored value. If `nil`, the standard `UserDefaults` will be used.
+    /// - Requires:
+    ///   - `AppStoredType.Value` must be `Data` and `Value` must be `Data`.
     public init<AppStoredType: AppStored>(
       wrappedValue: Value,
       for type: AppStoredType.Type,
@@ -82,6 +130,14 @@
       self.init(wrappedValue: wrappedValue, type.key, store: store)
     }
 
+    /// Initializes an `AppStorage` instance with a wrapped value and an `AppStored` type.
+    ///
+    /// - Parameters:
+    ///   - wrappedValue: The initial value for the app-stored value.
+    ///   - type: The `AppStored` type to associate with the app-stored value.
+    ///   - store: The `UserDefaults` instance to use for storing the app-stored value. If `nil`, the standard `UserDefaults` will be used.
+    /// - Requires:
+    ///   - `AppStoredType.Value` must be `Value` and `Value` must be `RawRepresentable` with a `RawValue` of `Int`.
     public init<AppStoredType: AppStored>(
       wrappedValue: Value,
       for type: AppStoredType.Type,
@@ -90,15 +146,19 @@
       self.init(wrappedValue: wrappedValue, type.key, store: store)
     }
 
+    /// Initializes an `AppStorage` instance with a wrapped value and an `AppStored` type.
+    ///
+    /// - Parameters:
+    ///   - wrappedValue: The initial value for the app-stored value.
+    ///   - type: The `AppStored` type to associate with the app-stored value.
+    ///   - store: The `UserDefaults` instance to use for storing the app-stored value. If `nil`, the standard `UserDefaults` will be used.
+    /// - Requires:
+    ///   - `AppStoredType.Value` must be `Value` and `Value` must be `RawRepresentable` with a `RawValue` of `String`.
     public init<AppStoredType: AppStored>(
       wrappedValue: Value,
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
-    )
-    where
-      AppStoredType.Value == Value,
-      Value: RawRepresentable,
-      Value.RawValue == String {
+    ) where AppStoredType.Value == Value, Value: RawRepresentable, Value.RawValue == String {
       self.init(wrappedValue: wrappedValue, type.key, store: store)
     }
   }

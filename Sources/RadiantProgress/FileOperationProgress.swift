@@ -28,24 +28,31 @@
 //
 
 #if canImport(Observation)
+
   public import Foundation
   public import Observation
 
   @MainActor
   @Observable
   public final class FileOperationProgress<ValueType: BinaryInteger>: Identifiable {
+    /// The progress operation associated with this object.
     public let operation: any ProgressOperation<ValueType>
 
+    /// The unique identifier for this progress object.
     public let id: URL
 
+    /// The total value of the operation in bytes, if available.
     public var totalValueBytes: Int64? { operation.totalValue.map(Int64.init) }
 
+    /// The current value of the operation in bytes.
     public var currentValueBytes: Int64 { Int64(operation.currentValue) }
 
     internal var currentValue: Double { Double(operation.currentValue) }
 
     internal var totalValue: Double? { operation.totalValue.map(Double.init) }
 
+    /// Initializes a new `FileOperationProgress` object with the given progress operation.
+    /// - Parameter operation: The progress operation to associate with this object.
     public init(_ operation: any ProgressOperation<ValueType>) {
       self.operation = operation
       self.id = operation.id

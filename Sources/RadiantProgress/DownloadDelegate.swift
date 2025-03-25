@@ -33,13 +33,23 @@ import Foundation
   import FoundationNetworking
 #endif
 
+/// The `DownloadDelegate` class is responsible for handling the download progress and completion of a URL session download task.
 internal final class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
   private let container = ObserverContainer()
 
+  /// Sets the observer for the download delegate.
+  ///
+  /// - Parameter observer: The `DownloadObserver` instance to be set as the observer.
   internal func setObserver(_ observer: DownloadObserver) {
     self.container.setObserver(observer)
   }
 
+  /// Called when the download task has finished downloading the file.
+  ///
+  /// - Parameters:
+  ///   - _: The URL session that initiated the download task.
+  ///   - downloadTask: The download task that has finished downloading.
+  ///   - location: The temporary URL where the downloaded file is located.
   internal func urlSession(
     _: URLSession,
     downloadTask _: URLSessionDownloadTask,
@@ -58,6 +68,14 @@ internal final class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
     container.on { observer in observer.finishedDownloadingTo(newLocation) }
   }
 
+  /// Called periodically to report the progress of the download task.
+  ///
+  /// - Parameters:
+  ///   - _: The URL session that initiated the download task.
+  ///   - downloadTask: The download task that is reporting progress.
+  ///   - _: The amount of data that has been written to the file.
+  ///   - totalBytesWritten: The total number of bytes written to the file so far.
+  ///   - totalBytesExpectedToWrite: The total number of bytes expected to be written to the file.
   internal func urlSession(
     _: URLSession,
     downloadTask _: URLSessionDownloadTask,
@@ -75,6 +93,12 @@ internal final class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
     }
   }
 
+  /// Called when the download task has completed, either successfully or with an error.
+  ///
+  /// - Parameters:
+  ///   - _: The URL session that initiated the download task.
+  ///   - task: The download task that has completed.
+  ///   - error: The error, if any, that occurred during the download.
   internal func urlSession(
     _: URLSession,
     task _: URLSessionTask,

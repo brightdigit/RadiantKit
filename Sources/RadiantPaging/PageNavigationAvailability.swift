@@ -28,24 +28,42 @@
 //
 
 #if canImport(SwiftUI)
+
   import Foundation
   public import SwiftUI
 
+  /// A key that represents the availability of page navigation in the environment.
   private struct PageNavigationAvailabilityKey: EnvironmentKey, Sendable {
+    /// The default value for page navigation availability, which is `.default`.
     static let defaultValue: PageNavigationAvailability = .default
   }
 
+  /// An option set that represents the availability of page navigation.
   public struct PageNavigationAvailability: OptionSet, Sendable {
+    /// The raw value type for the option set.
     public typealias RawValue = Int
+
+    /// The default page navigation availability, which is `.none`.
     public static let `default`: PageNavigationAvailability = .none
 
+    /// Indicates that no page navigation is available.
     public static let none: PageNavigationAvailability = .init()
+
+    /// Indicates that navigation to the next page is available.
     public static let next: PageNavigationAvailability = .init(rawValue: 1)
+
+    /// Indicates that navigation to the previous page is available.
     public static let previous: PageNavigationAvailability = .init(rawValue: 2)
+
+    /// Indicates that navigation to both the previous and next pages is available.
     public static let both: PageNavigationAvailability = [previous, next]
 
+    /// The raw value of the option set.
     public let rawValue: Int
 
+    /// Initializes a `PageNavigationAvailability` instance with the given raw value.
+    ///
+    /// - Parameter rawValue: The raw value to initialize the option set with.
     public init(rawValue: RawValue) {
       assert(rawValue < 4)
       self.rawValue = rawValue
@@ -53,9 +71,11 @@
   }
 
   extension EnvironmentValues {
+    /// The availability of page navigation in the environment.
     public var pageNavigationAvailability: PageNavigationAvailability {
       get { self[PageNavigationAvailabilityKey.self] }
       set { self[PageNavigationAvailabilityKey.self] = newValue }
     }
   }
+
 #endif

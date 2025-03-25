@@ -33,10 +33,21 @@ public import Foundation
   public import FoundationNetworking
 #endif
 
+/// A protocol that defines the interface for a downloader.
 @MainActor
 public protocol Downloader {
+  /// The total number of bytes written.
   var totalBytesWritten: Int64 { get }
+
+  /// The total number of bytes expected to be written, or `nil` if unknown.
   var totalBytesExpectedToWrite: Int64? { get }
+
+  /// Begins a download from the specified source URL to the specified destination file URL.
+  ///
+  /// - Parameters:
+  ///   - downloadSourceURL: The URL to download from.
+  ///   - destinationFileURL: The URL to download to.
+  ///   - completion: A completion handler that is called with the result of the download operation.
   func begin(
     from downloadSourceURL: URL,
     to destinationFileURL: URL,

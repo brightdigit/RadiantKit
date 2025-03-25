@@ -28,6 +28,7 @@
 //
 
 #if canImport(SwiftUI)
+
   #if os(macOS) || os(iOS) || os(visionOS)
     public import Foundation
 
@@ -35,17 +36,30 @@
 
     public import UniformTypeIdentifiers
 
+    /// A `FileDocument` implementation for a `CodablePackage`.
     public struct CodablePackageDocument<T: CodablePackage>: FileDocument {
-      internal enum ReadError: Error { case missingConfigurationAtKey(String) }
+      /// An error that can occur during the reading of the configuration.
+      internal enum ReadError: Error {
+        case missingConfigurationAtKey(String)
+      }
 
+      /// The readable content types for the `CodablePackage`.
       public static var readableContentTypes: [UTType] {
         T.readableContentTypes.map(UTType.init)
       }
 
+      /// The configuration of the `CodablePackage`.
       private let configuration: T
 
-      public init(configuration: T) { self.configuration = configuration }
+      /// Initializes a `CodablePackageDocument` with the provided configuration.
+      /// - Parameter configuration: The configuration of the `CodablePackage`.
+      public init(configuration: T) {
+        self.configuration = configuration
+      }
 
+      /// Initializes a `CodablePackageDocument` from the provided read configuration.
+      /// - Parameter configuration: The read configuration.
+      /// - Throws: A `ReadError` if the configuration file wrapper is missing.
       public init(configuration: ReadConfiguration) throws {
         let regularFileContents = configuration
           .file
@@ -59,6 +73,10 @@
         self.init(configuration: configuration)
       }
 
+      /// Generates a `FileWrapper` for the current configuration.
+      /// - Parameter configuration: The write configuration.
+      /// - Returns: A `FileWrapper` containing the configuration.
+      /// - Throws: An error if there is a problem encoding the configuration.
       public func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
         let rootFileWrapper =
           configuration.existingFile ?? FileWrapper(directoryWithFileWrappers: [:])
@@ -78,7 +96,10 @@
     }
 
     extension CodablePackageDocument where T: InitializablePackage {
-      public init() { self.init(configuration: .init()) }
+      /// Initializes a `CodablePackageDocument` with a default configuration.
+      public init() {
+        self.init(configuration: .init())
+      }
     }
   #endif
 #endif

@@ -27,6 +27,8 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
+/// A protocol that defines a default value for a view.
 public protocol DefaultableViewValue: Codable, Hashable, Sendable {
+  /// The default value for the view.
   static var `default`: Self { get }
 }

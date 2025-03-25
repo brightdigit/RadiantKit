@@ -34,7 +34,11 @@
   public import SwiftUI
 
   extension AppStorage where Value: ExpressibleByNilLiteral {
-    // swiftlint:disable discouraged_optional_boolean
+    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type with an optional `Bool` value.
+    ///
+    /// - Parameters:
+    ///   - type: The `AppStored` type.
+    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared `UserDefaults`.
     public init<AppStoredType: AppStored>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -45,6 +49,11 @@
       self.init(type.key, store: store)
     }
 
+    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type with an optional `Int` value.
+    ///
+    /// - Parameters:
+    ///   - type: The `AppStored` type.
+    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared `UserDefaults`.
     public init<AppStoredType: AppStored>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -55,6 +64,11 @@
       self.init(type.key, store: store)
     }
 
+    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type with an optional `Double` value.
+    ///
+    /// - Parameters:
+    ///   - type: The `AppStored` type.
+    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared `UserDefaults`.
     public init<AppStoredType: AppStored>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -65,6 +79,11 @@
       self.init(type.key, store: store)
     }
 
+    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type with an optional `String` value.
+    ///
+    /// - Parameters:
+    ///   - type: The `AppStored` type.
+    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared `UserDefaults`.
     public init<AppStoredType: AppStored>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -75,6 +94,11 @@
       self.init(type.key, store: store)
     }
 
+    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type with an optional `URL` value.
+    ///
+    /// - Parameters:
+    ///   - type: The `AppStored` type.
+    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared `UserDefaults`.
     public init<AppStoredType: AppStored>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -85,6 +109,11 @@
       self.init(type.key, store: store)
     }
 
+    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type with an optional `Data` value.
+    ///
+    /// - Parameters:
+    ///   - type: The `AppStored` type.
+    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared `UserDefaults`.
     public init<AppStoredType: AppStored>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -94,11 +123,14 @@
       Value == Data? {
       self.init(type.key, store: store)
     }
-
-    // swiftlint:enable discouraged_optional_boolean
   }
 
   extension AppStorage {
+    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type with an optional `RawRepresentable` value where the `RawValue` is `String`.
+    ///
+    /// - Parameters:
+    ///   - type: The `AppStored` type.
+    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared `UserDefaults`.
     public init<AppStoredType: AppStored, R>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -111,6 +143,11 @@
       self.init(type.key, store: store)
     }
 
+    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type with an optional `RawRepresentable` value where the `RawValue` is `Int`.
+    ///
+    /// - Parameters:
+    ///   - type: The `AppStored` type.
+    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared `UserDefaults`.
     public init<AppStoredType: AppStored, R>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -119,6 +156,9 @@
       AppStoredType.Value == R?,
       R: RawRepresentable,
       Value == AppStoredType.Value,
-      R.RawValue == Int { self.init(type.key, store: store) }
+      R.RawValue == Int {
+      self.init(type.key, store: store)
+    }
   }
+
 #endif

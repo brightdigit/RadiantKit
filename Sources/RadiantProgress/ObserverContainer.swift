@@ -28,19 +28,29 @@
 //
 
 internal actor ObserverContainer {
+  /// The download observer.
   private nonisolated(unsafe) var observer: DownloadObserver?
 
+  /// Sets the download observer.
+  ///
+  /// - Parameter observer: The download observer to set.
   nonisolated internal func setObserver(_ observer: DownloadObserver) {
     assert(self.observer == nil)
     self.observer = observer
   }
 
+  /// Executes the provided closure with the download observer.
+  ///
+  /// - Parameter closure: The closure to execute with the download observer.
   nonisolated internal func on(
     _ closure: @escaping @Sendable (DownloadObserver) -> Void
   ) {
     Task { await self.withObserver(closure) }
   }
 
+  /// Executes the provided closure with the download observer.
+  ///
+  /// - Parameter closure: The closure to execute with the download observer.
   private func withObserver(
     _ closure: @escaping @Sendable (DownloadObserver) -> Void
   ) {

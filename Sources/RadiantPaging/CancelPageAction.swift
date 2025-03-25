@@ -28,16 +28,21 @@
 //
 
 #if canImport(SwiftUI)
+
   import Foundation
   public import SwiftUI
 
+  /// A private struct that represents a key for a cancel page action in the environment.
   private struct CancelPageKey: EnvironmentKey, Sendable {
+    /// The default value for the cancel page action.
     static let defaultValue: CancelPageAction = .default
   }
 
+  /// A type alias for a page action.
   public typealias CancelPageAction = PageAction
 
   extension EnvironmentValues {
+    /// The cancel page action, which can be used to cancel the current page.
     public var cancelPage: CancelPageAction {
       get { self[CancelPageKey.self] }
       set { self[CancelPageKey.self] = newValue }

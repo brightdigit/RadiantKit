@@ -28,19 +28,26 @@
 //
 
 #if canImport(SwiftUI)
+
   #if os(macOS) || os(iOS) || os(visionOS)
     import Foundation
 
     public import SwiftUI
 
+    /// A type alias for opening windows without an associated value.
     public typealias OpenWindowWithAction = OpenWindowWithValueAction<Void>
 
+    /// Extension providing functionality for opening windows without associated values.
     @MainActor
     extension OpenWindowWithAction {
+      /// Creates a new window opening action with the specified closure.
+      /// - Parameter closure: A closure that handles the window opening action.
       public init(closure: @escaping @Sendable @MainActor (OpenWindowAction) -> Void) {
         self.init { _, action in closure(action) }
       }
 
+      /// Executes the window opening action with the specified window action.
+      /// - Parameter openWidow: The window action to execute.
       @MainActor
       public func callAsFunction(with openWidow: OpenWindowAction) {
         closure((), openWidow)

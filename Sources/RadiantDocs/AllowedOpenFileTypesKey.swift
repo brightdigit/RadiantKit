@@ -28,18 +28,23 @@
 //
 
 #if canImport(SwiftUI)
+
   import Foundation
 
   public import SwiftUI
 
   import UniformTypeIdentifiers
 
+  /// A private struct that represents the environment key for allowed open file types.
   private struct AllowedOpenFileTypesKey: EnvironmentKey {
+    /// The value type associated with the environment key.
     typealias Value = [FileType]
+    /// The default value for the environment key.
     static let defaultValue = [FileType]()
   }
 
   extension EnvironmentValues {
+    /// The allowed open file types for the current environment.
     public var allowedOpenFileTypes: [FileType] {
       get { self[AllowedOpenFileTypesKey.self] }
       set { self[AllowedOpenFileTypesKey.self] = newValue }
@@ -47,15 +52,24 @@
   }
 
   extension View {
+    /// Adds the specified allowed open file types to the environment.
+    ///
+    /// - Parameter fileTypes: The array of `FileType` values
+    /// to be allowed for file opening.
+    /// - Returns: A modified version of the view with the allowed open file types set.
     public func allowedOpenFileTypes(_ fileTypes: [FileType]) -> some View {
       self.environment(\.allowedOpenFileTypes, fileTypes)
     }
   }
 
   extension Scene {
+    /// Adds the specified allowed open file types to the environment.
+    ///
+    /// - Parameter fileTypes: The array of `FileType` values
+    ///  to be allowed for file opening.
+    /// - Returns: A modified version of the scene with the allowed open file types set.
     public func allowedOpenFileTypes(_ fileTypes: [FileType]) -> some Scene {
       self.environment(\.allowedOpenFileTypes, fileTypes)
     }
   }
-
 #endif

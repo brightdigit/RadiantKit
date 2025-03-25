@@ -29,7 +29,10 @@
 
 import Foundation
 
+/// The `KeyType` enumeration represents different types of keys.
 public enum KeyType: Sendable {
+  /// The `describing` case represents a key that describes something.
   case describing
+  /// The `reflecting` case represents a key that reflects something.
   case reflecting
 }

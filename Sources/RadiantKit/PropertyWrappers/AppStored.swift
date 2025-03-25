@@ -29,23 +29,33 @@
 
 import Foundation
 
+/// A protocol that represents an app-stored value.
 public protocol AppStored {
+  /// The type of the stored value.
   associatedtype Value
+
+  /// The type of the key used to store the value.
   static var keyType: KeyType { get }
+
+  /// The key used to store the value.
   static var key: String { get }
 }
 
 extension AppStored {
+  /// The key used to store the value.
   public static var key: String {
-    switch self.keyType { case .describing: String(describing: Self.self)
+    switch self.keyType {
+      case .describing:
+        return String(describing: Self.self)
 
       case .reflecting:
-        String(reflecting: Self.self)
+        return String(reflecting: Self.self)
           .components(separatedBy: ".")
           .dropFirst()
           .joined(separator: ".")
     }
   }
 
+  /// The type of the key used to store the value.
   public static var keyType: KeyType { .describing }
 }

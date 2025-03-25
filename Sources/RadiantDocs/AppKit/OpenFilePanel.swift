@@ -36,11 +36,21 @@
 
   import UniformTypeIdentifiers
 
+  /// A struct that represents an open file panel for a specific file type.
   public struct OpenFilePanel<FileType: FileTypeSpecification>: Sendable {
+    /// Initializes a new instance of the `OpenFilePanel` struct.
     public init() {}
 
+    /// Initializes a new instance of the `OpenFilePanel` struct
+    /// with a specific file type.
+    ///
+    /// - Parameter _: The type of the file to be selected.
     public init(_: FileType.Type) {}
 
+    /// Calls the open file panel and
+    ///  passes the selected file to the provided `OpenWindowAction`.
+    ///
+    /// - Parameter openWindow: The action to be performed with the selected file.
     @MainActor
     public func callAsFunction(with openWindow: OpenWindowAction) {
       let openPanel = NSOpenPanel()
@@ -58,10 +68,13 @@
   }
 
   extension OpenWindowAction {
+    /// Calls the `OpenFilePanel` with the provided file type
+    /// and passes the selected file to the `OpenWindowAction`.
+    ///
+    /// - Parameter valueType: The type of the file to be selected.
     @MainActor
     public func callAsFunction(_ valueType: (some FileTypeSpecification).Type) {
       OpenFilePanel(valueType)(with: self)
     }
   }
-
 #endif

@@ -31,26 +31,34 @@
   public import Combine
   public import Foundation
 
+  /// An observable downloader class that observes download progress and provides a way to resume downloads.
   @Observable
   @MainActor
   public final class ObservableDownloader: DownloadObserver, Downloader {
+    /// Represents a download request with a source URL and a destination file URL.
     internal struct DownloadRequest {
+      /// The URL of the download source.
       internal let downloadSourceURL: URL
+      /// The URL of the destination file.
       internal let destinationFileURL: URL
     }
 
-    // swift-format-ignore: NeverUseImplicitlyUnwrappedOptionals
-    // swiftlint:disable:next implicitly_unwrapped_optional
+    /// The delegate for the download process.
     @ObservationIgnored private var delegate: DownloadDelegate!
 
+    /// The total number of bytes written so far.
     public internal(set) var totalBytesWritten: Int64 = 0
+
+    /// The total number of bytes expected to be written.
     public internal(set) var totalBytesExpectedToWrite: Int64?
 
-    // swift-format-ignore: NeverUseImplicitlyUnwrappedOptionals
-    // swiftlint:disable:next implicitly_unwrapped_optional
+    /// The URL session used for the download.
     @ObservationIgnored internal private(set) var session: URLSession!
 
+    /// A subject that publishes resume data when a download is interrupted.
     internal let resumeDataSubject = PassthroughSubject<Data, Never>()
+
+    /// The current download task.
     internal var task: URLSessionDownloadTask?
 
     private var cancellables = [AnyCancellable]()
@@ -61,10 +69,17 @@
 
     private let formatter = ByteCountFormatter()
 
+    /// A formatted string representing the total bytes written.
     public var prettyBytesWritten: String {
       formatter.string(from: .init(value: .init(totalBytesWritten), unit: .bytes))
     }
 
+    /// Initializes a new `ObservableDownloader` instance.
+    ///
+    /// - Parameters:
+    ///   - totalBytesExpectedToWrite: The total number of bytes expected to be written, or `nil` if unknown.
+    ///   - configuration: The URL session configuration to use, or `nil` to use the default configuration.
+    ///   - queue: The operation queue to use for the URL session, or `nil` to use the main queue.
     public convenience init(
       totalBytesExpectedToWrite: (some BinaryInteger)?,
       configuration: URLSessionConfiguration? = nil,
@@ -77,6 +92,14 @@
         queue: queue
       )
     }
+
+    /// Initializes a new `ObservableDownloader` instance with custom publishers.
+    ///
+    /// - Parameters:
+    ///   - totalBytesExpectedToWrite: The total number of bytes expected to be written, or `nil` if unknown.
+    ///   - setupPublishers: A closure that sets up the internal publishers.
+    ///   - configuration: The URL session configuration to use, or `nil` to use the default configuration.
+    ///   - queue: The operation queue to use for the URL session, or `nil` to use the main queue.
     internal convenience init(
       totalBytesExpectedToWrite: (some BinaryInteger)?,
       setupPublishers: SetupPublishers,
@@ -91,6 +114,13 @@
       )
     }
 
+    /// Initializes a new `ObservableDownloader` instance with custom publishers.
+    ///
+    /// - Parameters:
+    ///   - totalBytesExpectedToWrite: The total number of bytes expected to be written, or `nil` if unknown.
+    ///   - setupPublishers: A closure that sets up the internal publishers.
+    ///   - configuration: The URL session configuration to use, or `nil` to use the default configuration.
+    ///   - queue: The operation queue to use for the URL session, or `nil` to use the main queue.
     public init(
       totalBytesExpectedToWrite: (some BinaryInteger)?,
       setupPublishers: @escaping (ObservableDownloader) -> [AnyCancellable],
@@ -111,13 +141,21 @@
       self.cancellables = setupPublishers(self)
     }
 
+    /// Calls the completion closure with the result of the download.
     internal func onCompletion(_ result: Result<Void, any Error>) {
       assert(completion != nil)
       completion?(result)
     }
 
+    /// Cancels the current download task.
     public func cancel() { task?.cancel() }
 
+    /// Begins a new download.
+    ///
+    /// - Parameters:
+    ///   - downloadSourceURL: The URL of the download source.
+    ///   - destinationFileURL: The URL of the destination file.
+    ///   - completion: A closure that is called with the result of the download.
     public func begin(
       from downloadSourceURL: URL,
       to destinationFileURL: URL,
@@ -135,14 +173,17 @@
       )
     }
 
+    /// Notifies the observer that the download has finished.
     nonisolated internal func finishedDownloadingTo(_ location: URL) {
       Task { @MainActor in self.finishedDownloadingToAsync(location) }
     }
 
+    /// Notifies the observer of download progress updates.
     nonisolated internal func progressUpdated(_ progress: DownloadUpdate) {
       Task { @MainActor in self.progressUpdatedAsync(progress) }
     }
 
+    /// Notifies the observer that the download has completed, optionally with an error.
     nonisolated internal func didComplete(withError error: (any Error)?) {
       Task { @MainActor in self.didCompleteAsync(withError: error) }
     }
@@ -165,6 +206,7 @@
         resumeDataSubject.send(resumeData)
       }
     }
+
     deinit {
       MainActor.assumeIsolated {
         for cancellable in self.cancellables { cancellable.cancel() }

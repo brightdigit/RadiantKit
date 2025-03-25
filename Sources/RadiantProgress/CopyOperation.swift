@@ -37,21 +37,42 @@
     public import Logging
   #endif
 
+  /// An operation that copies a file from a source URL to a destination URL, and periodically updates the progress of the operation.
   @MainActor
   @Observable
   public final class CopyOperation<ValueType: BinaryInteger & Sendable>: Identifiable {
+    /// The source URL of the file to be copied.
     private let sourceURL: URL
+    /// The destination URL of the copied file.
     private let destinationURL: URL
+    /// The total value of the file being copied, if known.
     public let totalValue: ValueType?
+    /// The time interval between updates to the progress of the operation.
     private let timeInterval: TimeInterval
+    /// A closure that gets the size of the file at the given URL.
     private nonisolated let getSize: @Sendable (URL) throws -> ValueType?
+    /// A closure that copies the file from the source URL to the destination URL.
     private let copyFile: @Sendable (CopyPaths) async throws -> Void
+    /// The current value of the operation's progress.
     public var currentValue = ValueType.zero
+    /// The timer used to periodically update the progress of the operation.
     private var timer: Timer?
+    /// The logger used to log messages during the operation.
     private let logger: Logger?
 
+    /// The URL of the source file, which is used as the unique identifier for the operation.
     public nonisolated var id: URL { sourceURL }
 
+    /// Initializes a new `CopyOperation` instance.
+    ///
+    /// - Parameters:
+    ///   - sourceURL: The source URL of the file to be copied.
+    ///   - destinationURL: The destination URL of the copied file.
+    ///   - totalValue: The total value of the file being copied, if known.
+    ///   - timeInterval: The time interval between updates to the progress of the operation.
+    ///   - logger: The logger used to log messages during the operation.
+    ///   - getSize: A closure that gets the size of the file at the given URL.
+    ///   - copyFile: A closure that copies the file from the source URL to the destination URL.
     public init(
       sourceURL: URL,
       destinationURL: URL,
@@ -70,10 +91,16 @@
       self.logger = logger
     }
 
+    /// Updates the current value of the operation's progress.
+    ///
+    /// - Parameter currentValue: The new current value of the operation's progress.
     private nonisolated func updateValue(_ currentValue: ValueType) {
       Task { await self.updatingValue(currentValue) }
     }
 
+    /// Updates the current value of the operation's progress and checks if the operation is complete.
+    ///
+    /// - Parameter currentValue: The new current value of the operation's progress.
     private func updatingValue(_ currentValue: ValueType) {
       self.currentValue = currentValue
       if let totalValue = self.totalValue {
@@ -87,6 +114,7 @@
       }
     }
 
+    /// Starts the timer that periodically updates the progress of the operation.
     private func starTimer() {
       timer = Timer.scheduledTimer(
         withTimeInterval: timeInterval,
@@ -115,6 +143,9 @@
       }
     }
 
+    /// Executes the copy operation.
+    ///
+    /// - Throws: Any errors that occur during the copy operation.
     public func execute() async throws {
       self.logger?.debug("Starting Copy operating")
       starTimer()
@@ -129,6 +160,7 @@
       self.killTimer()
     }
 
+    /// Stops the timer used to periodically update the progress of the operation.
     private func killTimer() {
       timer?.invalidate()
       timer = nil
@@ -136,5 +168,4 @@
   }
 
   extension CopyOperation: ProgressOperation {}
-
 #endif

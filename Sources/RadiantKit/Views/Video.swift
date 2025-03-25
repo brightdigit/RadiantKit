@@ -28,19 +28,27 @@
 //
 
 #if canImport(SwiftUI) && canImport(AppKit)
+
   public import AVKit
 
   public import SwiftUI
 
+  /// A SwiftUI view that represents an AVPlayer.
   public struct Video: NSViewRepresentable {
     private let player: AVPlayer?
 
-    // swiftlint:disable:next implicitly_unwrapped_optional
+    /// Initializes a `Video` instance with an `AVPlayer`.
+    ///
+    /// - Parameter player: The `AVPlayer` to be used in the video view.
     public init(using player: AVPlayer!) {
       assert(player != nil)
       self.player = player
     }
 
+    /// Creates an `AVPlayerView` to display the video.
+    ///
+    /// - Parameter context: The context provided by SwiftUI.
+    /// - Returns: An `AVPlayerView` instance.
     public func makeNSView(context _: Context) -> AVPlayerView {
       let view = AVPlayerView()
       view.controlsStyle = .none
@@ -49,6 +57,12 @@
       return view
     }
 
+    /// Updates the `AVPlayerView` if necessary.
+    ///
+    /// - Parameters:
+    ///   - view: The `AVPlayerView` to be updated.
+    ///   - context: The context provided by SwiftUI.
     public func updateNSView(_: AVPlayerView, context _: Context) {}
   }
+
 #endif

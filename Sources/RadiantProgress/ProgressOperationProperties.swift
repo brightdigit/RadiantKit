@@ -28,15 +28,28 @@
 //
 
 #if canImport(Observation) && (os(macOS) || os(iOS))
+
   public import Foundation
 
+  /// A structure that represents the properties of a progress operation.
   public struct ProgressOperationProperties: Identifiable, Sendable {
+    /// The name of the image associated with the progress operation.
     internal let imageName: String
+    /// The text associated with the progress operation.
     internal let text: any (StringProtocol & Sendable)
+    /// The progress of the operation.
     internal let progress: FileOperationProgress<Int>
 
+    /// The identifier of the progress operation, which is a URL.
     public let id: URL
 
+    /// Initializes a new instance of `ProgressOperationProperties`.
+    ///
+    /// - Parameters:
+    ///   - imageName: The name of the image associated with the progress operation.
+    ///   - text: The text associated with the progress operation.
+    ///   - url: The URL used as the identifier for the progress operation.
+    ///   - progress: The progress of the operation.
     public init(
       imageName: String,
       text: any (StringProtocol & Sendable),
@@ -52,7 +65,15 @@
 
   #if canImport(SwiftUI)
     extension ProgressOperationView {
+      /// The properties of a progress operation.
       public typealias Properties = ProgressOperationProperties
+
+      /// Initializes a new instance of `ProgressOperationView`.
+      ///
+      /// - Parameters:
+      ///   - properties: The properties of the progress operation.
+      ///   - text: A closure that generates the progress text.
+      ///   - image: A closure that generates the progress image.
       public init(
         _ properties: Properties,
         text: @escaping (FileOperationProgress<Int>) -> ProgressText,
@@ -64,5 +85,4 @@
       }
     }
   #endif
-
 #endif

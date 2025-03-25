@@ -66,6 +66,10 @@ public struct InitializablePackageOptions: OptionSet, Sendable {
 
 extension Data.WritingOptions {
   /// Initialize Data.WritingOptions from InitializablePackageOptions
+  /// - Parameter options: The `InitializablePackageOptions`
+  /// to convert to `Data.WritingOptions`
+  /// - Returns: The `Data.WritingOptions` equivalent
+  /// of the provided `InitializablePackageOptions`
   public init(options: InitializablePackageOptions) {
     var dataOptions: Data.WritingOptions = []
     if options.contains(.atomic) { dataOptions.insert(.atomic) }

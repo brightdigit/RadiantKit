@@ -28,10 +28,12 @@
 //
 
 #if canImport(SwiftUI)
+
   public import Foundation
 
   public import SwiftUI
 
+  /// A SwiftUI view that displays a value with a formatted text bubble.
   public struct ValueTextBubble<
     ShapeStyleType: ShapeStyle,
     ValueType: Equatable,
@@ -40,9 +42,16 @@
   where
     FormatStyleType.FormatInput == ValueType,
     FormatStyleType.FormatOutput == String {
+    /// The value to be displayed.
     public let value: ValueType
+
+    /// The format style to be applied to the value.
     public let format: FormatStyleType
+
+    /// The background style of the text bubble.
     public let backgroundStyle: ShapeStyleType
+
+    /// The corner radius of the text bubble.
     public let cornerRadius: CGFloat
 
     public var body: some View {
@@ -56,6 +65,12 @@
         .padding(.horizontal, 2)
     }
 
+    /// Initializes a `ValueTextBubble` with the specified value, format, background style, and corner radius.
+    /// - Parameters:
+    ///   - value: The value to be displayed.
+    ///   - format: The format style to be applied to the value.
+    ///   - backgroundStyle: The background style of the text bubble.
+    ///   - cornerRadius: The corner radius of the text bubble. Defaults to 18.
     public init(
       value: ValueType,
       format: FormatStyleType,
@@ -68,6 +83,12 @@
       self.backgroundStyle = backgroundStyle
     }
 
+    /// Initializes a `ValueTextBubble` with the specified value, format, background color, and corner radius.
+    /// - Parameters:
+    ///   - value: The value to be displayed.
+    ///   - format: The format style to be applied to the value.
+    ///   - backgroundColor: The background color of the text bubble. Defaults to `Color.primary.opacity(0.25)`.
+    ///   - cornerRadius: The corner radius of the text bubble. Defaults to 18.
     public init(
       value: ValueType,
       format: FormatStyleType,
@@ -80,6 +101,12 @@
       self.backgroundStyle = backgroundColor
     }
 
+    /// Initializes a `ValueTextBubble` with the specified integer value, format, background color, and corner radius.
+    /// - Parameters:
+    ///   - value: The integer value to be displayed.
+    ///   - format: The integer format style to be applied to the value. Defaults to `FormatStyleType.number`.
+    ///   - backgroundColor: The background color of the text bubble. Defaults to `Color.primary.opacity(0.25)`.
+    ///   - cornerRadius: The corner radius of the text bubble. Defaults to 18.
     public init(
       value: Int,
       format: IntegerFormatStyle<Int> = FormatStyleType.number,
@@ -96,4 +123,5 @@
       self.backgroundStyle = backgroundColor
     }
   }
+
 #endif

@@ -30,19 +30,32 @@
 import Foundation
 public import RadiantKit
 
+/// Provides information about a dismissal event, including the current page index and ID, and the type of dismissal action.
 public struct DismissParameters {
   #if canImport(SwiftUI)
+    /// The identifier for a view in SwiftUI.
     public typealias PageID = IdentifiableView.ID
   #else
+    /// The identifier for a page in a non-SwiftUI context.
     public typealias PageID = Int
   #endif
+
+  /// Represents the different types of dismissal actions.
   public enum Action {
+    /// The previous page was dismissed.
     case previous
+    /// The next page was dismissed.
     case next
+    /// The dismissal was cancelled.
     case cancel
   }
 
+  /// The current page index.
   public let currentPageIndex: Int
+
+  /// The current page ID.
   public let currentPageID: PageID?
+
+  /// The type of dismissal action.
   public let action: Action
 }
