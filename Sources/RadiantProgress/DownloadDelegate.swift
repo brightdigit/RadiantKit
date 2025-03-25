@@ -29,6 +29,10 @@
 
 import Foundation
 
+#if canImport(FoundationNetworking)
+  import FoundationNetworking
+#endif
+
 internal final class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
   private let container = ObserverContainer()
 

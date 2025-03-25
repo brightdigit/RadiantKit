@@ -29,7 +29,7 @@
 
 #if canImport(Observation)
   public import Foundation
-  import Observation
+  public import Observation
 
   #if canImport(OSLog)
     public import OSLog
