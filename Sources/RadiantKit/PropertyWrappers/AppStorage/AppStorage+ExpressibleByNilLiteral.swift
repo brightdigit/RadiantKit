@@ -34,11 +34,14 @@
   public import SwiftUI
 
   extension AppStorage where Value: ExpressibleByNilLiteral {
-    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type with an optional `Bool` value.
+    // swiftlint:disable discouraged_optional_boolean
+    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type
+    /// with an optional `Bool` value.
     ///
     /// - Parameters:
     ///   - type: The `AppStored` type.
-    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared `UserDefaults`.
+    /// - store: The `UserDefaults` instance to use, or `nil` to use the shared
+    /// `UserDefaults`.
     public init<AppStoredType: AppStored>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -49,11 +52,13 @@
       self.init(type.key, store: store)
     }
 
-    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type with an optional `Int` value.
+    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type
+    /// with an optional `Int` value.
     ///
     /// - Parameters:
     ///   - type: The `AppStored` type.
-    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared `UserDefaults`.
+    /// - store: The `UserDefaults` instance to use, or `nil` to use the shared
+    /// `UserDefaults`.
     public init<AppStoredType: AppStored>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -64,11 +69,13 @@
       self.init(type.key, store: store)
     }
 
-    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type with an optional `Double` value.
+    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type
+    /// with an optional `Double` value.
     ///
     /// - Parameters:
     ///   - type: The `AppStored` type.
-    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared `UserDefaults`.
+    /// - store: The `UserDefaults` instance to use, or `nil` to use the shared
+    /// `UserDefaults`.
     public init<AppStoredType: AppStored>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -79,11 +86,13 @@
       self.init(type.key, store: store)
     }
 
-    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type with an optional `String` value.
+    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type
+    /// with an optional `String` value.
     ///
     /// - Parameters:
     ///   - type: The `AppStored` type.
-    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared `UserDefaults`.
+    /// - store: The `UserDefaults` instance to use, or `nil` to use the shared
+    /// `UserDefaults`.
     public init<AppStoredType: AppStored>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -94,11 +103,13 @@
       self.init(type.key, store: store)
     }
 
-    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type with an optional `URL` value.
+    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type
+    /// with an optional `URL` value.
     ///
     /// - Parameters:
     ///   - type: The `AppStored` type.
-    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared `UserDefaults`.
+    /// - store: The `UserDefaults` instance to use, or `nil` to use the shared
+    /// `UserDefaults`.
     public init<AppStoredType: AppStored>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -109,11 +120,13 @@
       self.init(type.key, store: store)
     }
 
-    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type with an optional `Data` value.
+    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type
+    /// with an optional `Data` value.
     ///
     /// - Parameters:
     ///   - type: The `AppStored` type.
-    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared `UserDefaults`.
+    /// - store: The `UserDefaults` instance to use, or `nil` to use the shared
+    /// `UserDefaults`.
     public init<AppStoredType: AppStored>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -126,11 +139,14 @@
   }
 
   extension AppStorage {
-    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type with an optional `RawRepresentable` value where the `RawValue` is `String`.
+    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type
+    /// with an optional `RawRepresentable` value where the `RawValue` is
+    /// `String`.
     ///
     /// - Parameters:
     ///   - type: The `AppStored` type.
-    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared `UserDefaults`.
+    /// - store: The `UserDefaults` instance to use, or `nil` to use the shared
+    /// `UserDefaults`.
     public init<AppStoredType: AppStored, R>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -143,11 +159,13 @@
       self.init(type.key, store: store)
     }
 
-    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type with an optional `RawRepresentable` value where the `RawValue` is `Int`.
+    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type
+    /// with an optional `RawRepresentable` value where the `RawValue` is `Int`.
     ///
     /// - Parameters:
     ///   - type: The `AppStored` type.
-    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared `UserDefaults`.
+    /// - store: The `UserDefaults` instance to use, or `nil` to use the shared
+    /// `UserDefaults`.
     public init<AppStoredType: AppStored, R>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -159,6 +177,7 @@
       R.RawValue == Int {
       self.init(type.key, store: store)
     }
+    // swiftlint:enable discouraged_optional_boolean
   }
 
 #endif

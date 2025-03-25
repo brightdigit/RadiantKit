@@ -30,15 +30,17 @@
 #if canImport(SwiftUI) && !os(tvOS)
 
   public import SwiftUI
-  /// A view that combines a slider and a stepper to allow the user to adjust a floating-point value within a specified range.
+  /// A view that combines a slider and a stepper to allow the user to adjust a
+  /// floating-point value within a specified range.
   ///
   /// - Parameters:
   ///   - title: The title of the view.
-  ///   - label: A closure that returns a view representing the label for the view.
+  /// - label: A closure that returns a view representing the label for the view.
   ///   - value: A binding to the value being adjusted.
   ///   - bounds: The closed range of values the slider and stepper can take.
   ///   - step: The step size for the slider and stepper.
-  ///   - content: A closure that returns a view representing the content of the view.
+  /// - content: A closure that returns a view representing the content of the
+  /// view.
   @MainActor
   public struct SliderStepperView<Content: View, Label: View, TitleType>: View {
     private let title: TitleType
@@ -94,11 +96,13 @@
     ///
     /// - Parameters:
     ///   - title: The title of the view.
-    ///   - label: A closure that returns a view representing the label for the view.
+    /// - label: A closure that returns a view representing the label for the
+    /// view.
     ///   - value: A binding to the value being adjusted.
     ///   - bounds: The closed range of values the slider and stepper can take.
     ///   - step: The step size for the slider and stepper.
-    ///   - content: A closure that returns a view representing the content of the view.
+    /// - content: A closure that returns a view representing the content of the
+    /// view.
     public init(
       title: TitleType,
       label: @escaping @Sendable (TitleType) -> Label,

@@ -50,7 +50,8 @@
     /// Calls the open file panel and
     ///  passes the selected file to the provided `OpenWindowAction`.
     ///
-    /// - Parameter openWindow: The action to be performed with the selected file.
+    /// - Parameter openWindow: The action to be performed with the selected
+    /// file.
     @MainActor
     public func callAsFunction(with openWindow: OpenWindowAction) {
       let openPanel = NSOpenPanel()

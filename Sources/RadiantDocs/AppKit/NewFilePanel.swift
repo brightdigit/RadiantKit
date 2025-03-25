@@ -48,7 +48,8 @@
 
     /// Presents a new file panel and opens a window with the created file.
     ///
-    /// - Parameter openWindow: The action to be performed when a new file is created.
+    /// - Parameter openWindow: The action to be performed when a new file is
+    /// created.
     @MainActor
     public func callAsFunction(with openWindow: OpenWindowAction) {
       let openPanel = NSSavePanel()

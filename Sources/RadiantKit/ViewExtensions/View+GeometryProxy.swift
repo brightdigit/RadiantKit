@@ -34,9 +34,11 @@
   public import SwiftUI
 
   extension View {
-    /// Overlays the view with a `GeometryReader` and calls the provided action with the `GeometryProxy`.
+    /// Overlays the view with a `GeometryReader` and calls the provided action
+    /// with the `GeometryProxy`.
     ///
-    /// - Parameter action: A closure that takes a `GeometryProxy` as its parameter.
+    /// - Parameter action: A closure that takes a `GeometryProxy` as its
+    /// parameter.
     /// - Returns: A modified `View` that applies the geometry action.
     public func onGeometry(_ action: @escaping (GeometryProxy) -> Void) -> some View {
       self.overlay {

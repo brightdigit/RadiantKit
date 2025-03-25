@@ -32,6 +32,7 @@ internal struct DownloadUpdate: Sendable {
   /// The number of bytes written so far.
   internal let totalBytesWritten: Int64
 
-  /// The total number of bytes expected to be written, or `nil` if the total size is unknown.
+  /// The total number of bytes expected to be written, or `nil` if the total
+  /// size is unknown.
   internal let totalBytesExpectedToWrite: Int64?
 }

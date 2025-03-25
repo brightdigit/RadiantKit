@@ -32,7 +32,8 @@
   import Foundation
   public import SwiftUI
 
-  /// A private struct that represents a key for a cancel page action in the environment.
+  /// A private struct that represents a key for a cancel page action in the
+  /// environment.
   private struct CancelPageKey: EnvironmentKey, Sendable {
     /// The default value for the cancel page action.
     static let defaultValue: CancelPageAction = .default

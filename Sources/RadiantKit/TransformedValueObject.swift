@@ -32,7 +32,9 @@
 
   public import SwiftUI
 
-  /// An observable class that transforms an input value of type `InputValue` to an output value of type `OutputValue`, and provides a formatted representation of the output value as `FormattableValue`.
+  /// An observable class that transforms an input value of type `InputValue` to
+  /// an output value of type `OutputValue`, and provides a formatted
+  /// representation of the output value as `FormattableValue`.
   @Observable
   public class TransformedValueObject<InputValue, OutputValue, FormattableValue> {
     /// The default transformation function from `InputValue` to `OutputValue`.
@@ -41,10 +43,12 @@
     /// The formatting function from `OutputValue` to `FormattableValue`.
     private let formattable: (OutputValue) -> FormattableValue
 
-    /// The custom transformation function from `InputValue` to `OutputValue`, or `nil` if the default transformation is used.
+    /// The custom transformation function from `InputValue` to `OutputValue`, or
+    /// `nil` if the default transformation is used.
     @ObservationIgnored private var transform: ((InputValue) -> OutputValue)?
 
-    /// The binding to the input value of type `InputValue?`, or `nil` if not bound.
+    /// The binding to the input value of type `InputValue?`, or `nil` if not
+    /// bound.
     @ObservationIgnored private var bindingValue: Binding<InputValue?>?
 
     /// The input value of type `InputValue`.
@@ -67,12 +71,18 @@
     /// Initializes a `TransformedValueObject` instance.
     ///
     /// - Parameters:
-    ///   - defaultTransform: The default transformation function from `InputValue` to `OutputValue`.
-    ///   - formattable: The formatting function from `OutputValue` to `FormattableValue`.
+    /// - defaultTransform: The default transformation function from `InputValue`
+    /// to `OutputValue`.
+    /// - formattable: The formatting function from `OutputValue` to
+    /// `FormattableValue`.
     ///   - inputValue: The initial input value of type `InputValue`.
-    ///   - outputValue: The initial output value of type `OutputValue`, or `nil` to use the default transformation.
-    ///   - fomrattedValue: The initial formatted representation of the output value as `FormattableValue`, or `nil` to use the result of the `formattable` function.
-    ///   - polynomial: The custom transformation function from `InputValue` to `OutputValue`, or `nil` to use the default transformation.
+    /// - outputValue: The initial output value of type `OutputValue`, or `nil`
+    /// to use the default transformation.
+    /// - fomrattedValue: The initial formatted representation of the output
+    /// value as `FormattableValue`, or `nil` to use the result of the
+    /// `formattable` function.
+    /// - polynomial: The custom transformation function from `InputValue` to
+    /// `OutputValue`, or `nil` to use the default transformation.
     public init(
       defaultTransform: @escaping (InputValue) -> OutputValue,
       formattable: @escaping (OutputValue) -> FormattableValue,
@@ -91,11 +101,13 @@
       self.formattedValue = fomrattedValue ?? self.formattable(outputValue)
     }
 
-    /// Binds the `TransformedValueObject` to a `Binding<InputValue?>` and sets the custom transformation function.
+    /// Binds the `TransformedValueObject` to a `Binding<InputValue?>` and sets
+    /// the custom transformation function.
     ///
     /// - Parameters:
     ///   - bindingValue: The binding to the input value of type `InputValue?`.
-    ///   - transform: The custom transformation function from `InputValue` to `OutputValue`.
+    /// - transform: The custom transformation function from `InputValue` to
+    /// `OutputValue`.
     public func bindTo(
       _ bindingValue: Binding<InputValue?>,
       using transform: @escaping (InputValue) -> OutputValue

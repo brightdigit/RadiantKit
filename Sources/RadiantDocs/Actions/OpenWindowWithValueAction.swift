@@ -45,7 +45,8 @@
 
       /// Initializes a new instance of `OpenWindowWithValueAction`.
       ///
-      /// - Parameter closure: The closure to be executed when the action is called.
+      /// - Parameter closure: The closure to be executed when the action is
+      /// called.
       public init(
         closure: @escaping @MainActor @Sendable (ValueType, OpenWindowAction) -> Void
       ) {

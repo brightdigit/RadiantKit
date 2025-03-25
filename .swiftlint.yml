@@ -99,8 +99,8 @@ type_body_length:
   - 125
   - 200
 file_length:
-  - 200
   - 250
+  - 300
 function_body_length:
   - 25
   - 35

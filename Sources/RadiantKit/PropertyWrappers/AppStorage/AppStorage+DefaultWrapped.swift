@@ -38,7 +38,8 @@
     ///
     /// - Parameters:
     ///   - type: The type of the stored value.
-    ///   - store: The `UserDefaults` instance to use, or `nil` to use the standard `UserDefaults`.
+    /// - store: The `UserDefaults` instance to use, or `nil` to use the standard
+    /// `UserDefaults`.
     public init<AppStoredType: DefaultWrapped>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -50,7 +51,8 @@
     ///
     /// - Parameters:
     ///   - type: The type of the stored value.
-    ///   - store: The `UserDefaults` instance to use, or `nil` to use the standard `UserDefaults`.
+    /// - store: The `UserDefaults` instance to use, or `nil` to use the standard
+    /// `UserDefaults`.
     public init<AppStoredType: DefaultWrapped>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -62,7 +64,8 @@
     ///
     /// - Parameters:
     ///   - type: The type of the stored value.
-    ///   - store: The `UserDefaults` instance to use, or `nil` to use the standard `UserDefaults`.
+    /// - store: The `UserDefaults` instance to use, or `nil` to use the standard
+    /// `UserDefaults`.
     public init<AppStoredType: DefaultWrapped>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -74,7 +77,8 @@
     ///
     /// - Parameters:
     ///   - type: The type of the stored value.
-    ///   - store: The `UserDefaults` instance to use, or `nil` to use the standard `UserDefaults`.
+    /// - store: The `UserDefaults` instance to use, or `nil` to use the standard
+    /// `UserDefaults`.
     public init<AppStoredType: DefaultWrapped>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -86,7 +90,8 @@
     ///
     /// - Parameters:
     ///   - type: The type of the stored value.
-    ///   - store: The `UserDefaults` instance to use, or `nil` to use the standard `UserDefaults`.
+    /// - store: The `UserDefaults` instance to use, or `nil` to use the standard
+    /// `UserDefaults`.
     public init<AppStoredType: DefaultWrapped>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -98,7 +103,8 @@
     ///
     /// - Parameters:
     ///   - type: The type of the stored value.
-    ///   - store: The `UserDefaults` instance to use, or `nil` to use the standard `UserDefaults`.
+    /// - store: The `UserDefaults` instance to use, or `nil` to use the standard
+    /// `UserDefaults`.
     public init<AppStoredType: DefaultWrapped>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -106,11 +112,13 @@
       self.init(wrappedValue: AppStoredType.default, type.key, store: store)
     }
 
-    /// Initializes an `AppStorage` instance for a type that conforms to `RawRepresentable` with an `Int` raw value.
+    /// Initializes an `AppStorage` instance for a type that conforms to
+    /// `RawRepresentable` with an `Int` raw value.
     ///
     /// - Parameters:
     ///   - type: The type of the stored value.
-    ///   - store: The `UserDefaults` instance to use, or `nil` to use the standard `UserDefaults`.
+    /// - store: The `UserDefaults` instance to use, or `nil` to use the standard
+    /// `UserDefaults`.
     public init<AppStoredType: DefaultWrapped>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -118,15 +126,21 @@
       self.init(wrappedValue: AppStoredType.default, type.key, store: store)
     }
 
-    /// Initializes an `AppStorage` instance for a type that conforms to `RawRepresentable` with a `String` raw value.
+    /// Initializes an `AppStorage` instance for a type that conforms to
+    /// `RawRepresentable` with a `String` raw value.
     ///
     /// - Parameters:
     ///   - type: The type of the stored value.
-    ///   - store: The `UserDefaults` instance to use, or `nil` to use the standard `UserDefaults`.
+    /// - store: The `UserDefaults` instance to use, or `nil` to use the standard
+    /// `UserDefaults`.
     public init<AppStoredType: DefaultWrapped>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
-    ) where AppStoredType.Value == Value, Value: RawRepresentable, Value.RawValue == String {
+    )
+    where
+      AppStoredType.Value == Value,
+      Value: RawRepresentable,
+      Value.RawValue == String {
       self.init(wrappedValue: AppStoredType.default, type.key, store: store)
     }
   }

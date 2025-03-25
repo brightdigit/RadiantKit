@@ -35,7 +35,8 @@
     public import FoundationNetworking
   #endif
 
-  /// A download operation that downloads data from a source URL to a destination URL.
+  /// A download operation that downloads data from a source URL to a destination
+  /// URL.
   @MainActor
   @Observable
   public final class DownloadOperation<ValueType: BinaryInteger & Sendable>: Identifiable,
@@ -44,13 +45,15 @@
     private let sourceURL: URL
     private let destinationURL: URL
 
-    /// The unique identifier for the download operation, which is the source URL.
+    /// The unique identifier for the download operation, which is the source
+    /// URL.
     public nonisolated var id: URL { sourceURL }
 
     /// The current value of the download progress, represented as a `ValueType`.
     public var currentValue: ValueType { .init(download.totalBytesWritten) }
 
-    /// The total value of the download progress, represented as a `ValueType`, or `nil` if the total bytes expected to write is unknown.
+    /// The total value of the download progress, represented as a `ValueType`,
+    /// or `nil` if the total bytes expected to write is unknown.
     public var totalValue: ValueType? {
       download.totalBytesExpectedToWrite.map(ValueType.init(_:))
     }
@@ -59,10 +62,14 @@
       /// Initializes a new `DownloadOperation` instance.
       /// - Parameters:
       ///   - sourceURL: The URL from which the data should be downloaded.
-      ///   - destinationURL: The URL to which the downloaded data should be written.
-      ///   - totalBytesExpectedToWrite: The total number of bytes expected to be written, or `nil` if unknown.
-      ///   - configuration: The `URLSessionConfiguration` to use for the download, or `nil` to use the default configuration.
-      ///   - queue: The `OperationQueue` to use for the download, or `nil` to use the default queue.
+      /// - destinationURL: The URL to which the downloaded data should be
+      /// written.
+      /// - totalBytesExpectedToWrite: The total number of bytes expected to be
+      /// written, or `nil` if unknown.
+      /// - configuration: The `URLSessionConfiguration` to use for the download,
+      /// or `nil` to use the default configuration.
+      /// - queue: The `OperationQueue` to use for the download, or `nil` to use
+      /// the default queue.
       public init(
         sourceURL: URL,
         destinationURL: URL,
@@ -85,7 +92,7 @@
     /// Initializes a new `DownloadOperation` instance.
     /// - Parameters:
     ///   - sourceURL: The URL from which the data should be downloaded.
-    ///   - destinationURL: The URL to which the downloaded data should be written.
+    /// - destinationURL: The URL to which the downloaded data should be written.
     ///   - download: The `Downloader` instance to use for the download.
     public init(sourceURL: URL, destinationURL: URL, download: Downloader) {
       self.download = download

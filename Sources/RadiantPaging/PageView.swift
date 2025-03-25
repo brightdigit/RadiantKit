@@ -31,9 +31,11 @@
   public import RadiantKit
   public import SwiftUI
 
-  /// A SwiftUI view that displays a collection of `IdentifiableView` instances as a page-based interface.
+  /// A SwiftUI view that displays a collection of `IdentifiableView` instances
+  /// as a page-based interface.
   ///
-  /// The `PageView` struct manages the state of the current page and provides callbacks for navigation and dismissal.
+  /// The `PageView` struct manages the state of the current page and provides
+  /// callbacks for navigation and dismissal.
   @MainActor
   public struct PageView: View {
     @Environment(\.dismiss)
@@ -43,7 +45,8 @@
     private let onDimiss: (@MainActor @Sendable (DismissParameters) -> Void)?
     private let pages: [IdentifiableView]
 
-    /// Determines the availability of page navigation actions based on the current page being displayed.
+    /// Determines the availability of page navigation actions based on the
+    /// current page being displayed.
     public var pageNavigationAvailability: PageNavigationAvailability {
       let isFirst = currentPageID == pages.first?.id
       let isLast = currentPageID == pages.last?.id
@@ -78,19 +81,25 @@
       }
     }
 
-    /// Initializes a `PageView` with a builder closure that provides the collection of `IdentifiableView` instances.
+    /// Initializes a `PageView` with a builder closure that provides the
+    /// collection of `IdentifiableView` instances.
     ///
-    /// - Parameter onDismiss: An optional closure that is called when the page view is dismissed.
-    /// - Parameter pagesBuilder: A builder closure that provides the collection of `IdentifiableView` instances to display.
+    /// - Parameter onDismiss: An optional closure that is called when the page
+    /// view is dismissed.
+    /// - Parameter pagesBuilder: A builder closure that provides the collection
+    /// of `IdentifiableView` instances to display.
     public init(
       onDismiss: (@MainActor @Sendable (DismissParameters) -> Void)? = nil,
       @IdentifiableViewBuilder _ pagesBuilder: () -> [IdentifiableView]
     ) { self.init(pages: pagesBuilder(), onDismiss: onDismiss) }
 
-    /// Initializes a `PageView` with a collection of `IdentifiableView` instances.
+    /// Initializes a `PageView` with a collection of `IdentifiableView`
+    /// instances.
     ///
-    /// - Parameter pages: The collection of `IdentifiableView` instances to display.
-    /// - Parameter onDismiss: An optional closure that is called when the page view is dismissed.
+    /// - Parameter pages: The collection of `IdentifiableView` instances to
+    /// display.
+    /// - Parameter onDismiss: An optional closure that is called when the page
+    /// view is dismissed.
     public init(
       pages: [IdentifiableView],
       onDismiss: (@Sendable @MainActor (DismissParameters) -> Void)?

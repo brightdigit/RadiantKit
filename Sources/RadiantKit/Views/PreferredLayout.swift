@@ -41,7 +41,8 @@
 
       fileprivate let update: (Value) -> Void
 
-      /// Initializes a new `Value` instance with the given value and update function.
+      /// Initializes a new `Value` instance with the given value and update
+      /// function.
       ///
       /// - Parameters:
       ///   - value: The value to be stored.
@@ -70,12 +71,15 @@
         content(valueType)
       }
 
-      /// Initializes a new `View` instance with the given initial value, reduction function, and content.
+      /// Initializes a new `View` instance with the given initial value,
+      /// reduction function, and content.
       ///
       /// - Parameters:
       ///   - initial: The initial value for the preferred layout.
-      ///   - reduce: A function that reduces two values of type `ValueType` into a single value.
-      ///   - content: A function that creates the content of the view based on the preferred layout value.
+      /// - reduce: A function that reduces two values of type `ValueType` into a
+      /// single value.
+      /// - content: A function that creates the content of the view based on the
+      /// preferred layout value.
       public init(
         initial: ValueType? = nil,
         reduce: @escaping (ValueType, ValueType) -> ValueType,
@@ -88,19 +92,24 @@
     }
   }
 
-  /// Extends the `PreferredLayout.View` struct with a convenience initializer when the `ValueType` is `Comparable`.
+  /// Extends the `PreferredLayout.View` struct with a convenience initializer
+  /// when the `ValueType` is `Comparable`.
   extension PreferredLayout.View where ValueType: Comparable {
-    /// Initializes a new `View` instance with the given content function, using `max` as the reduction function.
+    /// Initializes a new `View` instance with the given content function, using
+    /// `max` as the reduction function.
     ///
-    /// - Parameter content: A function that creates the content of the view based on the preferred layout value.
+    /// - Parameter content: A function that creates the content of the view
+    /// based on the preferred layout value.
     public init(content: @escaping (PreferredLayout.Value<ValueType>) -> Content) {
       self.init(reduce: max, content: content)
     }
   }
 
-  /// Extends the `View` protocol with methods to apply a preferred layout to a view.
+  /// Extends the `View` protocol with methods to apply a preferred layout to a
+  /// view.
   extension View {
-    /// Applies a preferred layout value to the view, using a clear background view.
+    /// Applies a preferred layout value to the view, using a clear background
+    /// view.
     ///
     /// - Parameters:
     ///   - keyPath: The key path to the value in the `GeometryProxy`.
@@ -110,12 +119,14 @@
       with valueType: PreferredLayout.Value<V>
     ) -> some View { self.apply(keyPath, with: valueType) { Color.clear } }
 
-    /// Applies a preferred layout value to the view, with a custom background view.
+    /// Applies a preferred layout value to the view, with a custom background
+    /// view.
     ///
     /// - Parameters:
     ///   - keyPath: The key path to the value in the `GeometryProxy`.
     ///   - valueType: The preferred layout value to apply.
-    ///   - backgroundView: A function that creates the background view for the preferred layout.
+    /// - backgroundView: A function that creates the background view for the
+    /// preferred layout.
     public func apply<V>(
       _ keyPath: KeyPath<GeometryProxy, V>,
       with valueType: PreferredLayout.Value<V>,

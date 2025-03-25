@@ -65,7 +65,8 @@
         .padding(.horizontal, 2)
     }
 
-    /// Initializes a `ValueTextBubble` with the specified value, format, background style, and corner radius.
+    /// Initializes a `ValueTextBubble` with the specified value, format,
+    /// background style, and corner radius.
     /// - Parameters:
     ///   - value: The value to be displayed.
     ///   - format: The format style to be applied to the value.
@@ -83,11 +84,13 @@
       self.backgroundStyle = backgroundStyle
     }
 
-    /// Initializes a `ValueTextBubble` with the specified value, format, background color, and corner radius.
+    /// Initializes a `ValueTextBubble` with the specified value, format,
+    /// background color, and corner radius.
     /// - Parameters:
     ///   - value: The value to be displayed.
     ///   - format: The format style to be applied to the value.
-    ///   - backgroundColor: The background color of the text bubble. Defaults to `Color.primary.opacity(0.25)`.
+    /// - backgroundColor: The background color of the text bubble. Defaults to
+    /// `Color.primary.opacity(0.25)`.
     ///   - cornerRadius: The corner radius of the text bubble. Defaults to 18.
     public init(
       value: ValueType,
@@ -101,11 +104,14 @@
       self.backgroundStyle = backgroundColor
     }
 
-    /// Initializes a `ValueTextBubble` with the specified integer value, format, background color, and corner radius.
+    /// Initializes a `ValueTextBubble` with the specified integer value, format,
+    /// background color, and corner radius.
     /// - Parameters:
     ///   - value: The integer value to be displayed.
-    ///   - format: The integer format style to be applied to the value. Defaults to `FormatStyleType.number`.
-    ///   - backgroundColor: The background color of the text bubble. Defaults to `Color.primary.opacity(0.25)`.
+    /// - format: The integer format style to be applied to the value. Defaults
+    /// to `FormatStyleType.number`.
+    /// - backgroundColor: The background color of the text bubble. Defaults to
+    /// `Color.primary.opacity(0.25)`.
     ///   - cornerRadius: The corner radius of the text bubble. Defaults to 18.
     public init(
       value: Int,

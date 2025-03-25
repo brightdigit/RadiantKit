@@ -37,7 +37,8 @@
     public import Logging
   #endif
 
-  /// An operation that copies a file from a source URL to a destination URL, and periodically updates the progress of the operation.
+  /// An operation that copies a file from a source URL to a destination URL, and
+  /// periodically updates the progress of the operation.
   @MainActor
   @Observable
   public final class CopyOperation<ValueType: BinaryInteger & Sendable>: Identifiable {
@@ -51,7 +52,8 @@
     private let timeInterval: TimeInterval
     /// A closure that gets the size of the file at the given URL.
     private nonisolated let getSize: @Sendable (URL) throws -> ValueType?
-    /// A closure that copies the file from the source URL to the destination URL.
+    /// A closure that copies the file from the source URL to the destination
+    /// URL.
     private let copyFile: @Sendable (CopyPaths) async throws -> Void
     /// The current value of the operation's progress.
     public var currentValue = ValueType.zero
@@ -60,7 +62,8 @@
     /// The logger used to log messages during the operation.
     private let logger: Logger?
 
-    /// The URL of the source file, which is used as the unique identifier for the operation.
+    /// The URL of the source file, which is used as the unique identifier for
+    /// the operation.
     public nonisolated var id: URL { sourceURL }
 
     /// Initializes a new `CopyOperation` instance.
@@ -69,10 +72,12 @@
     ///   - sourceURL: The source URL of the file to be copied.
     ///   - destinationURL: The destination URL of the copied file.
     ///   - totalValue: The total value of the file being copied, if known.
-    ///   - timeInterval: The time interval between updates to the progress of the operation.
+    /// - timeInterval: The time interval between updates to the progress of the
+    /// operation.
     ///   - logger: The logger used to log messages during the operation.
     ///   - getSize: A closure that gets the size of the file at the given URL.
-    ///   - copyFile: A closure that copies the file from the source URL to the destination URL.
+    /// - copyFile: A closure that copies the file from the source URL to the
+    /// destination URL.
     public init(
       sourceURL: URL,
       destinationURL: URL,
@@ -93,14 +98,17 @@
 
     /// Updates the current value of the operation's progress.
     ///
-    /// - Parameter currentValue: The new current value of the operation's progress.
+    /// - Parameter currentValue: The new current value of the operation's
+    /// progress.
     private nonisolated func updateValue(_ currentValue: ValueType) {
       Task { await self.updatingValue(currentValue) }
     }
 
-    /// Updates the current value of the operation's progress and checks if the operation is complete.
+    /// Updates the current value of the operation's progress and checks if the
+    /// operation is complete.
     ///
-    /// - Parameter currentValue: The new current value of the operation's progress.
+    /// - Parameter currentValue: The new current value of the operation's
+    /// progress.
     private func updatingValue(_ currentValue: ValueType) {
       self.currentValue = currentValue
       if let totalValue = self.totalValue {
@@ -160,7 +168,8 @@
       self.killTimer()
     }
 
-    /// Stops the timer used to periodically update the progress of the operation.
+    /// Stops the timer used to periodically update the progress of the
+    /// operation.
     private func killTimer() {
       timer?.invalidate()
       timer = nil

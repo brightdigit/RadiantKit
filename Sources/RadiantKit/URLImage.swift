@@ -39,12 +39,14 @@
     public var body: some View {
       Group {
         #if os(iOS) || os(watchOS) || os(tvOS)
-          /// If the image can be loaded from the file path, display it and scale it to fit the available space.
+          /// If the image can be loaded from the file path, display it and scale
+          /// it to fit the available space.
           if let image = UIImage(contentsOfFile: path) {
             Image(uiImage: image).resizable().scaledToFit()
           }
         #elseif os(macOS)
-          /// If the image can be loaded from the file path, display it and scale it to fit the available space.
+          /// If the image can be loaded from the file path, display it and scale
+          /// it to fit the available space.
           if let image = NSImage(contentsOfFile: path) {
             Image(nsImage: image).resizable().scaledToFit()
           }

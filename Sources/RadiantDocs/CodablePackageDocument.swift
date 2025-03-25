@@ -57,7 +57,8 @@
         self.configuration = configuration
       }
 
-      /// Initializes a `CodablePackageDocument` from the provided read configuration.
+      /// Initializes a `CodablePackageDocument` from the provided read
+      /// configuration.
       /// - Parameter configuration: The read configuration.
       /// - Throws: A `ReadError` if the configuration file wrapper is missing.
       public init(configuration: ReadConfiguration) throws {

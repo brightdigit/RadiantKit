@@ -34,11 +34,14 @@
   public import SwiftUI
 
   extension Binding {
-    /// Transforms the value of the `Binding` using the provided `get` and `set` functions.
+    /// Transforms the value of the `Binding` using the provided `get` and `set`
+    /// functions.
     ///
     /// - Parameters:
-    ///   - get: A closure that transforms the value of the `Binding` to a different type.
-    ///   - set: A closure that transforms a value of a different type back to the original type of the `Binding`.
+    /// - get: A closure that transforms the value of the `Binding` to a
+    /// different type.
+    /// - set: A closure that transforms a value of a different type back to the
+    /// original type of the `Binding`.
     /// - Returns: A new `Binding` with the transformed value.
     @MainActor
     public func map<T>(

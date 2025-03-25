@@ -35,7 +35,8 @@
 
   import UniformTypeIdentifiers
 
-  /// A private struct that represents the environment key for allowed open file types.
+  /// A private struct that represents the environment key for allowed open file
+  /// types.
   private struct AllowedOpenFileTypesKey: EnvironmentKey {
     /// The value type associated with the environment key.
     typealias Value = [FileType]
@@ -56,7 +57,8 @@
     ///
     /// - Parameter fileTypes: The array of `FileType` values
     /// to be allowed for file opening.
-    /// - Returns: A modified version of the view with the allowed open file types set.
+    /// - Returns: A modified version of the view with the allowed open file
+    /// types set.
     public func allowedOpenFileTypes(_ fileTypes: [FileType]) -> some View {
       self.environment(\.allowedOpenFileTypes, fileTypes)
     }
@@ -67,7 +69,8 @@
     ///
     /// - Parameter fileTypes: The array of `FileType` values
     ///  to be allowed for file opening.
-    /// - Returns: A modified version of the scene with the allowed open file types set.
+    /// - Returns: A modified version of the scene with the allowed open file
+    /// types set.
     public func allowedOpenFileTypes(_ fileTypes: [FileType]) -> some Scene {
       self.environment(\.allowedOpenFileTypes, fileTypes)
     }

@@ -37,7 +37,8 @@
     /// A type alias for opening windows without an associated value.
     public typealias OpenWindowWithAction = OpenWindowWithValueAction<Void>
 
-    /// Extension providing functionality for opening windows without associated values.
+    /// Extension providing functionality for opening windows without associated
+    /// values.
     @MainActor
     extension OpenWindowWithAction {
       /// Creates a new window opening action with the specified closure.

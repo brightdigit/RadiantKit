@@ -33,7 +33,8 @@
     public import Foundation
     public import SwiftUI
 
-    /// A private environment key for storing the `OpenFileURLAction` in the environment.
+    /// A private environment key for storing the `OpenFileURLAction` in the
+    /// environment.
     private struct OpenFileURLKey: EnvironmentKey, Sendable {
       typealias Value = OpenFileURLAction
 
@@ -46,7 +47,8 @@
     /// A type alias for opening files with URLs.
     public typealias OpenFileURLAction = OpenWindowURLAction
 
-    /// Environment values extension that provides access to the file URL opening action.
+    /// Environment values extension that provides access to the file URL opening
+    /// action.
     extension EnvironmentValues {
       /// The action used to open file URLs in the current environment.
       public var openFileURL: OpenFileURLAction {

@@ -49,7 +49,8 @@ extension InitializablePackage {
   /// - Parameters:
   ///   - fileURL: The URL at which to create the package.
   ///   - encoder: The JSON encoder to use for encoding the package.
-  ///   - options: The options to use when creating the package. Defaults to `.none`.
+  /// - options: The options to use when creating the package. Defaults to
+  /// `.none`.
   ///
   /// - Returns: The newly created instance of the package.
   ///

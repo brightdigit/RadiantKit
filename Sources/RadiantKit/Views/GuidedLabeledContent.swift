@@ -31,9 +31,11 @@
 
   public import SwiftUI
 
-  /// A view that combines a labeled content view with a description view, creating a guided user experience.
+  /// A view that combines a labeled content view with a description view,
+  /// creating a guided user experience.
   ///
-  /// This view is useful for presenting content with additional guidance or context.
+  /// This view is useful for presenting content with additional guidance or
+  /// context.
   ///
   /// - Parameters:
   ///   - content: A closure that returns the content view.
@@ -70,15 +72,18 @@
 
   extension GuidedLabeledContent
   where Description == GuidedLabeledContentDescriptionView {
-    /// Initializes a `GuidedLabeledContent` instance with a content view, a label view, and a text-based description view.
+    /// Initializes a `GuidedLabeledContent` instance with a content view, a
+    /// label view, and a text-based description view.
     ///
     /// - Parameters:
     ///   - content: A closure that returns the content view.
     ///   - label: A closure that returns the label view.
     ///   - text: A closure that returns the text-based description view.
-    ///   - descriptionAlignment: The alignment of the description view (default is `.leading`).
+    /// - descriptionAlignment: The alignment of the description view (default is
+    /// `.leading`).
     ///
-    /// - Returns: A `GuidedLabeledContent` instance with the specified content, label, and description.
+    /// - Returns: A `GuidedLabeledContent` instance with the specified content,
+    /// label, and description.
     public init(
       _ content: @escaping () -> Content,
       label: @escaping () -> Label,

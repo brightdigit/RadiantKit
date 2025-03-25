@@ -32,7 +32,8 @@
   import Foundation
   public import SwiftUI
 
-  /// A key that represents the availability of page navigation in the environment.
+  /// A key that represents the availability of page navigation in the
+  /// environment.
   private struct PageNavigationAvailabilityKey: EnvironmentKey, Sendable {
     /// The default value for page navigation availability, which is `.default`.
     static let defaultValue: PageNavigationAvailability = .default
@@ -55,13 +56,15 @@
     /// Indicates that navigation to the previous page is available.
     public static let previous: PageNavigationAvailability = .init(rawValue: 2)
 
-    /// Indicates that navigation to both the previous and next pages is available.
+    /// Indicates that navigation to both the previous and next pages is
+    /// available.
     public static let both: PageNavigationAvailability = [previous, next]
 
     /// The raw value of the option set.
     public let rawValue: Int
 
-    /// Initializes a `PageNavigationAvailability` instance with the given raw value.
+    /// Initializes a `PageNavigationAvailability` instance with the given raw
+    /// value.
     ///
     /// - Parameter rawValue: The raw value to initialize the option set with.
     public init(rawValue: RawValue) {

@@ -51,8 +51,10 @@
 
     internal var totalValue: Double? { operation.totalValue.map(Double.init) }
 
-    /// Initializes a new `FileOperationProgress` object with the given progress operation.
-    /// - Parameter operation: The progress operation to associate with this object.
+    /// Initializes a new `FileOperationProgress` object with the given progress
+    /// operation.
+    /// - Parameter operation: The progress operation to associate with this
+    /// object.
     public init(_ operation: any ProgressOperation<ValueType>) {
       self.operation = operation
       self.id = operation.id

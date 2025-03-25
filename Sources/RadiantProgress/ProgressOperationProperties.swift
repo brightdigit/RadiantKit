@@ -46,7 +46,8 @@
     /// Initializes a new instance of `ProgressOperationProperties`.
     ///
     /// - Parameters:
-    ///   - imageName: The name of the image associated with the progress operation.
+    /// - imageName: The name of the image associated with the progress
+    /// operation.
     ///   - text: The text associated with the progress operation.
     ///   - url: The URL used as the identifier for the progress operation.
     ///   - progress: The progress of the operation.

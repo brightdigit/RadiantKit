@@ -30,11 +30,15 @@
 #if canImport(SwiftUI)
   public import SwiftUI
 
-  /// An extension to the `Color` type that adds an initializer to create a `Color` instance from a hexadecimal string.
+  /// An extension to the `Color` type that adds an initializer to create a
+  /// `Color` instance from a hexadecimal string.
   extension Color {
+    // swiftlint:disable function_body_length
+
     /// Initializes a `Color` instance from a hexadecimal string.
     ///
-    /// - Parameter hex: A hexadecimal string representation of the color, in the format of `"RRGGBB"` or `"AARRGGBB"`.
+    /// - Parameter hex: A hexadecimal string representation of the color, in the
+    /// format of `"RRGGBB"` or `"AARRGGBB"`.
     public init(hex: String) {
       let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
       var int: UInt64 = 0
@@ -68,5 +72,6 @@
         opacity: Double(alpha) / 255
       )
     }
+    // swiftlint:enable function_body_length
   }
 #endif

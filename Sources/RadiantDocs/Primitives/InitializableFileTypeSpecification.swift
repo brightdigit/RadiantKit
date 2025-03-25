@@ -37,7 +37,8 @@ public protocol InitializableFileTypeSpecification: FileTypeSpecification {
   /// Creates a new instance of the window value type at the specified URL.
   ///
   /// - Parameter url: The URL of the file to create the window value from.
-  /// - Throws: Any errors that may occur during the creation of the window value.
+  /// - Throws: Any errors that may occur during the creation of the window
+  /// value.
   /// - Returns: A new instance of the window value type.
   static func createAt(_ url: URL) throws -> WindowValueType
 }

@@ -34,7 +34,8 @@
   public import SwiftUI
 
   /// A default view value for a `SingleWindowView`.
-  /// - Note: This struct is marked as `periphery:ignore` to exclude it from code analysis.
+  /// - Note: This struct is marked as `periphery:ignore` to exclude it from code
+  /// analysis.
   public struct SingleWindowViewValue<ViewType: SingleWindowView>: DefaultableViewValue {
     /// The default value for the `SingleWindowViewValue`.
     public static var `default`: Self { .init() }
@@ -52,7 +53,8 @@
   }
 
   extension SingleWindowView {
-    /// Initializes a new instance of the `SingleWindowView` with a binding to the view value.
+    /// Initializes a new instance of the `SingleWindowView` with a binding to
+    /// the view value.
     /// - Parameter value: A binding to the view value.
     public init(_ value: Binding<Value>) {
       self.init()
@@ -61,7 +63,8 @@
 
   #if os(macOS) || os(iOS) || os(visionOS)
     extension WindowGroup {
-      /// Initializes a new instance of the `WindowGroup` with a single window view.
+      /// Initializes a new instance of the `WindowGroup` with a single window
+      /// view.
       /// - Parameter _: The type of the `SingleWindowView`.
       @MainActor
       public init<V: SingleWindowView>(singleOf _: V.Type)

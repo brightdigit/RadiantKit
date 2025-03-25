@@ -39,9 +39,12 @@
     /// Initializes a new instance of the `VerticalLabelStyle` struct.
     ///
     /// - Parameters:
-    ///   - alignment: The horizontal alignment of the label and content. Defaults to `.leading`.
-    ///   - labelFont: The font to be used for the label. Defaults to `.subheadline`.
-    ///   - labelPaddingEdgeInsets: The edge insets to be used for padding the label. Defaults to `.defaultLabeledContent`.
+    /// - alignment: The horizontal alignment of the label and content. Defaults
+    /// to `.leading`.
+    /// - labelFont: The font to be used for the label. Defaults to
+    /// `.subheadline`.
+    /// - labelPaddingEdgeInsets: The edge insets to be used for padding the
+    /// label. Defaults to `.defaultLabeledContent`.
     public init(
       alignment: HorizontalAlignment = .leading,
       labelFont: Font = .subheadline,
@@ -68,9 +71,12 @@
     /// Creates a vertical label style with the given parameters.
     ///
     /// - Parameters:
-    ///   - alignment: The horizontal alignment of the label and content. Defaults to `.leading`.
-    ///   - labelFont: The font to be used for the label. Defaults to `.subheadline`.
-    ///   - labelPaddingEdgeInsets: The edge insets to be used for padding the label. Defaults to `.defaultLabeledContent`.
+    /// - alignment: The horizontal alignment of the label and content. Defaults
+    /// to `.leading`.
+    /// - labelFont: The font to be used for the label. Defaults to
+    /// `.subheadline`.
+    /// - labelPaddingEdgeInsets: The edge insets to be used for padding the
+    /// label. Defaults to `.defaultLabeledContent`.
     /// - Returns: A `VerticalLabelStyle` instance with the specified parameters.
     public static func vertical(
       alignment: HorizontalAlignment = .leading,

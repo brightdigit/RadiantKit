@@ -31,7 +31,8 @@
 
   public import SwiftUI
 
-  /// A SwiftUI view that displays a labeled content description with optional alignment.
+  /// A SwiftUI view that displays a labeled content description with optional
+  /// alignment.
   public struct GuidedLabeledContentDescriptionView: View {
     /// Represents the alignment of the content within the view.
     public enum Alignment {
@@ -79,9 +80,12 @@
       }
     }
 
-    /// Initializes a `GuidedLabeledContentDescriptionView` with the specified alignment and text.
-    /// - Parameter alignment: The alignment of the content within the view. Defaults to `nil`, which centers the content.
-    /// - Parameter text: A closure that returns the text to be displayed in the view.
+    /// Initializes a `GuidedLabeledContentDescriptionView` with the specified
+    /// alignment and text.
+    /// - Parameter alignment: The alignment of the content within the view.
+    /// Defaults to `nil`, which centers the content.
+    /// - Parameter text: A closure that returns the text to be displayed in the
+    /// view.
     internal init(alignment: Alignment? = nil, text: @escaping () -> Text) {
       self.text = text
       self.alignment = alignment

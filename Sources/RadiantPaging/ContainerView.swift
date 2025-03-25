@@ -31,13 +31,16 @@
 
   public import SwiftUI
 
-  /// A container view that provides a consistent layout and navigation for content.
+  /// A container view that provides a consistent layout and navigation for
+  /// content.
   ///
-  /// This view includes a header, a content section, and a navigation bar at the bottom.
+  /// This view includes a header, a content section, and a navigation bar at the
+  /// bottom.
   ///
   /// - Parameters:
   ///   - label: A closure that returns the header view for the container.
-  ///   - content: A closure that takes a `Binding<Bool>` and returns the content view for the container.
+  /// - content: A closure that takes a `Binding<Bool>` and returns the content
+  /// view for the container.
   public struct ContainerView<Label: View, Content: View>: View {
     @Environment(\.pageNavigationAvailability)
     private var pageNavigationAvailability
@@ -111,7 +114,8 @@
     ///
     /// - Parameters:
     ///   - label: A closure that returns the header view for the container.
-    ///   - content: A closure that takes a `Binding<Bool>` and returns the content view for the container.
+    /// - content: A closure that takes a `Binding<Bool>` and returns the content
+    /// view for the container.
     public init(
       label: @escaping () -> Label,
       content: @escaping (Binding<Bool>) -> Content

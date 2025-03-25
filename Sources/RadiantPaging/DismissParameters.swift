@@ -30,7 +30,8 @@
 import Foundation
 public import RadiantKit
 
-/// Provides information about a dismissal event, including the current page index and ID, and the type of dismissal action.
+/// Provides information about a dismissal event, including the current page
+/// index and ID, and the type of dismissal action.
 public struct DismissParameters {
   #if canImport(SwiftUI)
     /// The identifier for a view in SwiftUI.

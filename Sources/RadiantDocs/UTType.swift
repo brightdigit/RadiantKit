@@ -49,7 +49,8 @@
     /// that are allowed content types for the given `FileType`.
     ///
     /// - Parameter fileType: The `FileType` to get allowed content types for.
-    /// - Returns: An array of `UTType` instances that are allowed content types for the given `FileType`.
+    /// - Returns: An array of `UTType` instances that are allowed content types
+    /// for the given `FileType`.
     public static func allowedContentTypes(for fileType: FileType) -> [UTType] {
       var types = [UTType]()
 
@@ -68,8 +69,10 @@
     /// Returns an array of `UTType` instances
     /// that are allowed content types for the given `FileType` instances.
     ///
-    /// - Parameter fileTypes: The `FileType` instances to get allowed content types for.
-    /// - Returns: An array of `UTType` instances that are allowed content types for the given `FileType` instances.
+    /// - Parameter fileTypes: The `FileType` instances to get allowed content
+    /// types for.
+    /// - Returns: An array of `UTType` instances that are allowed content types
+    /// for the given `FileType` instances.
     public static func allowedContentTypes(for fileTypes: FileType...) -> [UTType] {
       fileTypes.flatMap(allowedContentTypes(for:))
     }

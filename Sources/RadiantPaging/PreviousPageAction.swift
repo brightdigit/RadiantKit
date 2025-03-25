@@ -32,13 +32,15 @@
   import Foundation
   public import SwiftUI
 
-  /// A private struct that serves as the environment key for the `previousPage` environment value.
+  /// A private struct that serves as the environment key for the `previousPage`
+  /// environment value.
   private struct PreviousPageKey: EnvironmentKey, Sendable {
     /// The default value for the `previousPage` environment value.
     static let defaultValue: PreviousPageAction = .default
   }
 
-  /// A type alias for the `PageAction` type, used to represent the action to take when navigating to the previous page.
+  /// A type alias for the `PageAction` type, used to represent the action to
+  /// take when navigating to the previous page.
   public typealias PreviousPageAction = PageAction
 
   extension EnvironmentValues {

@@ -34,7 +34,8 @@ extension UserDefaults {
   /// with a fallback default value.
   ///
   /// - Parameters:
-  ///   - key: The key to use when retrieving the value from the `UserDefaults` store.
+  /// - key: The key to use when retrieving the value from the `UserDefaults`
+  /// store.
   ///   - defaultValue: The default value to return
   ///    if the key does not exist in the `UserDefaults` store.
   /// - Returns: The boolean value associated with the specified key,
@@ -64,7 +65,8 @@ extension UserDefaults {
   }
 
   /// Retrieves a value from the `UserDefaults` store for a type
-  /// that conforms to the `DefaultWrapped` protocol, with a fallback default value.
+  /// that conforms to the `DefaultWrapped` protocol, with a fallback default
+  /// value.
   ///
   /// - Parameters:
   ///   - _: The type that conforms to the `DefaultWrapped` protocol.

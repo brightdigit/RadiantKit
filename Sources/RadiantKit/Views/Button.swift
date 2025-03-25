@@ -35,18 +35,22 @@
     /// Initializes a `Button` with an `OpenURLAction` and a `URL`.
     ///
     /// - Parameters:
-    ///   - openURL: The `OpenURLAction` to be performed when the button is pressed.
+    /// - openURL: The `OpenURLAction` to be performed when the button is
+    /// pressed.
     ///   - url: The `URL` to be opened when the button is pressed.
-    ///   - label: A closure that returns the view to be used as the button's label.
+    /// - label: A closure that returns the view to be used as the button's
+    /// label.
     public init(_ openURL: OpenURLAction, _ url: URL, @ViewBuilder _ label: () -> Label) {
       self.init(action: { openURL.callAsFunction(url) }, label: label)
     }
 
-    /// Initializes a `Button` with a localized string key, an `OpenURLAction`, and a `URL`.
+    /// Initializes a `Button` with a localized string key, an `OpenURLAction`,
+    /// and a `URL`.
     ///
     /// - Parameters:
     ///   - titleKey: The localized string key to be used as the button's title.
-    ///   - openURL: The `OpenURLAction` to be performed when the button is pressed.
+    /// - openURL: The `OpenURLAction` to be performed when the button is
+    /// pressed.
     ///   - url: The `URL` to be opened when the button is pressed.
     public init(_ titleKey: LocalizedStringKey, _ openURL: OpenURLAction, _ url: URL)
     where Label == Text {

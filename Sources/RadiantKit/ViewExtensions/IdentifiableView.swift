@@ -44,7 +44,8 @@
       AnyView(content)
     }
 
-    /// Initializes an `IdentifiableView` with the provided content view and identifier.
+    /// Initializes an `IdentifiableView` with the provided content view and
+    /// identifier.
     /// - Parameters:
     ///   - content: The view to be wrapped.
     ///   - id: The unique identifier for the view.
@@ -53,7 +54,8 @@
       self.id = id
     }
 
-    /// Initializes an `IdentifiableView` with a closure that produces the content view and an identifier.
+    /// Initializes an `IdentifiableView` with a closure that produces the
+    /// content view and an identifier.
     /// - Parameters:
     ///   - content: A closure that produces the view to be wrapped.
     ///   - id: The unique identifier for the view.

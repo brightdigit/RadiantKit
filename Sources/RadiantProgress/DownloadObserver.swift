@@ -31,7 +31,8 @@ import Foundation
 
 /// A protocol that defines an observer for download events.
 internal protocol DownloadObserver {
-  /// Called when the download has finished downloading to the specified location.
+  /// Called when the download has finished downloading to the specified
+  /// location.
   /// - Parameter location: The URL of the downloaded file.
   func finishedDownloadingTo(_ location: URL)
 
@@ -39,7 +40,8 @@ internal protocol DownloadObserver {
   /// - Parameter progress: The current download progress.
   func progressUpdated(_ progress: DownloadUpdate)
 
-  /// Called when the download has completed, either successfully or with an error.
+  /// Called when the download has completed, either successfully or with an
+  /// error.
   /// - Parameter error: An optional error that occurred during the download.
   func didComplete(withError error: Error?)
 }

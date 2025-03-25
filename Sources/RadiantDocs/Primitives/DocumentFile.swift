@@ -47,7 +47,8 @@ extension DocumentFile {
   /// Creates a `DocumentFile` instance from the given URL
   ///  if the file type matches the specified `FileType`.
   /// - Parameter url: The URL of the document file.
-  /// - Returns: A `DocumentFile` instance if the file type matches, or `nil` if it does not.
+  /// - Returns: A `DocumentFile` instance if the file type matches, or `nil` if
+  /// it does not.
   public static func documentFile(from url: URL) -> Self? {
     guard url.pathExtension == FileType.fileType.fileExtension else {
       return nil

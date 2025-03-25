@@ -32,7 +32,8 @@
   import Foundation
   public import SwiftUI
 
-  /// A private struct representing a key for the next page action in the environment.
+  /// A private struct representing a key for the next page action in the
+  /// environment.
   private struct NextPageKey: EnvironmentKey, Sendable {
     /// The default value for the next page action.
     fileprivate static let defaultValue: NextPageAction = .default
@@ -47,7 +48,8 @@
     private let pageFunction: @Sendable @MainActor () -> Void
 
     /// Initializes a new page action with the given function.
-    /// - Parameter pageFunction: The function to be executed when the page action is called.
+    /// - Parameter pageFunction: The function to be executed when the page
+    /// action is called.
     internal init(_ pageFunction: @Sendable @MainActor @escaping () -> Void) {
       self.pageFunction = pageFunction
     }

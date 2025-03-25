@@ -37,6 +37,7 @@
   public struct Video: NSViewRepresentable {
     private let player: AVPlayer?
 
+    // swiftlint:disable implicitly_unwrapped_optional
     /// Initializes a `Video` instance with an `AVPlayer`.
     ///
     /// - Parameter player: The `AVPlayer` to be used in the video view.
@@ -44,6 +45,7 @@
       assert(player != nil)
       self.player = player
     }
+    // swiftlint:enable implicitly_unwrapped_optional
 
     /// Creates an `AVPlayerView` to display the video.
     ///

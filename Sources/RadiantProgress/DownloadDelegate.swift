@@ -33,13 +33,15 @@ import Foundation
   import FoundationNetworking
 #endif
 
-/// The `DownloadDelegate` class is responsible for handling the download progress and completion of a URL session download task.
+/// The `DownloadDelegate` class is responsible for handling the download
+/// progress and completion of a URL session download task.
 internal final class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
   private let container = ObserverContainer()
 
   /// Sets the observer for the download delegate.
   ///
-  /// - Parameter observer: The `DownloadObserver` instance to be set as the observer.
+  /// - Parameter observer: The `DownloadObserver` instance to be set as the
+  /// observer.
   internal func setObserver(_ observer: DownloadObserver) {
     self.container.setObserver(observer)
   }
@@ -74,8 +76,9 @@ internal final class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
   ///   - _: The URL session that initiated the download task.
   ///   - downloadTask: The download task that is reporting progress.
   ///   - _: The amount of data that has been written to the file.
-  ///   - totalBytesWritten: The total number of bytes written to the file so far.
-  ///   - totalBytesExpectedToWrite: The total number of bytes expected to be written to the file.
+  /// - totalBytesWritten: The total number of bytes written to the file so far.
+  /// - totalBytesExpectedToWrite: The total number of bytes expected to be
+  /// written to the file.
   internal func urlSession(
     _: URLSession,
     downloadTask _: URLSessionDownloadTask,
@@ -93,7 +96,8 @@ internal final class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
     }
   }
 
-  /// Called when the download task has completed, either successfully or with an error.
+  /// Called when the download task has completed, either successfully or with an
+  /// error.
   ///
   /// - Parameters:
   ///   - _: The URL session that initiated the download task.
