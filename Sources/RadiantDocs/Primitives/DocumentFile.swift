@@ -39,7 +39,9 @@ public struct DocumentFile<FileType: FileTypeSpecification>: Codable, Hashable {
 
 extension DocumentFile {
   public static func documentFile(from url: URL) -> Self? {
-    guard url.pathExtension == FileType.fileType.fileExtension else { return nil }
+    guard url.pathExtension == FileType.fileType.fileExtension else {
+      return nil
+    }
     return Self(url: url)
   }
 }

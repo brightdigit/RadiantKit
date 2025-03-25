@@ -52,7 +52,9 @@
       openPanel.allowedContentTypes = fileTypes.map(UTType.init(fileType:))
       openPanel.isExtensionHidden = true
       openPanel.begin { response in
-        guard let fileURL = openPanel.url, response == .OK else { return }
+        guard let fileURL = openPanel.url, response == .OK else {
+          return
+        }
         openFileURL(fileURL, with: openWindow)
       }
     }
@@ -62,7 +64,9 @@
     @MainActor public func callAsFunction(
       ofFileTypes fileTypes: [FileType],
       using openWindow: OpenWindowAction
-    ) { OpenAnyFilePanel(fileTypes: fileTypes).callAsFunction(with: self, using: openWindow) }
+    ) {
+      OpenAnyFilePanel(fileTypes: fileTypes).callAsFunction(with: self, using: openWindow)
+    }
   }
 
 #endif

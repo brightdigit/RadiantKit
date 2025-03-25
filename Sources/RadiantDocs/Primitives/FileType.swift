@@ -46,28 +46,10 @@ public struct FileType: Hashable, ExpressibleByStringLiteral, Sendable {
     self.init(utIdentifier: utIdentifier, isOwned: false)
   }
 
-  public static func exportedAs(_ utIdentifier: String, _ fileExtension: String) -> FileType {
+  public static func exportedAs(
+    _ utIdentifier: String,
+    _ fileExtension: String
+  ) -> FileType {
     .init(utIdentifier: utIdentifier, isOwned: true, fileExtension: fileExtension)
   }
 }
-//
-// extension FileType {
-//  public static let ipswFileExtension = "ipsw"
-//  public static let iTunesIPSW: FileType = "com.apple.itunes.ipsw"
-//  public static let iPhoneIPSW: FileType = "com.apple.iphone.ipsw"
-//
-//  public static let virtualMachineFileExtension = "bshvm"
-//  public static let restoreImageLibraryFileExtension = "bshrilib"
-//
-//  public static let virtualMachine: FileType = .exportedAs(
-//    "com.brightdigit.bushel-vm",
-//    virtualMachineFileExtension
-//  )
-//
-//  public static let restoreImageLibrary: FileType = .exportedAs(
-//    "com.brightdigit.bushel-rilib",
-//    restoreImageLibraryFileExtension
-//  )
-//
-//  public static let ipswTypes = [iTunesIPSW, iPhoneIPSW]
-// }

@@ -38,7 +38,9 @@ import Foundation
     private struct NSWindowAdaptorHostingView: NSViewRepresentable {
       private var callback: (NSWindow?) -> Void
 
-      fileprivate init(callback: @escaping (NSWindow?) -> Void) { self.callback = callback }
+      fileprivate init(callback: @escaping (NSWindow?) -> Void) {
+        self.callback = callback
+      }
 
       fileprivate func makeNSView(context _: Self.Context) -> NSView {
         let view = NSView()
@@ -55,15 +57,22 @@ import Foundation
     private struct NSWindowAdaptorModifier: ViewModifier {
       private var callback: (NSWindow?) -> Void
 
-      fileprivate init(callback: @escaping (NSWindow?) -> Void) { self.callback = callback }
+      fileprivate init(callback: @escaping (NSWindow?) -> Void) {
+        self.callback = callback
+      }
 
       fileprivate func body(content: Content) -> some View {
-        content.overlay(NSWindowAdaptorHostingView(callback: callback).frame(width: 0, height: 0))
+        content.overlay(
+          NSWindowAdaptorHostingView(callback: callback)
+            .frame(width: 0, height: 0)
+        )
       }
     }
 
     extension View {
-      public func nsWindowAdaptor(_ callback: @escaping (NSWindow?) -> Void) -> some View {
+      public func nsWindowAdaptor(
+        _ callback: @escaping (NSWindow?) -> Void
+      ) -> some View {
         self.modifier(NSWindowAdaptorModifier(callback: callback))
       }
     }

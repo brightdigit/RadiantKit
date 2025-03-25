@@ -35,8 +35,10 @@
       if fileType.isOwned {
         self.init(exportedAs: fileType.utIdentifier)
       } else {
+        // swiftlint:disable force_unwrapping
         // swift-format-ignore: NeverForceUnwrap
         self.init(fileType.utIdentifier)!
+        // swiftlint:enable force_unwrapping
       }
     }
 
@@ -45,7 +47,8 @@
 
       if fileType.isOwned { types.append(.init(exportedAs: fileType.utIdentifier)) }
 
-      if let fileExtensionType = fileType.fileExtension.flatMap({ UTType(filenameExtension: $0) }) {
+      if let fileExtensionType =
+        fileType.fileExtension.flatMap({ UTType(filenameExtension: $0) }) {
         types.append(fileExtensionType)
       }
 
@@ -60,8 +63,11 @@
   }
 
   extension FileType {
-    @Sendable public init?(url: URL) {
-      guard let utType = UTType(filenameExtension: url.pathExtension) else { return nil }
+    @Sendable
+    public init?(url: URL) {
+      guard let utType = UTType(filenameExtension: url.pathExtension) else {
+        return nil
+      }
       self.init(stringLiteral: utType.identifier)
     }
   }

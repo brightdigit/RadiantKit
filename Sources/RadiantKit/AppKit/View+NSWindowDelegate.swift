@@ -64,7 +64,9 @@
       _ container: any NSWindowDelegateContainer,
       _ delegate: @autoclosure () -> any NSWindowDelegate
     ) -> some View {
-      self.modifier(NSWindowDelegateAdaptorModifier(container: container, delegate: delegate()))
+      self.modifier(
+        NSWindowDelegateAdaptorModifier(container: container, delegate: delegate())
+      )
     }
   }
 #endif

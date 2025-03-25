@@ -38,7 +38,9 @@ public protocol CodablePackage: Sendable, Codable {
 
 extension CodablePackage {
   public init(contentsOf url: URL) throws {
-    let data = try Data(contentsOf: url.appendingPathComponent(Self.configurationFileWrapperKey))
+    let data = try Data(
+      contentsOf: url.appendingPathComponent(Self.configurationFileWrapperKey)
+    )
     self = try Self.decoder.decode(Self.self, from: data)
   }
 }

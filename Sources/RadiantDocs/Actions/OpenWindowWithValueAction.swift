@@ -38,8 +38,10 @@
         .init { value, action in defaultClosure(value, with: action) }
       }
 
-      let closure: @Sendable @MainActor (ValueType, OpenWindowAction) -> Void
-      public init(closure: @escaping @MainActor @Sendable (ValueType, OpenWindowAction) -> Void) {
+      private let closure: @Sendable @MainActor (ValueType, OpenWindowAction) -> Void
+      public init(
+        closure: @escaping @MainActor @Sendable (ValueType, OpenWindowAction) -> Void
+      ) {
         self.closure = closure
       }
 
@@ -47,7 +49,8 @@
         assertionFailure()
       }
 
-      @MainActor public func callAsFunction(_ value: ValueType, with openWidow: OpenWindowAction) {
+      @MainActor
+      public func callAsFunction(_ value: ValueType, with openWidow: OpenWindowAction) {
         closure(value, openWidow)
       }
     }

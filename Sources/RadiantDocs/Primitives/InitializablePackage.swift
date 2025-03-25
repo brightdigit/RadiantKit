@@ -37,7 +37,8 @@ public protocol InitializablePackage: CodablePackage { init() }
 
 extension InitializablePackage {
   public typealias Options = InitializablePackageOptions
-  @discardableResult public static func createAt(
+  @discardableResult
+  public static func createAt(
     _ fileURL: URL,
     using encoder: JSONEncoder,
     options: Options = .none
@@ -47,7 +48,9 @@ extension InitializablePackage {
       at: fileURL,
       withIntermediateDirectories: options.withIntermediateDirectoriesIsEnabled
     )
-    let metadataJSONPath = fileURL.appendingPathComponent(self.configurationFileWrapperKey)
+    let metadataJSONPath = fileURL.appendingPathComponent(
+      self.configurationFileWrapperKey
+    )
     let data = try encoder.encode(library)
     try data.write(to: metadataJSONPath, options: .init(options: options))
     return library

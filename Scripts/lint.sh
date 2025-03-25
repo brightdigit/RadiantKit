@@ -50,7 +50,7 @@ fi
 
 if [ -z "$FORMAT_ONLY" ]; then
     $MINT_RUN swift-format lint --configuration .swift-format --recursive --parallel $SWIFTFORMAT_OPTIONS Sources Tests || exit 1
-    $MINT_RUN swiftlint lint $SWIFTLINT_OPTIONS || exit 1
+    $MINT_RUN swiftlint lint --strict $SWIFTLINT_OPTIONS || exit 1
 fi
 
 popd || exit 1
