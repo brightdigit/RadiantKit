@@ -28,13 +28,22 @@
 //
 
 #if canImport(AppKit) && canImport(SwiftUI)
+
   import AppKit
   public import SwiftUI
 
-  fileprivate struct NSWindowDelegateAdaptorModifier: ViewModifier {
+  /// A view modifier that adapts an NSWindow delegate to a SwiftUI view.
+  private struct NSWindowDelegateAdaptorModifier: ViewModifier {
+    /// The container that manages the NSWindow delegate.
     let container: any NSWindowDelegateContainer
+    /// The delegate that will be applied to the NSWindow.
     let delegate: any NSWindowDelegate
 
+    /// Initializes the modifier with the container and delegate.
+    ///
+    /// - Parameters:
+    ///   - container: The container that manages the NSWindow delegate.
+    ///   - delegate: The delegate to be applied to the NSWindow.
     init(
       container: any NSWindowDelegateContainer,
       delegate: @autoclosure () -> any NSWindowDelegate
@@ -42,8 +51,7 @@
       self.container = container
       if let windowDelegate = container.windowDelegate {
         self.delegate = windowDelegate
-      }
-      else {
+      } else {
         let newDelegate = delegate()
         print("Creating a New Window Delegate")
         self.delegate = newDelegate
@@ -51,6 +59,10 @@
       }
     }
 
+    /// Applies the NSWindow delegate to the content view.
+    ///
+    /// - Parameter content: The content view to be modified.
+    /// - Returns: The modified content view with the NSWindow delegate applied.
     func body(content: Content) -> some View {
       content.nsWindowAdaptor { window in
         assert(!self.delegate.isEqual(window?.delegate))
@@ -61,11 +73,20 @@
   }
 
   extension View {
+    /// Adapts an NSWindow delegate to the current view.
+    ///
+    /// - Parameters:
+    ///   - container: The container that manages the NSWindow delegate.
+    ///   - delegate: The delegate to be applied to the NSWindow.
+    /// - Returns: The modified view with the NSWindow delegate adaptor.
     public func nsWindowDelegateAdaptor(
       _ container: any NSWindowDelegateContainer,
       _ delegate: @autoclosure () -> any NSWindowDelegate
     ) -> some View {
-      self.modifier(NSWindowDelegateAdaptorModifier(container: container, delegate: delegate()))
+      self.modifier(
+        NSWindowDelegateAdaptorModifier(container: container, delegate: delegate())
+      )
     }
   }
+
 #endif

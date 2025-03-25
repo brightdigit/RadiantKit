@@ -28,20 +28,73 @@
 //
 
 #if canImport(SwiftUI)
+
   public import SwiftUI
 
+  /// A container view that provides a consistent layout and navigation for
+  /// content.
+  ///
+  /// This view includes a header, a content section, and a navigation bar at the
+  /// bottom.
+  ///
+  /// - Parameters:
+  ///   - label: A closure that returns the header view for the container.
+  /// - content: A closure that takes a `Binding<Bool>` and returns the content
+  /// view for the container.
   public struct ContainerView<Label: View, Content: View>: View {
-    @Environment(\.pageNavigationAvailability) private var pageNavigationAvailability
-    @Environment(\.previousPage) private var previousPage
-    @Environment(\.nextPage) private var nextPage
-    @Environment(\.cancelPage) private var cancel
+    @Environment(\.pageNavigationAvailability)
+    private var pageNavigationAvailability
+    @Environment(\.previousPage)
+    private var previousPage
+    @Environment(\.nextPage)
+    private var nextPage
+    @Environment(\.cancelPage)
+    private var cancel
     private let content: (Binding<Bool>) -> Content
     private let label: () -> Label
     @State private var isNextReady = false
 
-    private var isPreviousDisabled: Bool { !pageNavigationAvailability.contains(.previous) }
+    private var isPreviousDisabled: Bool {
+      !pageNavigationAvailability.contains(.previous)
+    }
 
     private var isNextDisabled: Bool { !isNextReady }
+
+    private var contentSection: some View {
+      HStack {
+        Spacer()
+        VStack {
+          Spacer()
+          content($isNextReady).padding()
+          Spacer()
+        }
+        Spacer()
+      }
+      .border(Color.primary.opacity(0.2))
+    }
+
+    private var navigationBottonBar: some View {
+      HStack {
+        Button {
+          cancel()
+        } label: {
+          Text("Cancel").padding(.horizontal)
+        }
+        Spacer()
+        Button {
+          previousPage()
+        } label: {
+          Text("Previous").padding(.horizontal)
+        }
+        .disabled(isPreviousDisabled).opacity(isPreviousDisabled ? 0.8 : 1.0)
+        Button {
+          nextPage()
+        } label: {
+          Text("Next").padding(.horizontal)
+        }
+        .disabled(isNextDisabled).opacity(isNextDisabled ? 0.8 : 1.0)
+      }
+    }
 
     public var body: some View {
       VStack {
@@ -50,42 +103,23 @@
           Spacer()
         }
         Spacer()
-        HStack {
-          Spacer()
-          VStack {
-            Spacer()
-            content($isNextReady).padding()
-            Spacer()
-          }
-          Spacer()
-        }
-        .border(Color.primary.opacity(0.2))
+        contentSection
         Spacer().frame(height: 16)
-        HStack {
-          Button {
-            cancel()
-          } label: {
-            Text("Cancel").padding(.horizontal)
-          }
-          Spacer()
-          Button {
-            previousPage()
-          } label: {
-            Text("Previous").padding(.horizontal)
-          }
-          .disabled(isPreviousDisabled).opacity(isPreviousDisabled ? 0.8 : 1.0)
-          Button {
-            nextPage()
-          } label: {
-            Text("Next").padding(.horizontal)
-          }
-          .disabled(isNextDisabled).opacity(isNextDisabled ? 0.8 : 1.0)
-        }
+        navigationBottonBar
       }
       .padding()
     }
 
-    public init(label: @escaping () -> Label, content: @escaping (Binding<Bool>) -> Content) {
+    /// Initializes a `ContainerView` with the provided label and content.
+    ///
+    /// - Parameters:
+    ///   - label: A closure that returns the header view for the container.
+    /// - content: A closure that takes a `Binding<Bool>` and returns the content
+    /// view for the container.
+    public init(
+      label: @escaping () -> Label,
+      content: @escaping (Binding<Bool>) -> Content
+    ) {
       self.label = label
       self.content = content
     }

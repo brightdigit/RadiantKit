@@ -33,23 +33,41 @@
 
   public import SwiftUI
 
-  // periphery:ignore
+  /// A default view value for a `SingleWindowView`.
+  /// - Note: This struct is marked as `periphery:ignore` to exclude it from code
+  /// analysis.
   public struct SingleWindowViewValue<ViewType: SingleWindowView>: DefaultableViewValue {
+    /// The default value for the `SingleWindowViewValue`.
     public static var `default`: Self { .init() }
 
     private init() {}
   }
 
-  @MainActor public protocol SingleWindowView: View {
+  /// A protocol that defines a single window view.
+  @MainActor
+  public protocol SingleWindowView: View {
+    /// The type of the view value.
     associatedtype Value: DefaultableViewValue = SingleWindowViewValue<Self>
+    /// Initializes a new instance of the `SingleWindowView`.
     init()
   }
 
-  extension SingleWindowView { public init(_: Binding<Value>) { self.init() } }
+  extension SingleWindowView {
+    /// Initializes a new instance of the `SingleWindowView` with a binding to
+    /// the view value.
+    /// - Parameter value: A binding to the view value.
+    public init(_ value: Binding<Value>) {
+      self.init()
+    }
+  }
 
   #if os(macOS) || os(iOS) || os(visionOS)
     extension WindowGroup {
-      @MainActor public init<V: SingleWindowView>(singleOf _: V.Type)
+      /// Initializes a new instance of the `WindowGroup` with a single window
+      /// view.
+      /// - Parameter _: The type of the `SingleWindowView`.
+      @MainActor
+      public init<V: SingleWindowView>(singleOf _: V.Type)
       where Content == PresentedWindowContent<V.Value, V> {
         self.init { value in
           V(value)

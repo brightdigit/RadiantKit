@@ -29,4 +29,8 @@
 
 import Foundation
 
-public protocol DefaultWrapped: AppStored { static var `default`: Value { get } }
+/// A protocol that defines a default value for a stored property.
+public protocol DefaultWrapped: AppStored {
+  /// The default value for the stored property.
+  static var `default`: Value { get }
+}

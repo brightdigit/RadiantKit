@@ -28,35 +28,52 @@
 //
 
 #if canImport(SwiftUI)
+
   #if os(macOS) || os(iOS) || os(visionOS)
     public import Foundation
-
     public import SwiftUI
 
-    fileprivate struct OpenFileURLKey: EnvironmentKey, Sendable {
+    /// A private environment key for storing the `OpenFileURLAction` in the
+    /// environment.
+    private struct OpenFileURLKey: EnvironmentKey, Sendable {
       typealias Value = OpenFileURLAction
 
       static let defaultValue: OpenFileURLAction = .default
     }
 
+    /// A type alias for opening windows with URL values.
     public typealias OpenWindowURLAction = OpenWindowWithValueAction<URL>
 
+    /// A type alias for opening files with URLs.
     public typealias OpenFileURLAction = OpenWindowURLAction
 
+    /// Environment values extension that provides access to the file URL opening
+    /// action.
     extension EnvironmentValues {
+      /// The action used to open file URLs in the current environment.
       public var openFileURL: OpenFileURLAction {
         get { self[OpenFileURLKey.self] }
         set { self[OpenFileURLKey.self] = newValue }
       }
     }
 
+    /// Scene extension that provides file URL opening functionality.
     extension Scene {
+      /// Configures the scene to handle file URL opening.
+      /// - Parameter closure: A closure that handles the URL opening action,
+      /// receiving both the URL and the window action.
+      /// - Returns: The modified scene with the file URL opening handler.
       public func openFileURL(
         _ closure: @escaping @Sendable @MainActor (URL, OpenWindowAction) -> Void
       ) -> some Scene { self.environment(\.openFileURL, .init(closure: closure)) }
     }
 
-    @available(*, deprecated, message: "Use on Scene only.") extension View {
+    /// View extension that provides file URL opening functionality.
+    extension View {
+      /// Configures the view to handle file URL opening.
+      /// - Parameter closure: A closure that handles the URL opening action,
+      /// receiving both the URL and the window action.
+      /// - Returns: The modified view with the file URL opening handler.
       public func openFileURL(
         _ closure: @Sendable @escaping @MainActor (URL, OpenWindowAction) -> Void
       ) -> some View { self.environment(\.openFileURL, .init(closure: closure)) }

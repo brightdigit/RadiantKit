@@ -29,7 +29,11 @@
 
 public import Foundation
 
+/// A struct representing the source and destination URLs for a file copy
+/// operation.
 public struct CopyPaths {
+  /// The URL of the file to be copied.
   public let fromURL: URL
+  /// The URL of the destination location for the copied file.
   public let toURL: URL
 }

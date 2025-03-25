@@ -32,12 +32,17 @@
   public import SwiftUI
 
   extension View {
+    /// Conditionally hides the view.
+    ///
+    /// - Parameter value: A boolean value that determines whether the view
+    /// should be hidden.
+    /// - Returns: A view that is either hidden or not, depending on the provided
+    /// value.
     public func isHidden(_ value: Bool) -> some View {
       Group {
         if value {
           self.hidden()
-        }
-        else {
+        } else {
           self
         }
       }

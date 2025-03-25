@@ -1,5 +1,5 @@
 //
-//  DocumentFile.swift
+//  DownloadObserver.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,32 +27,21 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-public import Foundation
+import Foundation
 
-/// Represents a document file with a specific file type.
-public struct DocumentFile<FileType: FileTypeSpecification>: Codable, Hashable {
-  /// The URL of the document file.
-  public let url: URL
+/// A protocol that defines an observer for download events.
+internal protocol DownloadObserver {
+  /// Called when the download has finished downloading to the specified
+  /// location.
+  /// - Parameter location: The URL of the downloaded file.
+  func finishedDownloadingTo(_ location: URL)
 
-  /// Initializes a `DocumentFile` with the given URL.
-  /// - Parameter url: The URL of the document file.
-  public init(url: URL) { self.url = url }
+  /// Called to update the progress of the download.
+  /// - Parameter progress: The current download progress.
+  func progressUpdated(_ progress: DownloadUpdate)
 
-  /// Hashes the `DocumentFile` instance into the given hasher.
-  /// - Parameter hasher: The hasher to combine the URL with.
-  public func hash(into hasher: inout Hasher) { hasher.combine(url) }
-}
-
-extension DocumentFile {
-  /// Creates a `DocumentFile` instance from the given URL
-  ///  if the file type matches the specified `FileType`.
-  /// - Parameter url: The URL of the document file.
-  /// - Returns: A `DocumentFile` instance if the file type matches, or `nil` if
-  /// it does not.
-  public static func documentFile(from url: URL) -> Self? {
-    guard url.pathExtension == FileType.fileType.fileExtension else {
-      return nil
-    }
-    return Self(url: url)
-  }
+  /// Called when the download has completed, either successfully or with an
+  /// error.
+  /// - Parameter error: An optional error that occurred during the download.
+  func didComplete(withError error: Error?)
 }

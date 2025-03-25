@@ -29,7 +29,12 @@
 
 #if canImport(AppKit) && canImport(SwiftUI)
   public import AppKit
-  @MainActor public protocol NSWindowDelegateContainer: AnyObject {
+
+  /// A protocol that provides a container for an `NSWindowDelegate` instance.
+  @MainActor
+  public protocol NSWindowDelegateContainer: AnyObject {
+    /// The `NSWindowDelegate` instance associated with the container.
     var windowDelegate: (any NSWindowDelegate)? { get set }
   }
+
 #endif

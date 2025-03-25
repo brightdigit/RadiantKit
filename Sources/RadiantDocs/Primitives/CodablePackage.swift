@@ -29,16 +29,30 @@
 
 public import Foundation
 
+/// A protocol that defines a package that is both Sendable and Codable.
 public protocol CodablePackage: Sendable, Codable {
+  /// The JSONDecoder to use for decoding the package.
   static var decoder: JSONDecoder { get }
+
+  /// The JSONEncoder to use for encoding the package.
   static var encoder: JSONEncoder { get }
+
+  /// The key used to access the configuration file wrapper.
   static var configurationFileWrapperKey: String { get }
+
+  /// The file types that can be read by the package.
   static var readableContentTypes: [FileType] { get }
 }
 
 extension CodablePackage {
+  /// Initializes a `CodablePackage` instance from the contents of a URL.
+  ///
+  /// - Parameter url: The URL to read the package data from.
+  /// - Throws: Any errors that may occur during the initialization process.
   public init(contentsOf url: URL) throws {
-    let data = try Data(contentsOf: url.appendingPathComponent(Self.configurationFileWrapperKey))
+    let data = try Data(
+      contentsOf: url.appendingPathComponent(Self.configurationFileWrapperKey)
+    )
     self = try Self.decoder.decode(Self.self, from: data)
   }
 }

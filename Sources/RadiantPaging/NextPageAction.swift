@@ -28,27 +28,42 @@
 //
 
 #if canImport(SwiftUI)
+
   import Foundation
   public import SwiftUI
 
-  fileprivate struct NextPageKey: EnvironmentKey, Sendable {
+  /// A private struct representing a key for the next page action in the
+  /// environment.
+  private struct NextPageKey: EnvironmentKey, Sendable {
+    /// The default value for the next page action.
     fileprivate static let defaultValue: NextPageAction = .default
   }
 
+  /// A struct representing a page action.
   public struct PageAction: Sendable {
+    /// The default page action that throws an assertion failure.
     internal static let `default`: PageAction = .init { assertionFailure() }
 
+    /// The function to be executed when the page action is called.
     private let pageFunction: @Sendable @MainActor () -> Void
+
+    /// Initializes a new page action with the given function.
+    /// - Parameter pageFunction: The function to be executed when the page
+    /// action is called.
     internal init(_ pageFunction: @Sendable @MainActor @escaping () -> Void) {
       self.pageFunction = pageFunction
     }
 
-    @MainActor public func callAsFunction() { pageFunction() }
+    /// Executes the page function on the main actor.
+    @MainActor
+    public func callAsFunction() { pageFunction() }
   }
 
+  /// An alias for the `NextPageAction` type.
   public typealias NextPageAction = PageAction
 
   extension EnvironmentValues {
+    /// The next page action in the environment.
     public var nextPage: NextPageAction {
       get { self[NextPageKey.self] }
       set { self[NextPageKey.self] = newValue }

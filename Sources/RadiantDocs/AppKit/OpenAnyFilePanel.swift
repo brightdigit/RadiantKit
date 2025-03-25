@@ -36,15 +36,31 @@
 
   import UniformTypeIdentifiers
 
+  /// A struct that provides a convenient way
+  /// to open a file panel and handle the selected file.
   public struct OpenAnyFilePanel {
-    let fileTypes: [FileType]
+    /// The file types that the file panel should allow.
+    private let fileTypes: [FileType]
 
+    /// Initializes a new instance of `OpenAnyFilePanel` with the specified file
+    /// types.
+    ///
+    /// - Parameter fileTypes: An array of `FileType` objects
+    /// representing the file types to allow in the file panel.
     internal init(fileTypes: [FileType]) {
       assert(!fileTypes.isEmpty)
       self.fileTypes = fileTypes
     }
 
-    @MainActor public func callAsFunction(
+    /// Displays a file panel and calls the provided `OpenFileURLAction`
+    /// with the selected file URL and the `OpenWindowAction`.
+    ///
+    /// - Parameters:
+    /// - openFileURL: The `OpenFileURLAction` to call with the selected file URL
+    ///   and the `OpenWindowAction`.
+    ///   - openWindow: The `OpenWindowAction` to use when opening the file.
+    @MainActor
+    public func callAsFunction(
       with openFileURL: OpenFileURLAction,
       using openWindow: OpenWindowAction
     ) {
@@ -52,17 +68,29 @@
       openPanel.allowedContentTypes = fileTypes.map(UTType.init(fileType:))
       openPanel.isExtensionHidden = true
       openPanel.begin { response in
-        guard let fileURL = openPanel.url, response == .OK else { return }
+        guard let fileURL = openPanel.url, response == .OK else {
+          return
+        }
         openFileURL(fileURL, with: openWindow)
       }
     }
   }
 
   extension OpenFileURLAction {
-    @MainActor public func callAsFunction(
+    /// Displays a file panel with the specified file types and
+    /// calls the provided `OpenFileURLAction` with the selected file URL and the
+    /// `OpenWindowAction`.
+    ///
+    /// - Parameters:
+    ///   - fileTypes: An array of `FileType` objects representing
+    ///   the file types to allow in the file panel.
+    ///   - openWindow: The `OpenWindowAction` to use when opening the file.
+    @MainActor
+    public func callAsFunction(
       ofFileTypes fileTypes: [FileType],
       using openWindow: OpenWindowAction
-    ) { OpenAnyFilePanel(fileTypes: fileTypes).callAsFunction(with: self, using: openWindow) }
+    ) {
+      OpenAnyFilePanel(fileTypes: fileTypes).callAsFunction(with: self, using: openWindow)
+    }
   }
-
 #endif
