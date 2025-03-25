@@ -37,14 +37,15 @@
   import UniformTypeIdentifiers
 
   public struct OpenAnyFilePanel {
-    let fileTypes: [FileType]
+    private let fileTypes: [FileType]
 
     internal init(fileTypes: [FileType]) {
       assert(!fileTypes.isEmpty)
       self.fileTypes = fileTypes
     }
 
-    @MainActor public func callAsFunction(
+    @MainActor
+    public func callAsFunction(
       with openFileURL: OpenFileURLAction,
       using openWindow: OpenWindowAction
     ) {
@@ -61,7 +62,8 @@
   }
 
   extension OpenFileURLAction {
-    @MainActor public func callAsFunction(
+    @MainActor
+    public func callAsFunction(
       ofFileTypes fileTypes: [FileType],
       using openWindow: OpenWindowAction
     ) {

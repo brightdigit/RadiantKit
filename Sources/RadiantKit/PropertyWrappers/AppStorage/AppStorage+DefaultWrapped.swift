@@ -86,7 +86,11 @@
     public init<AppStoredType: DefaultWrapped>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
-    ) where AppStoredType.Value == Value, Value: RawRepresentable, Value.RawValue == String {
+    )
+    where
+      AppStoredType.Value == Value,
+      Value: RawRepresentable,
+      Value.RawValue == String {
       self.init(wrappedValue: AppStoredType.default, type.key, store: store)
     }
   }

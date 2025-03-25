@@ -29,7 +29,6 @@
 
 #if canImport(Combine) && canImport(Observation)
   public import Combine
-
   public import Foundation
 
   private protocol DownloadObserver {
@@ -52,7 +51,9 @@
 
     private func withObserver(_ closure: @escaping @Sendable (DownloadObserver) -> Void) {
       assert(self.observer != nil)
-      guard let observer else { return }
+      guard let observer else {
+        return
+      }
 
       closure(observer)
     }
@@ -61,16 +62,22 @@
   private final class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
     let container = ObserverContainer()
 
-    func setObserver(_ observer: DownloadObserver) { self.container.setObserver(observer) }
+    func setObserver(_ observer: DownloadObserver) {
+      self.container.setObserver(observer)
+    }
 
     func urlSession(
       _: URLSession,
       downloadTask _: URLSessionDownloadTask,
       didFinishDownloadingTo location: URL
     ) {
-      let newLocation = FileManager.default.temporaryDirectory
-        .appendingPathComponent(UUID().uuidString).appendingPathExtension(location.pathExtension)
-      do { try FileManager.default.copyItem(at: location, to: newLocation) } catch {
+      let newLocation = FileManager
+        .default.temporaryDirectory
+        .appendingPathComponent(UUID().uuidString)
+        .appendingPathExtension(location.pathExtension)
+      do {
+        try FileManager.default.copyItem(at: location, to: newLocation)
+      } catch {
         container.on { observer in observer.didComplete(withError: error) }
         return
       }
@@ -94,22 +101,32 @@
       }
     }
 
-    func urlSession(_: URLSession, task _: URLSessionTask, didCompleteWithError error: (any Error)?) { container.on { observer in observer.didComplete(withError: error) } }
+    func urlSession(
+      _: URLSession,
+      task _: URLSessionTask,
+      didCompleteWithError error: (any Error)?
+    ) {
+      container.on { observer in observer.didComplete(withError: error) }
+    }
   }
 
-  @Observable @MainActor public final class ObservableDownloader: DownloadObserver, Downloader {
+  @Observable
+  @MainActor
+  public final class ObservableDownloader: DownloadObserver, Downloader {
     internal struct DownloadRequest {
       internal let downloadSourceURL: URL
       internal let destinationFileURL: URL
     }
 
     // swift-format-ignore: NeverUseImplicitlyUnwrappedOptionals
+    // swiftlint:disable:next implicitly_unwrapped_optional
     @ObservationIgnored private var delegate: DownloadDelegate!
 
     public internal(set) var totalBytesWritten: Int64 = 0
     public internal(set) var totalBytesExpectedToWrite: Int64?
 
     // swift-format-ignore: NeverUseImplicitlyUnwrappedOptionals
+    // swiftlint:disable:next implicitly_unwrapped_optional
     @ObservationIgnored internal private(set) var session: URLSession!
 
     internal let resumeDataSubject = PassthroughSubject<Data, Never>()
@@ -173,7 +190,7 @@
       self.cancellables = setupPublishers(self)
     }
 
-    func onCompletion(_ result: Result<Void, any Error>) {
+    internal func onCompletion(_ result: Result<Void, any Error>) {
       assert(completion != nil)
       completion?(result)
     }
@@ -190,27 +207,34 @@
       assert(self.completion == nil)
       self.completion = completion
       requestSubject.send(
-        .init(downloadSourceURL: downloadSourceURL, destinationFileURL: destinationFileURL)
+        .init(
+          downloadSourceURL: downloadSourceURL,
+          destinationFileURL: destinationFileURL
+        )
       )
     }
 
-    nonisolated func finishedDownloadingTo(_ location: URL) {
+    nonisolated fileprivate func finishedDownloadingTo(_ location: URL) {
       Task { @MainActor in self.finishedDownloadingToAsync(location) }
     }
 
-    nonisolated func progressUpdated(_ progress: DownloadUpdate) {
+    nonisolated fileprivate func progressUpdated(_ progress: DownloadUpdate) {
       Task { @MainActor in self.progressUpdatedAsync(progress) }
     }
 
-    nonisolated func didComplete(withError error: (any Error)?) {
+    nonisolated fileprivate func didComplete(withError error: (any Error)?) {
       Task { @MainActor in self.didCompleteAsync(withError: error) }
     }
 
-    func finishedDownloadingToAsync(_ location: URL) { locationURLSubject.send(location) }
+    private func finishedDownloadingToAsync(_ location: URL) {
+      locationURLSubject.send(location)
+    }
 
-    func progressUpdatedAsync(_ progress: DownloadUpdate) { self.downloadUpdate.send(progress) }
+    private func progressUpdatedAsync(_ progress: DownloadUpdate) {
+      self.downloadUpdate.send(progress)
+    }
 
-    func didCompleteAsync(withError error: (any Error)?) {
+    private func didCompleteAsync(withError error: (any Error)?) {
       guard let error else {
         // Handle success case.
         return

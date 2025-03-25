@@ -40,7 +40,8 @@
     private init() {}
   }
 
-  @MainActor public protocol SingleWindowView: View {
+  @MainActor
+  public protocol SingleWindowView: View {
     associatedtype Value: DefaultableViewValue = SingleWindowViewValue<Self>
     init()
   }
@@ -49,7 +50,8 @@
 
   #if os(macOS) || os(iOS) || os(visionOS)
     extension WindowGroup {
-      @MainActor public init<V: SingleWindowView>(singleOf _: V.Type)
+      @MainActor
+      public init<V: SingleWindowView>(singleOf _: V.Type)
       where Content == PresentedWindowContent<V.Value, V> {
         self.init { value in
           V(value)

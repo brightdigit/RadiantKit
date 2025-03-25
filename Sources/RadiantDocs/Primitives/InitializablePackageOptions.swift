@@ -71,7 +71,9 @@ extension Data.WritingOptions {
     if options.contains(.atomic) { dataOptions.insert(.atomic) }
     if options.contains(.withoutOverwriting) { dataOptions.insert(.withoutOverwriting) }
     if options.contains(.noFileProtection) { dataOptions.insert(.noFileProtection) }
-    if options.contains(.completeFileProtection) { dataOptions.insert(.completeFileProtection) }
+    if options.contains(.completeFileProtection) {
+      dataOptions.insert(.completeFileProtection)
+    }
     if options.contains(.completeFileProtectionUnlessOpen) {
       dataOptions.insert(.completeFileProtectionUnlessOpen)
     }

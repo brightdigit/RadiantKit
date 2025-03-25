@@ -30,7 +30,12 @@
 #if canImport(SwiftUI) && !os(tvOS)
   public import SwiftUI
 
-  @MainActor public struct SliderStepperView<Content: View, Label: View, TitleType>: View {
+  @MainActor
+  public struct SliderStepperView<
+    Content: View,
+    Label: View,
+    TitleType
+  >: View {
     private let title: TitleType
     private let label: @Sendable (TitleType) -> Label
     private let bounds: ClosedRange<Float>
@@ -38,7 +43,9 @@
     private let content: @Sendable @MainActor (TitleType) -> Content
     @Binding private var value: Float
     private var safeBounds: ClosedRange<Float> {
-      guard isValidBounds else { return 0...2 }
+      guard isValidBounds else {
+        return 0...2
+      }
       return bounds
     }
     private var isValidBounds: Bool {
@@ -55,10 +62,19 @@
       LabeledContent {
         HStack {
           Slider(value: $value, in: safeBounds, step: step).blur(radius: blurRadius)
-          self.content(self.title).labelsHidden().frame(width: 50).padding(.horizontal, 6.0)
+          self
+            .content(self.title)
+            .labelsHidden()
+            .frame(width: 50)
+            .padding(.horizontal, 6.0)
 
-          Stepper(value: $value, in: safeBounds, step: 1.0, label: { self.label(self.title) })
-            .labelsHidden().blur(radius: blurRadius)
+          Stepper(
+            value: $value,
+            in: safeBounds,
+            step: 1.0,
+            label: { self.label(self.title) }
+          )
+          .labelsHidden().blur(radius: blurRadius)
         }
         .disabled(!isValidBounds)
       } label: {
@@ -84,14 +100,17 @@
   }
   #Preview {
     @Previewable @State var value: Float = 1.0
+
     SliderStepperView(
       title: "Hello World",
       label: { text in Text(text) },
       value: $value,
       bounds: 1...1,
-      step: 1.0
-    ) { _ in Text("\(value, format: .number)")
-    }
+      step: 1.0,
+      content: { _ in
+        Text("\(value, format: .number)")
+      }
+    )
   }
   #Preview {
     @Previewable @State var value: Float = 1.0
@@ -100,8 +119,10 @@
       label: { text in Text(text) },
       value: $value,
       bounds: 1...20,
-      step: 1.0
-    ) { _ in Text("\(value, format: .number)")
-    }
+      step: 1.0,
+      content: { _ in
+        Text("\(value, format: .number)")
+      }
+    )
   }
 #endif

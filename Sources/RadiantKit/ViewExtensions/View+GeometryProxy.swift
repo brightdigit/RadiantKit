@@ -35,7 +35,9 @@
   extension View {
     public func onGeometry(_ action: @escaping (GeometryProxy) -> Void) -> some View {
       self.overlay {
-        GeometryReader(content: { geometry in Color.clear.onAppear(perform: { action(geometry) }) })
+        GeometryReader { geometry in
+          Color.clear.onAppear(perform: { action(geometry) })
+        }
       }
     }
   }

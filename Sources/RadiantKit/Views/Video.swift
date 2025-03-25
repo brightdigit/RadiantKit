@@ -33,8 +33,9 @@
   public import SwiftUI
 
   public struct Video: NSViewRepresentable {
-    let player: AVPlayer?
+    private let player: AVPlayer?
 
+    // swiftlint:disable:next implicitly_unwrapped_optional
     public init(using player: AVPlayer!) {
       assert(player != nil)
       self.player = player

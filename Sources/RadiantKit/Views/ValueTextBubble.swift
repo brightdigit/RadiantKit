@@ -36,7 +36,10 @@
     ShapeStyleType: ShapeStyle,
     ValueType: Equatable,
     FormatStyleType: FormatStyle
-  >: View where FormatStyleType.FormatInput == ValueType, FormatStyleType.FormatOutput == String {
+  >: View
+  where
+    FormatStyleType.FormatInput == ValueType,
+    FormatStyleType.FormatOutput == String {
     public let value: ValueType
     public let format: FormatStyleType
     public let backgroundStyle: ShapeStyleType
@@ -45,7 +48,9 @@
     public var body: some View {
       Text(value, format: format)
         .background {
-          RoundedRectangle(cornerRadius: cornerRadius).padding(-2).padding(.horizontal, -4)
+          RoundedRectangle(cornerRadius: cornerRadius)
+            .padding(-2)
+            .padding(.horizontal, -4)
             .foregroundStyle(backgroundStyle)
         }
         .padding(.horizontal, 2)
@@ -80,7 +85,11 @@
       format: IntegerFormatStyle<Int> = FormatStyleType.number,
       backgroundColor: Color = Color.primary.opacity(0.25),
       cornerRadius: CGFloat = 18
-    ) where ValueType == Int, ShapeStyleType == Color, FormatStyleType == IntegerFormatStyle<Int> {
+    )
+    where
+      ValueType == Int,
+      ShapeStyleType == Color,
+      FormatStyleType == IntegerFormatStyle<Int> {
       self.value = value
       self.format = format
       self.cornerRadius = cornerRadius

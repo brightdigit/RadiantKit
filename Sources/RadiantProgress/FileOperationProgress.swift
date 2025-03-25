@@ -29,13 +29,14 @@
 
 #if canImport(Observation)
   public import Foundation
-  public import Observation
+  import Observation
 
-  @MainActor @Observable
+  @MainActor
+  @Observable
   public final class FileOperationProgress<ValueType: BinaryInteger>: Identifiable {
     public let operation: any ProgressOperation<ValueType>
 
-    public nonisolated var id: URL { operation.id }
+    public let id: URL
 
     public var totalValueBytes: Int64? { operation.totalValue.map(Int64.init) }
 
@@ -45,6 +46,9 @@
 
     internal var totalValue: Double? { operation.totalValue.map(Double.init) }
 
-    public init(_ operation: any ProgressOperation<ValueType>) { self.operation = operation }
+    public init(_ operation: any ProgressOperation<ValueType>) {
+      self.operation = operation
+      self.id = operation.id
+    }
   }
 #endif

@@ -33,7 +33,8 @@
   public import SwiftUI
 
   extension Binding {
-    @MainActor public func map<T>(
+    @MainActor
+    public func map<T>(
       to get: @escaping @Sendable (Value) -> T,
       from set: @escaping @Sendable (T) -> Value
     ) -> Binding<T> {

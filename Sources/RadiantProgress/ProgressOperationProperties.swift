@@ -35,16 +35,18 @@
     internal let text: any (StringProtocol & Sendable)
     internal let progress: FileOperationProgress<Int>
 
-    public var id: URL { progress.id }
+    public let id: URL
 
     public init(
       imageName: String,
       text: any (StringProtocol & Sendable),
+      url: URL,
       progress: FileOperationProgress<Int>
     ) {
       self.imageName = imageName
       self.text = text
       self.progress = progress
+      self.id = url
     }
   }
 

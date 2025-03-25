@@ -32,7 +32,8 @@
 
   public import SwiftUI
 
-  @Observable public class TransformedValueObject<InputValue, OutputValue, FormattableValue> {
+  @Observable
+  public class TransformedValueObject<InputValue, OutputValue, FormattableValue> {
     private let defaultTransform: (InputValue) -> OutputValue
     private let formattable: (OutputValue) -> FormattableValue
 
@@ -66,7 +67,8 @@
       self.defaultTransform = defaultTransform
       self.transform = polynomial
       self.inputValue = inputValue
-      let outputValue = outputValue ?? transform?(inputValue) ?? defaultTransform(inputValue)
+      let outputValue =
+        outputValue ?? transform?(inputValue) ?? defaultTransform(inputValue)
       self.outputValue = outputValue
       self.formattedValue = fomrattedValue ?? self.formattable(outputValue)
     }

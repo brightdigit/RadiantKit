@@ -40,7 +40,9 @@ extension AppStored {
     switch self.keyType { case .describing: String(describing: Self.self)
 
       case .reflecting:
-        String(reflecting: Self.self).components(separatedBy: ".").dropFirst()
+        String(reflecting: Self.self)
+          .components(separatedBy: ".")
+          .dropFirst()
           .joined(separator: ".")
     }
   }

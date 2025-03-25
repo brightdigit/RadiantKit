@@ -29,7 +29,8 @@
 
 #if canImport(AppKit) && canImport(SwiftUI)
   public import AppKit
-  @MainActor public protocol NSWindowDelegateContainer: AnyObject {
+  @MainActor
+  public protocol NSWindowDelegateContainer: AnyObject {
     var windowDelegate: (any NSWindowDelegate)? { get set }
   }
 #endif

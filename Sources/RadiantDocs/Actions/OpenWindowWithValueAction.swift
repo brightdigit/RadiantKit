@@ -38,7 +38,8 @@
         .init { value, action in defaultClosure(value, with: action) }
       }
 
-      private let closure: @Sendable @MainActor (ValueType, OpenWindowAction) -> Void
+      internal let closure: @Sendable @MainActor (ValueType, OpenWindowAction) -> Void
+
       public init(
         closure: @escaping @MainActor @Sendable (ValueType, OpenWindowAction) -> Void
       ) {

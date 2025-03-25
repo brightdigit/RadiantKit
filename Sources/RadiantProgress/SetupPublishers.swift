@@ -28,52 +28,69 @@
 //
 
 #if canImport(Combine)
-  public import Combine
+  import Combine
 
-  public import Foundation
+  import Foundation
 
   #warning(
     "logging-note: can we have some operators for logging the recieved stuff in these subscriptions"
   )
   internal struct SetupPublishers {
-    @MainActor private func setupDownloadPublsihers(_ downloader: ObservableDownloader)
+    @MainActor
+    private func setupDownloadPublsihers(_ downloader: ObservableDownloader)
       -> [AnyCancellable] {
       var cancellables = [AnyCancellable]()
 
       downloader.requestSubject.share()
         .map { downloadRequest -> URLSessionDownloadTask in
-          let task = downloader.session.downloadTask(with: downloadRequest.downloadSourceURL)
+          let task = downloader
+            .session
+            .downloadTask(with: downloadRequest.downloadSourceURL)
           task.resume()
           return task
         }
-        .assign(to: \.task, on: downloader).store(in: &cancellables)
+        .assign(to: \.task, on: downloader)
+        .store(in: &cancellables)
 
-      downloader.resumeDataSubject
+      downloader
+        .resumeDataSubject
         .map { resumeData in
           let task = downloader.session.downloadTask(withResumeData: resumeData)
           task.resume()
           return task
         }
-        .assign(to: \.task, on: downloader).store(in: &cancellables)
+        .assign(to: \.task, on: downloader)
+        .store(in: &cancellables)
 
       return cancellables
     }
 
-    @MainActor private func setupByteUpdatPublishers(_ downloader: ObservableDownloader)
+    @MainActor
+    private func setupByteUpdatPublishers(_ downloader: ObservableDownloader)
       -> [AnyCancellable] {
       var cancellables = [AnyCancellable]()
       let downloadUpdate = downloader.downloadUpdate.share()
-      downloadUpdate.map(\.totalBytesWritten).assign(to: \.totalBytesWritten, on: downloader)
+      downloadUpdate
+        .map(\.totalBytesWritten)
+        .assign(to: \.totalBytesWritten, on: downloader)
         .store(in: &cancellables)
-      downloadUpdate.map(\.totalBytesExpectedToWrite)
-        .assign(to: \.totalBytesExpectedToWrite, on: downloader).store(in: &cancellables)
+      downloadUpdate
+        .map(\.totalBytesExpectedToWrite)
+        .assign(to: \.totalBytesExpectedToWrite, on: downloader)
+        .store(in: &cancellables)
       return cancellables
     }
 
-    @MainActor internal func callAsFunction(downloader: ObservableDownloader) -> [AnyCancellable] {
+    @MainActor
+    internal func callAsFunction(
+      downloader: ObservableDownloader
+    ) -> [AnyCancellable] {
       var cancellables = [AnyCancellable]()
 
-      let destinationFileURLPublisher = downloader.requestSubject.share().map(\.destinationFileURL)
+      let destinationFileURLPublisher = downloader
+        .requestSubject
+        .share()
+        .map(\.destinationFileURL)
 
       cancellables.append(contentsOf: setupDownloadPublsihers(downloader))
 

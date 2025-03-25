@@ -29,7 +29,8 @@
 
 public import Foundation
 
-@MainActor public struct PreviewOperation<ValueType: BinaryInteger & Sendable>: ProgressOperation {
+@MainActor
+public struct PreviewOperation<ValueType: BinaryInteger & Sendable>: ProgressOperation {
   public let currentValue: ValueType
 
   public let totalValue: ValueType?

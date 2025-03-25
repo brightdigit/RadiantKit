@@ -38,14 +38,18 @@
     public struct CodablePackageDocument<T: CodablePackage>: FileDocument {
       internal enum ReadError: Error { case missingConfigurationAtKey(String) }
 
-      public static var readableContentTypes: [UTType] { T.readableContentTypes.map(UTType.init) }
+      public static var readableContentTypes: [UTType] {
+        T.readableContentTypes.map(UTType.init)
+      }
 
-      let configuration: T
+      private let configuration: T
 
       public init(configuration: T) { self.configuration = configuration }
 
       public init(configuration: ReadConfiguration) throws {
-        let regularFileContents = configuration.file.fileWrappers?[T.configurationFileWrapperKey]?
+        let regularFileContents = configuration
+          .file
+          .fileWrappers?[T.configurationFileWrapperKey]?
           .regularFileContents
         guard let configJSONWrapperData = regularFileContents else {
           throw ReadError.missingConfigurationAtKey(T.configurationFileWrapperKey)
@@ -59,7 +63,8 @@
         let rootFileWrapper =
           configuration.existingFile ?? FileWrapper(directoryWithFileWrappers: [:])
 
-        if let oldConfigJSONWrapper = rootFileWrapper.fileWrappers?[T.configurationFileWrapperKey] {
+        if let oldConfigJSONWrapper = rootFileWrapper
+          .fileWrappers?[T.configurationFileWrapperKey] {
           rootFileWrapper.removeFileWrapper(oldConfigJSONWrapper)
         }
 

@@ -35,7 +35,8 @@
     public import FoundationNetworking
   #endif
 
-  @MainActor @Observable
+  @MainActor
+  @Observable
   public final class DownloadOperation<ValueType: BinaryInteger & Sendable>:
 
     Identifiable, ProgressOperation {
@@ -47,7 +48,9 @@
 
     public var currentValue: ValueType { .init(download.totalBytesWritten) }
 
-    public var totalValue: ValueType? { download.totalBytesExpectedToWrite.map(ValueType.init(_:)) }
+    public var totalValue: ValueType? {
+      download.totalBytesExpectedToWrite.map(ValueType.init(_:))
+    }
 
     #if canImport(Combine)
       public init(

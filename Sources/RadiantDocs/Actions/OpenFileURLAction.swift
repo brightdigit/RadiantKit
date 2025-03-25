@@ -56,7 +56,7 @@
       ) -> some Scene { self.environment(\.openFileURL, .init(closure: closure)) }
     }
 
-    @available(*, deprecated, message: "Use on Scene only.") extension View {
+    extension View {
       public func openFileURL(
         _ closure: @Sendable @escaping @MainActor (URL, OpenWindowAction) -> Void
       ) -> some View { self.environment(\.openFileURL, .init(closure: closure)) }

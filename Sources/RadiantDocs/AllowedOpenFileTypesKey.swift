@@ -46,7 +46,7 @@
     }
   }
 
-  @available(*, deprecated, message: "Use on Scene only.") extension View {
+  extension View {
     public func allowedOpenFileTypes(_ fileTypes: [FileType]) -> some View {
       self.environment(\.allowedOpenFileTypes, fileTypes)
     }

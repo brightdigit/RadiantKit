@@ -39,10 +39,12 @@
     public var body: some View {
       VStack {
         HStack {
-          icon()  // .accessibilityIdentifier(Progress.icon.identifier)
+          icon()
           VStack(alignment: .leading) {
-            Text(title).lineLimit(1).font(.title)
-              // .accessibilityIdentifier(Progress.title.identifier)
+            Text(title)
+              .lineLimit(1)
+              .font(.title)
+
               .accessibilityLabel(title)
             HStack {
               if let totalValue = progress.totalValue {

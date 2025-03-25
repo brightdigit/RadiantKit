@@ -31,18 +31,18 @@
   public import SwiftUI
 
   public struct VerticalLabelStyle: LabeledContentStyle {
-    let alignment: HorizontalAlignment
-    let labelFont: Font
-    let labelPaddingEdgeInsets: EdgeInsets
+    private let alignment: HorizontalAlignment
+    private let labelFont: Font
+    private let labelPaddingEdgeInsets: EdgeInsets
 
     public init(
       alignment: HorizontalAlignment = .leading,
       labelFont: Font = .subheadline,
-      labelPaddingEdgeInsets: EdgeInsets = .init(top: 0, leading: 4.0, bottom: 0.0, trailing: 0.0)
+      labelPaddingEdgeInsets: EdgeInsets?
     ) {
       self.alignment = alignment
       self.labelFont = labelFont
-      self.labelPaddingEdgeInsets = labelPaddingEdgeInsets
+      self.labelPaddingEdgeInsets = labelPaddingEdgeInsets ?? .defaultLabeledContent
     }
 
     public func makeBody(configuration: Configuration) -> some View {
@@ -57,13 +57,22 @@
     public static func vertical(
       alignment: HorizontalAlignment = .leading,
       labelFont: Font = .subheadline,
-      labelPaddingEdgeInsets: EdgeInsets = .init(top: 0, leading: 2.0, bottom: 0.0, trailing: 0.0)
+      labelPaddingEdgeInsets: EdgeInsets? = nil
     ) -> Self where Self == VerticalLabelStyle {
       .init(
         alignment: alignment,
         labelFont: labelFont,
-        labelPaddingEdgeInsets: labelPaddingEdgeInsets
+        labelPaddingEdgeInsets: labelPaddingEdgeInsets ?? .defaultLabeledContent
       )
     }
+  }
+
+  extension EdgeInsets {
+    fileprivate static let defaultLabeledContent: Self = .init(
+      top: 0,
+      leading: 2.0,
+      bottom: 0.0,
+      trailing: 0.0
+    )
   }
 #endif

@@ -31,22 +31,30 @@
   public import RadiantKit
   public import SwiftUI
 
-  @MainActor public struct PageView: View {
-    @Environment(\.dismiss) private var dismiss
+  @MainActor
+  public struct PageView: View {
+    @Environment(\.dismiss)
+    private var dismiss
     @State private var currentPageID: IdentifiableView.ID?
 
     private let onDimiss: (@MainActor @Sendable (DismissParameters) -> Void)?
     private let pages: [IdentifiableView]
 
     public var pageNavigationAvailability: PageNavigationAvailability {
-      switch (currentPageID, currentPageID == pages.first?.id, currentPageID == pages.last?.id) {
-        case (.none, _, _), (.some, true, true): .none
+      let isFirst = currentPageID == pages.first?.id
+      let isLast = currentPageID == pages.last?.id
+      switch (currentPageID, isFirst, isLast) {
+        case (.none, _, _), (.some, true, true):
+          return .none
 
-        case (.some, false, false): .both
+        case (.some, false, false):
+          return .both
 
-        case (.some, false, true): .previous
+        case (.some, false, true):
+          return .previous
 
-        case (.some, true, false): .next
+        case (.some, true, false):
+          return .next
       }
     }
 
@@ -82,16 +90,28 @@
     }
 
     private func cancelPage() {
-      guard let currentIndex = pages.firstIndex(where: { $0.id == self.currentPageID }) else {
+      guard
+        let currentIndex = pages.firstIndex(
+          where: { $0.id == self.currentPageID }
+        )
+      else {
         return
       }
       onDimiss?(
-        .init(currentPageIndex: currentIndex, currentPageID: currentPageID, action: .cancel)
+        .init(
+          currentPageIndex: currentIndex,
+          currentPageID: currentPageID,
+          action: .cancel
+        )
       )
     }
 
     private func showNextPage() {
-      guard let currentIndex = pages.firstIndex(where: { $0.id == self.currentPageID }) else {
+      guard
+        let currentIndex = pages.firstIndex(
+          where: { $0.id == self.currentPageID }
+        )
+      else {
         return
       }
       let nextIndex = currentIndex + 1
@@ -103,7 +123,11 @@
         }
 
         onDimiss?(
-          .init(currentPageIndex: currentIndex, currentPageID: currentPageID, action: .next)
+          .init(
+            currentPageIndex: currentIndex,
+            currentPageID: currentPageID,
+            action: .next
+          )
         )
         // dismiss()
 
@@ -113,7 +137,11 @@
     }
 
     private func showPreviousPage() {
-      guard let currentIndex = pages.firstIndex(where: { $0.id == self.currentPageID }) else {
+      guard
+        let currentIndex = pages.firstIndex(
+          where: { $0.id == self.currentPageID }
+        )
+      else {
         return
       }
       let previousIndex = currentIndex - 1
@@ -125,7 +153,11 @@
         }
 
         onDimiss?(
-          .init(currentPageIndex: currentIndex, currentPageID: currentPageID, action: .previous)
+          .init(
+            currentPageIndex: currentIndex,
+            currentPageID: currentPageID,
+            action: .previous
+          )
         )
         dismiss()
 

@@ -1,5 +1,5 @@
 //
-//  PreferredLayoutView.swift
+//  PreferredLayout.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -47,8 +47,8 @@
     }
 
     public struct View<Content: SwiftUI.View, ValueType>: SwiftUI.View {
-      let reduce: (ValueType, ValueType) -> ValueType
-      let content: (Value<ValueType>) -> Content
+      private let reduce: (ValueType, ValueType) -> ValueType
+      private let content: (Value<ValueType>) -> Content
       @State private var value: ValueType?
 
       public var body: some SwiftUI.View {
@@ -70,8 +70,6 @@
       }
     }
   }
-  @available(*, deprecated, renamed: "PreferredLayout.View") public typealias PreferredLayoutView =
-    PreferredLayout.View
 
   extension PreferredLayout.View where ValueType: Comparable {
     public init(content: @escaping (PreferredLayout.Value<ValueType>) -> Content) {
@@ -92,7 +90,10 @@
     ) -> some View {
       self.background(
         GeometryReader { geometry in
-          backgroundView().onAppear(perform: { valueType.update(geometry[keyPath: keyPath]) })
+          backgroundView()
+            .onAppear(perform: {
+              valueType.update(geometry[keyPath: keyPath])
+            })
         }
       )
     }

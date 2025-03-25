@@ -43,7 +43,8 @@
       self.pageFunction = pageFunction
     }
 
-    @MainActor public func callAsFunction() { pageFunction() }
+    @MainActor
+    public func callAsFunction() { pageFunction() }
   }
 
   public typealias NextPageAction = PageAction

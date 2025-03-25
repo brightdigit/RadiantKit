@@ -36,12 +36,14 @@
       case trailing
     }
 
-    @Environment(\.layoutDirection) var layoutDirection
-    let text: () -> Text
-    let alignment: Alignment?
+    @Environment(\.layoutDirection)
+    private var layoutDirection
+    private let text: () -> Text
+    private let alignment: Alignment?
 
-    var multilineTextAlignment: TextAlignment {
-      switch alignment { case .leading: .leading
+    private var multilineTextAlignment: TextAlignment {
+      switch alignment {
+        case .leading: .leading
 
         case .trailing: .trailing
 
@@ -49,8 +51,9 @@
       }
     }
 
-    var leftSpacer: Bool {
-      switch (alignment, layoutDirection) { case (.trailing, .leftToRight): true
+    private var leftSpacer: Bool {
+      switch (alignment, layoutDirection) {
+        case (.trailing, .leftToRight): true
 
         case (.leading, .rightToLeft): true
 
@@ -58,8 +61,9 @@
       }
     }
 
-    var rightSpacer: Bool {
-      switch (alignment, layoutDirection) { case (.leading, .leftToRight): true
+    private var rightSpacer: Bool {
+      switch (alignment, layoutDirection) {
+        case (.leading, .leftToRight): true
 
         case (.trailing, .rightToLeft): true
 

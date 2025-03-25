@@ -33,11 +33,11 @@ let package = Package(
   name: "RadiantKit",
   platforms: [
     .iOS(.v17),
-      .macCatalyst(.v17),
-      .macOS(.v14),
-      .tvOS(.v17),
-      .visionOS(.v1),
-      .watchOS(.v10)
+    .macCatalyst(.v17),
+    .macOS(.v14),
+    .tvOS(.v17),
+    .visionOS(.v1),
+    .watchOS(.v10)
   ],
   products: [
     .library(

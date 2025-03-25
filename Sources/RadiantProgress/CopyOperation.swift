@@ -29,7 +29,7 @@
 
 #if canImport(Observation)
   public import Foundation
-  public import Observation
+  import Observation
 
   #if canImport(OSLog)
     public import OSLog
@@ -37,7 +37,8 @@
     public import Logging
   #endif
 
-  @MainActor @Observable
+  @MainActor
+  @Observable
   public final class CopyOperation<ValueType: BinaryInteger & Sendable>: Identifiable {
     private let sourceURL: URL
     private let destinationURL: URL
@@ -87,8 +88,10 @@
     }
 
     private func starTimer() {
-      timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true) {
-        [weak self] timer in
+      timer = Timer.scheduledTimer(
+        withTimeInterval: timeInterval,
+        repeats: true
+      ) { [weak self] timer in
         guard let weakSelf = self else {
           timer.invalidate()
           return
@@ -114,8 +117,10 @@
 
     public func execute() async throws {
       self.logger?.debug("Starting Copy operating")
-      await starTimer()
-      do { try await self.copyFile(.init(fromURL: sourceURL, toURL: destinationURL)) } catch {
+      starTimer()
+      do {
+        try await self.copyFile(.init(fromURL: sourceURL, toURL: destinationURL))
+      } catch {
         self.logger?.error("Error Copying: \(error)")
         self.killTimer()
         throw error

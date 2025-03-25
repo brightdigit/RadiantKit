@@ -33,7 +33,8 @@ public import Foundation
   public import FoundationNetworking
 #endif
 
-@MainActor public protocol Downloader {
+@MainActor
+public protocol Downloader {
   var totalBytesWritten: Int64 { get }
   var totalBytesExpectedToWrite: Int64? { get }
   func begin(

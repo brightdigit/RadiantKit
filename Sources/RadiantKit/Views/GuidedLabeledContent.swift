@@ -31,10 +31,14 @@
 
   public import SwiftUI
 
-  public struct GuidedLabeledContent<Label: View, Content: View, Description: View>: View {
-    let content: () -> Content
-    let label: () -> Label
-    let description: () -> Description
+  public struct GuidedLabeledContent<
+    Label: View,
+    Content: View,
+    Description: View
+  >: View {
+    private let content: () -> Content
+    private let label: () -> Label
+    private let description: () -> Description
 
     public var body: some View {
       VStack {
@@ -54,7 +58,8 @@
     }
   }
 
-  extension GuidedLabeledContent where Description == GuidedLabeledContentDescriptionView {
+  extension GuidedLabeledContent
+  where Description == GuidedLabeledContentDescriptionView {
     public init(
       _ content: @escaping () -> Content,
       label: @escaping () -> Label,
