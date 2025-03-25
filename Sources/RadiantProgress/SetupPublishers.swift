@@ -33,6 +33,7 @@
   import Foundation
 
   #warning(
+    // swiftlint:disable:next line_length
     "logging-note: can we have some operators for logging the recieved stuff in these subscriptions"
   )
   internal struct SetupPublishers {
@@ -98,7 +99,8 @@
         .map { sourceURL, destinationURL in
           Result { try FileManager.default.moveItem(at: sourceURL, to: destinationURL) }
         }
-        .receive(on: DispatchQueue.main).sink(receiveValue: downloader.onCompletion)
+        .receive(on: DispatchQueue.main)
+        .sink(receiveValue: downloader.onCompletion)
         .store(in: &cancellables)
 
       cancellables.append(contentsOf: setupByteUpdatPublishers(downloader))

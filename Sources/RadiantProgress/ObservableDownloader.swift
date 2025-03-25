@@ -31,85 +31,6 @@
   public import Combine
   public import Foundation
 
-  private protocol DownloadObserver {
-    func finishedDownloadingTo(_ location: URL)
-    func progressUpdated(_ progress: DownloadUpdate)
-    func didComplete(withError error: Error?)
-  }
-
-  private actor ObserverContainer {
-    private nonisolated(unsafe) var observer: DownloadObserver?
-
-    nonisolated func setObserver(_ observer: DownloadObserver) {
-      assert(self.observer == nil)
-      self.observer = observer
-    }
-
-    nonisolated func on(_ closure: @escaping @Sendable (DownloadObserver) -> Void) {
-      Task { await self.withObserver(closure) }
-    }
-
-    private func withObserver(_ closure: @escaping @Sendable (DownloadObserver) -> Void) {
-      assert(self.observer != nil)
-      guard let observer else {
-        return
-      }
-
-      closure(observer)
-    }
-  }
-
-  private final class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
-    let container = ObserverContainer()
-
-    func setObserver(_ observer: DownloadObserver) {
-      self.container.setObserver(observer)
-    }
-
-    func urlSession(
-      _: URLSession,
-      downloadTask _: URLSessionDownloadTask,
-      didFinishDownloadingTo location: URL
-    ) {
-      let newLocation = FileManager
-        .default.temporaryDirectory
-        .appendingPathComponent(UUID().uuidString)
-        .appendingPathExtension(location.pathExtension)
-      do {
-        try FileManager.default.copyItem(at: location, to: newLocation)
-      } catch {
-        container.on { observer in observer.didComplete(withError: error) }
-        return
-      }
-      container.on { observer in observer.finishedDownloadingTo(newLocation) }
-    }
-
-    func urlSession(
-      _: URLSession,
-      downloadTask _: URLSessionDownloadTask,
-      didWriteData _: Int64,
-      totalBytesWritten: Int64,
-      totalBytesExpectedToWrite: Int64
-    ) {
-      container.on { observer in
-        observer.progressUpdated(
-          .init(
-            totalBytesWritten: totalBytesWritten,
-            totalBytesExpectedToWrite: totalBytesExpectedToWrite
-          )
-        )
-      }
-    }
-
-    func urlSession(
-      _: URLSession,
-      task _: URLSessionTask,
-      didCompleteWithError error: (any Error)?
-    ) {
-      container.on { observer in observer.didComplete(withError: error) }
-    }
-  }
-
   @Observable
   @MainActor
   public final class ObservableDownloader: DownloadObserver, Downloader {
@@ -214,15 +135,15 @@
       )
     }
 
-    nonisolated fileprivate func finishedDownloadingTo(_ location: URL) {
+    nonisolated internal func finishedDownloadingTo(_ location: URL) {
       Task { @MainActor in self.finishedDownloadingToAsync(location) }
     }
 
-    nonisolated fileprivate func progressUpdated(_ progress: DownloadUpdate) {
+    nonisolated internal func progressUpdated(_ progress: DownloadUpdate) {
       Task { @MainActor in self.progressUpdatedAsync(progress) }
     }
 
-    nonisolated fileprivate func didComplete(withError error: (any Error)?) {
+    nonisolated internal func didComplete(withError error: (any Error)?) {
       Task { @MainActor in self.didCompleteAsync(withError: error) }
     }
 
