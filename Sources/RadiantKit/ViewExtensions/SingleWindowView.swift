@@ -77,17 +77,17 @@
         }
       }
     }
-#else
-extension WindowGroup {
-  /// Initializes a new instance of the `WindowGroup` with a single window
-  /// view.
-  /// - Parameter _: The type of the `SingleWindowView`.
-  @MainActor
-  public init(singleOf _: Content.Type) where Content : SingleWindowView {
-    self.init {
-      Content()
+  #else
+    extension WindowGroup {
+      /// Initializes a new instance of the `WindowGroup` with a single window
+      /// view.
+      /// - Parameter _: The type of the `SingleWindowView`.
+      @MainActor
+      public init(singleOf _: Content.Type) where Content: SingleWindowView {
+        self.init {
+          Content()
+        }
+      }
     }
-  }
-}
-#endif
+  #endif
 #endif
