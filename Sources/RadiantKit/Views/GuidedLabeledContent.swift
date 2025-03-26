@@ -31,10 +31,26 @@
 
   public import SwiftUI
 
-  public struct GuidedLabeledContent<Label: View, Content: View, Description: View>: View {
-    let content: () -> Content
-    let label: () -> Label
-    let description: () -> Description
+  /// A view that combines a labeled content view with a description view,
+  /// creating a guided user experience.
+  ///
+  /// This view is useful for presenting content with additional guidance or
+  /// context.
+  ///
+  /// - Parameters:
+  ///   - content: A closure that returns the content view.
+  ///   - label: A closure that returns the label view.
+  ///   - description: A closure that returns the description view.
+  ///
+  /// - Returns: A view that presents the labeled content and description.
+  public struct GuidedLabeledContent<
+    Label: View,
+    Content: View,
+    Description: View
+  >: View {
+    private let content: () -> Content
+    private let label: () -> Label
+    private let description: () -> Description
 
     public var body: some View {
       VStack {
@@ -54,7 +70,20 @@
     }
   }
 
-  extension GuidedLabeledContent where Description == GuidedLabeledContentDescriptionView {
+  extension GuidedLabeledContent
+  where Description == GuidedLabeledContentDescriptionView {
+    /// Initializes a `GuidedLabeledContent` instance with a content view, a
+    /// label view, and a text-based description view.
+    ///
+    /// - Parameters:
+    ///   - content: A closure that returns the content view.
+    ///   - label: A closure that returns the label view.
+    ///   - text: A closure that returns the text-based description view.
+    /// - descriptionAlignment: The alignment of the description view (default is
+    /// `.leading`).
+    ///
+    /// - Returns: A `GuidedLabeledContent` instance with the specified content,
+    /// label, and description.
     public init(
       _ content: @escaping () -> Content,
       label: @escaping () -> Label,

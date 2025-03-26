@@ -28,22 +28,58 @@
 //
 
 #if canImport(SwiftUI)
+
   import Foundation
   public import SwiftUI
 
-  @MainActor @resultBuilder public enum IdentifiableViewBuilder {
+  /// A result builder for creating `IdentifiableView` values.
+  @MainActor
+  @resultBuilder
+  public enum IdentifiableViewBuilder {
+    /// Constructs an array of `IdentifiableView` with a single element.
+    ///
+    /// - Parameter first: The view to be wrapped in an `IdentifiableView`.
+    /// - Returns: An array containing a single `IdentifiableView` with an ID of
+    /// 0.
     public static func buildPartialBlock(first: any View) -> [IdentifiableView] {
       [IdentifiableView(first, id: 0)]
     }
 
+    /// Constructs an array of `IdentifiableView` by appending a new
+    /// `IdentifiableView` to an existing array.
+    ///
+    /// - Parameters:
+    ///   - accumulated: The existing array of `IdentifiableView`.
+    ///   - next: The view to be wrapped in a new `IdentifiableView`.
+    /// - Returns: A new array containing the existing `IdentifiableView` values
+    /// plus a new `IdentifiableView` with an ID equal to the count of the
+    /// existing array.
     public static func buildPartialBlock(accumulated: [IdentifiableView], next: any View)
-      -> [IdentifiableView]
-    { accumulated + [IdentifiableView(next, id: accumulated.count)] }
+      -> [IdentifiableView] {
+      accumulated + [IdentifiableView(next, id: accumulated.count)]
+    }
 
-    public static func buildPartialBlock(first: IdentifiableView) -> [IdentifiableView] { [first] }
+    /// Constructs an array of `IdentifiableView` with a single element.
+    ///
+    /// - Parameter first: The `IdentifiableView` to be included in the array.
+    /// - Returns: An array containing the provided `IdentifiableView`.
+    public static func buildPartialBlock(first: IdentifiableView) -> [IdentifiableView] {
+      [first]
+    }
 
-    public static func buildPartialBlock(accumulated: [IdentifiableView], next: IdentifiableView)
-      -> [IdentifiableView]
-    { accumulated + [next] }
+    /// Constructs an array of `IdentifiableView` by appending a new
+    /// `IdentifiableView` to an existing array.
+    ///
+    /// - Parameters:
+    ///   - accumulated: The existing array of `IdentifiableView`.
+    ///   - next: The `IdentifiableView` to be appended to the existing array.
+    /// - Returns: A new array containing the existing `IdentifiableView` values
+    /// plus the new `IdentifiableView`.
+    public static func buildPartialBlock(
+      accumulated: [IdentifiableView],
+      next: IdentifiableView
+    ) -> [IdentifiableView] {
+      accumulated + [next]
+    }
   }
 #endif

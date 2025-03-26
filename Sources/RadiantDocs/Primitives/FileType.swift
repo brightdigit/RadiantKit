@@ -29,45 +29,57 @@
 
 import Foundation
 
+/// Represents a file type with
+/// a Uniform Type Identifier (UTI), ownership status, and optional file
+/// extension.
 public struct FileType: Hashable, ExpressibleByStringLiteral, Sendable {
+  /// The type alias for the string literal initializer.
   public typealias StringLiteralType = String
 
+  /// The Uniform Type Identifier (UTI) for the file type.
   public let utIdentifier: String
+
+  /// A boolean indicating whether the file type is owned.
   public let isOwned: Bool
+
+  /// The optional file extension associated with the file type.
   public let fileExtension: String?
 
+  /// Initializes a `FileType` instance with the specified UTI, ownership status,
+  /// and optional file extension.
+  ///
+  /// - Parameters:
+  ///   - utIdentifier: The Uniform Type Identifier (UTI) for the file type.
+  ///   - isOwned: A boolean indicating whether the file type is owned.
+  /// - fileExtension: The optional file extension associated with the file type.
   public init(utIdentifier: String, isOwned: Bool, fileExtension: String? = nil) {
     self.utIdentifier = utIdentifier
     self.isOwned = isOwned
     self.fileExtension = fileExtension
   }
 
+  /// Initializes a `FileType` instance with the specified UTI,
+  /// and sets the ownership status to `false`.
+  ///
+  /// - Parameter utIdentifier: The Uniform Type Identifier (UTI) for the file
+  /// type.
   public init(stringLiteral utIdentifier: String) {
     self.init(utIdentifier: utIdentifier, isOwned: false)
   }
 
-  public static func exportedAs(_ utIdentifier: String, _ fileExtension: String) -> FileType {
+  /// Creates a `FileType` instance with the specified UTI, ownership status set
+  /// to `true`, and the given file extension.
+  ///
+  /// - Parameters:
+  ///   - utIdentifier: The Uniform Type Identifier (UTI) for the file type.
+  ///   - fileExtension: The file extension associated with the file type.
+  /// - Returns: A `FileType` instance with
+  /// the specified UTI, ownership status set to `true`, and the given file
+  /// extension.
+  public static func exportedAs(
+    _ utIdentifier: String,
+    _ fileExtension: String
+  ) -> FileType {
     .init(utIdentifier: utIdentifier, isOwned: true, fileExtension: fileExtension)
   }
 }
-//
-//extension FileType {
-//  public static let ipswFileExtension = "ipsw"
-//  public static let iTunesIPSW: FileType = "com.apple.itunes.ipsw"
-//  public static let iPhoneIPSW: FileType = "com.apple.iphone.ipsw"
-//
-//  public static let virtualMachineFileExtension = "bshvm"
-//  public static let restoreImageLibraryFileExtension = "bshrilib"
-//
-//  public static let virtualMachine: FileType = .exportedAs(
-//    "com.brightdigit.bushel-vm",
-//    virtualMachineFileExtension
-//  )
-//
-//  public static let restoreImageLibrary: FileType = .exportedAs(
-//    "com.brightdigit.bushel-rilib",
-//    restoreImageLibraryFileExtension
-//  )
-//
-//  public static let ipswTypes = [iTunesIPSW, iPhoneIPSW]
-//}

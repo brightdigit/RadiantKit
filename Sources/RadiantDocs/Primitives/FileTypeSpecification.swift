@@ -29,4 +29,11 @@
 
 import Foundation
 
-public protocol FileTypeSpecification: Sendable { static var fileType: FileType { get } }
+/// A protocol that defines a file type specification.
+///
+/// threads or actors without the risk of data races or other concurrency-related
+/// issues.
+public protocol FileTypeSpecification: Sendable {
+  /// The file type associated with this specification.
+  static var fileType: FileType { get }
+}

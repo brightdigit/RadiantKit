@@ -36,20 +36,33 @@
 
   import UniformTypeIdentifiers
 
+  /// A struct that represents a new file panel for a specific file type.
   public struct NewFilePanel<FileType: InitializableFileTypeSpecification>: Sendable {
+    /// Initializes a new instance of `NewFilePanel`.
     public init() {}
 
+    /// Initializes a new instance of `NewFilePanel` with a specified file type.
+    ///
+    /// - Parameter _: The type of file to be created.
     public init(_: FileType.Type) {}
 
-    @MainActor public func callAsFunction(with openWindow: OpenWindowAction) {
+    /// Presents a new file panel and opens a window with the created file.
+    ///
+    /// - Parameter openWindow: The action to be performed when a new file is
+    /// created.
+    @MainActor
+    public func callAsFunction(with openWindow: OpenWindowAction) {
       let openPanel = NSSavePanel()
       openPanel.allowedContentTypes = [UTType(fileType: FileType.fileType)]
       openPanel.isExtensionHidden = true
       openPanel.begin { response in
-        guard let fileURL = openPanel.url, response == .OK else { return }
+        guard let fileURL = openPanel.url, response == .OK else {
+          return
+        }
         let value: FileType.WindowValueType
-        do { value = try FileType.createAt(fileURL) }
-        catch {
+        do {
+          value = try FileType.createAt(fileURL)
+        } catch {
           openPanel.presentError(error)
           return
         }
@@ -59,9 +72,15 @@
   }
 
   extension OpenWindowAction {
-    @MainActor public func callAsFunction(
+    /// Presents a new file panel for a specified file type and
+    /// opens a window with the created file.
+    ///
+    /// - Parameter valueType: The type of file to be created.
+    @MainActor
+    public func callAsFunction(
       newFileOf valueType: (some InitializableFileTypeSpecification).Type
-    ) { NewFilePanel(valueType)(with: self) }
+    ) {
+      NewFilePanel(valueType)(with: self)
+    }
   }
-
 #endif

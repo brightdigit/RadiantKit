@@ -33,11 +33,30 @@ public import Foundation
   public import FoundationNetworking
 #endif
 
-public protocol InitializablePackage: CodablePackage { init() }
+/// A protocol that represents an initializable package.
+public protocol InitializablePackage: CodablePackage {
+  /// Initializes a new instance of the package.
+  init()
+}
 
 extension InitializablePackage {
+  /// The options for creating an initializable package.
   public typealias Options = InitializablePackageOptions
-  @discardableResult public static func createAt(
+
+  /// Creates a new instance of the package at the specified file URL
+  /// using the provided encoder and options.
+  ///
+  /// - Parameters:
+  ///   - fileURL: The URL at which to create the package.
+  ///   - encoder: The JSON encoder to use for encoding the package.
+  /// - options: The options to use when creating the package. Defaults to
+  /// `.none`.
+  ///
+  /// - Returns: The newly created instance of the package.
+  ///
+  /// - Throws: Any errors that may occur during the creation of the package.
+  @discardableResult
+  public static func createAt(
     _ fileURL: URL,
     using encoder: JSONEncoder,
     options: Options = .none
@@ -47,7 +66,9 @@ extension InitializablePackage {
       at: fileURL,
       withIntermediateDirectories: options.withIntermediateDirectoriesIsEnabled
     )
-    let metadataJSONPath = fileURL.appendingPathComponent(self.configurationFileWrapperKey)
+    let metadataJSONPath = fileURL.appendingPathComponent(
+      self.configurationFileWrapperKey
+    )
     let data = try encoder.encode(library)
     try data.write(to: metadataJSONPath, options: .init(options: options))
     return library

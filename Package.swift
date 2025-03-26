@@ -1,23 +1,22 @@
 // swift-tools-version: 6.0
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+
+// swiftlint:disable explicit_acl explicit_top_level_acl
 
 import PackageDescription
 
 let swiftSettings: [SwiftSetting] = [
   SwiftSetting.enableExperimentalFeature("AccessLevelOnImport"),
   SwiftSetting.enableExperimentalFeature("BitwiseCopyable"),
-  SwiftSetting.enableExperimentalFeature("GlobalActorIsolatedTypesUsability"),
   SwiftSetting.enableExperimentalFeature("IsolatedAny"),
   SwiftSetting.enableExperimentalFeature("MoveOnlyPartialConsumption"),
   SwiftSetting.enableExperimentalFeature("NestedProtocols"),
   SwiftSetting.enableExperimentalFeature("NoncopyableGenerics"),
-  SwiftSetting.enableExperimentalFeature("RegionBasedIsolation"),
   SwiftSetting.enableExperimentalFeature("TransferringArgsAndResults"),
   SwiftSetting.enableExperimentalFeature("VariadicGenerics"),
-  
+
   SwiftSetting.enableUpcomingFeature("FullTypedThrows"),
   SwiftSetting.enableUpcomingFeature("InternalImportsByDefault"),
-  
+
   // SwiftSetting.unsafeFlags([
   //   "-Xfrontend",
   //   "-warn-long-function-bodies=100"
@@ -30,7 +29,14 @@ let swiftSettings: [SwiftSetting] = [
 
 let package = Package(
   name: "RadiantKit",
-  platforms: [.iOS(.v17), .macCatalyst(.v17), .macOS(.v14), .tvOS(.v17), .visionOS(.v1), .watchOS(.v10)],
+  platforms: [
+    .iOS(.v17),
+    .macCatalyst(.v17),
+    .macOS(.v14),
+    .tvOS(.v17),
+    .visionOS(.v1),
+    .watchOS(.v10)
+  ],
   products: [
     .library(
       name: "RadiantKit",
@@ -70,7 +76,11 @@ let package = Package(
     .target(
       name: "RadiantProgress",
       dependencies: [
-        .product(name: "Logging", package: "swift-log", condition: .when(platforms: [.linux]))
+        .product(
+          name: "Logging",
+          package: "swift-log",
+          condition: .when(platforms: [.linux])
+        )
       ],
       swiftSettings: swiftSettings
     ),
@@ -82,3 +92,5 @@ let package = Package(
     )
   ]
 )
+
+// swiftlint:enable explicit_acl explicit_top_level_acl

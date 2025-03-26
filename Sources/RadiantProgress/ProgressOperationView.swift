@@ -30,6 +30,13 @@
 #if canImport(SwiftUI)
   public import SwiftUI
 
+  /// A view that displays the progress of a file operation.
+  ///
+  /// - Parameters:
+  ///   - progress: The progress of the file operation.
+  ///   - title: The title of the file operation.
+  ///   - text: A closure that returns a view displaying the progress text.
+  ///   - icon: A closure that returns a view displaying the icon.
   public struct ProgressOperationView<Icon: View, ProgressText: View>: View {
     private let progress: FileOperationProgress<Int>
     private let title: any StringProtocol
@@ -39,20 +46,19 @@
     public var body: some View {
       VStack {
         HStack {
-          icon()  // .accessibilityIdentifier(Progress.icon.identifier)
+          icon()
           VStack(alignment: .leading) {
-            Text(title).lineLimit(1).font(.title)
-              // .accessibilityIdentifier(Progress.title.identifier)
+            Text(title)
+              .lineLimit(1)
+              .font(.title)
               .accessibilityLabel(title)
             HStack {
               if let totalValue = progress.totalValue {
                 ProgressView(value: progress.currentValue, total: totalValue)
-              }
-              else {
+              } else {
                 ProgressView(value: progress.currentValue)
               }
             }
-            // .accessibilityIdentifier(Progress.view.identifier)
             text(progress)
           }
         }
@@ -60,6 +66,13 @@
       .padding()
     }
 
+    /// Initializes a `ProgressOperationView`.
+    ///
+    /// - Parameters:
+    ///   - progress: The progress of the file operation.
+    ///   - title: The title of the file operation.
+    ///   - text: A closure that returns a view displaying the progress text.
+    ///   - icon: A closure that returns a view displaying the icon.
     public init(
       progress: FileOperationProgress<Int>,
       title: any StringProtocol,

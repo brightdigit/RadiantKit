@@ -35,11 +35,25 @@ import Foundation
   #if canImport(AppKit)
     import AppKit
 
-    fileprivate struct NSWindowAdaptorHostingView: NSViewRepresentable {
+    /// A private struct that provides a `NSViewRepresentable` implementation
+    /// to create an `NSView` that can be used to access the underlying
+    /// `NSWindow`.
+    private struct NSWindowAdaptorHostingView: NSViewRepresentable {
+      /// A closure that will be called with
+      /// the `NSWindow` associated with the created `NSView`.
       private var callback: (NSWindow?) -> Void
 
-      fileprivate init(callback: @escaping (NSWindow?) -> Void) { self.callback = callback }
+      /// Initializes the `NSWindowAdaptorHostingView` with a callback closure.
+      /// - Parameter callback: A closure that will be called with the `NSWindow`
+      /// associated with the created `NSView`.
+      fileprivate init(callback: @escaping (NSWindow?) -> Void) {
+        self.callback = callback
+      }
 
+      /// Creates the `NSView` that will be used to access the underlying
+      /// `NSWindow`.
+      /// - Parameter context: The context provided by the SwiftUI framework.
+      /// - Returns: An `NSView` instance.
       fileprivate func makeNSView(context _: Self.Context) -> NSView {
         let view = NSView()
         DispatchQueue.main.async { [weak view] in self.callback(view?.window) }
@@ -49,28 +63,57 @@ import Foundation
         return view
       }
 
+      /// Updates the `NSView` if necessary.
+      /// - Parameters:
+      ///   - nsView: The `NSView` to be updated.
+      ///   - context: The context provided by the SwiftUI framework.
       fileprivate func updateNSView(_: NSView, context _: Context) {}
     }
 
-    fileprivate struct NSWindowAdaptorModifier: ViewModifier {
+    /// A private struct that provides a `ViewModifier` implementation to add the
+    /// `NSWindowAdaptorHostingView` to a `View`.
+    private struct NSWindowAdaptorModifier: ViewModifier {
+      /// A closure that will be called with the `NSWindow` associated with the
+      /// created `NSView`.
       private var callback: (NSWindow?) -> Void
 
-      fileprivate init(callback: @escaping (NSWindow?) -> Void) { self.callback = callback }
+      /// Initializes the `NSWindowAdaptorModifier` with a callback closure.
+      /// - Parameter callback: A closure that will be called with the `NSWindow`
+      /// associated with the created `NSView`.
+      fileprivate init(callback: @escaping (NSWindow?) -> Void) {
+        self.callback = callback
+      }
 
+      /// Applies the `NSWindowAdaptorHostingView` to the content `View`.
+      /// - Parameter content: The content `View` to be modified.
+      /// - Returns: The modified `View`.
       fileprivate func body(content: Content) -> some View {
-        content.overlay(NSWindowAdaptorHostingView(callback: callback).frame(width: 0, height: 0))
+        content.overlay(
+          NSWindowAdaptorHostingView(callback: callback)
+            .frame(width: 0, height: 0)
+        )
       }
     }
 
     extension View {
-      public func nsWindowAdaptor(_ callback: @escaping (NSWindow?) -> Void) -> some View {
+      /// Adds an `NSWindowAdaptorModifier` to the `View`, which provides access
+      /// to the underlying `NSWindow`.
+      /// - Parameter callback: A closure that will be called with the `NSWindow`
+      /// associated with the created `NSView`.
+      /// - Returns: The modified `View`.
+      public func nsWindowAdaptor(
+        _ callback: @escaping (NSWindow?) -> Void
+      ) -> some View {
         self.modifier(NSWindowAdaptorModifier(callback: callback))
       }
     }
   #else
     extension View {
+      /// Adds a no-op `nsWindowAdaptor` modifier to the `View`.
+      /// - Parameter callback: A closure that will be called with `Any?`, but
+      /// does nothing.
+      /// - Returns: The original `View`.
       public func nsWindowAdaptor(_: @escaping (Any?) -> Void) -> some View { self }
     }
   #endif
-
 #endif

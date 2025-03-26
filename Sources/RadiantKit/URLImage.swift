@@ -28,18 +28,25 @@
 //
 
 #if canImport(SwiftUI)
+
   public import SwiftUI
 
+  /// A SwiftUI view that displays an image from a local file.
   public struct URLImage: View {
+    /// The path to the local file containing the image.
     private let path: String
 
     public var body: some View {
       Group {
         #if os(iOS) || os(watchOS) || os(tvOS)
+          /// If the image can be loaded from the file path, display it and scale
+          /// it to fit the available space.
           if let image = UIImage(contentsOfFile: path) {
             Image(uiImage: image).resizable().scaledToFit()
           }
         #elseif os(macOS)
+          /// If the image can be loaded from the file path, display it and scale
+          /// it to fit the available space.
           if let image = NSImage(contentsOfFile: path) {
             Image(nsImage: image).resizable().scaledToFit()
           }
@@ -47,10 +54,17 @@
       }
     }
 
+    /// Initializes a `URLImage` with the contents of a URL.
+    /// - Parameter url: The URL of the local file containing the image.
     public init(contentsOf url: URL) {
       assert(url.isFileURL)
       self.init(contentsOfFile: url.path)
     }
-    public init(contentsOfFile path: String) { self.path = path }
+
+    /// Initializes a `URLImage` with the contents of a file path.
+    /// - Parameter path: The file path of the local file containing the image.
+    public init(contentsOfFile path: String) {
+      self.path = path
+    }
   }
 #endif

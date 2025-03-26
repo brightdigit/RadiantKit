@@ -28,25 +28,40 @@
 //
 
 #if canImport(SwiftUI)
-  public import SwiftUI
   public import RadiantKit
+  public import SwiftUI
 
-  @MainActor public struct PageView: View, Sendable {
-    @Environment(\.dismiss) private var dismiss
+  /// A SwiftUI view that displays a collection of `IdentifiableView` instances
+  /// as a page-based interface.
+  ///
+  /// The `PageView` struct manages the state of the current page and provides
+  /// callbacks for navigation and dismissal.
+  @MainActor
+  public struct PageView: View {
+    @Environment(\.dismiss)
+    private var dismiss
     @State private var currentPageID: IdentifiableView.ID?
 
     private let onDimiss: (@MainActor @Sendable (DismissParameters) -> Void)?
     private let pages: [IdentifiableView]
 
+    /// Determines the availability of page navigation actions based on the
+    /// current page being displayed.
     public var pageNavigationAvailability: PageNavigationAvailability {
-      switch (currentPageID, currentPageID == pages.first?.id, currentPageID == pages.last?.id) {
-        case (.none, _, _), (.some, true, true): .none
+      let isFirst = currentPageID == pages.first?.id
+      let isLast = currentPageID == pages.last?.id
+      switch (currentPageID, isFirst, isLast) {
+        case (.none, _, _), (.some, true, true):
+          return .none
 
-        case (.some, false, false): .both
+        case (.some, false, false):
+          return .both
 
-        case (.some, false, true): .previous
+        case (.some, false, true):
+          return .previous
 
-        case (.some, true, false): .next
+        case (.some, true, false):
+          return .next
       }
     }
 
@@ -60,18 +75,31 @@
               .environment(\.cancelPage, CancelPageAction { cancelPage() })
           )
           .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
-        else if currentPageID == nil, !pages.isEmpty {
+        } else if currentPageID == nil, !pages.isEmpty {
           Color.clear.onAppear { currentPageID = pages.first?.id }
         }
       }
     }
 
+    /// Initializes a `PageView` with a builder closure that provides the
+    /// collection of `IdentifiableView` instances.
+    ///
+    /// - Parameter onDismiss: An optional closure that is called when the page
+    /// view is dismissed.
+    /// - Parameter pagesBuilder: A builder closure that provides the collection
+    /// of `IdentifiableView` instances to display.
     public init(
       onDismiss: (@MainActor @Sendable (DismissParameters) -> Void)? = nil,
       @IdentifiableViewBuilder _ pagesBuilder: () -> [IdentifiableView]
     ) { self.init(pages: pagesBuilder(), onDismiss: onDismiss) }
 
+    /// Initializes a `PageView` with a collection of `IdentifiableView`
+    /// instances.
+    ///
+    /// - Parameter pages: The collection of `IdentifiableView` instances to
+    /// display.
+    /// - Parameter onDismiss: An optional closure that is called when the page
+    /// view is dismissed.
     public init(
       pages: [IdentifiableView],
       onDismiss: (@Sendable @MainActor (DismissParameters) -> Void)?
@@ -83,16 +111,28 @@
     }
 
     private func cancelPage() {
-      guard let currentIndex = pages.firstIndex(where: { $0.id == self.currentPageID }) else {
+      guard
+        let currentIndex = pages.firstIndex(
+          where: { $0.id == self.currentPageID }
+        )
+      else {
         return
       }
       onDimiss?(
-        .init(currentPageIndex: currentIndex, currentPageID: currentPageID, action: .cancel)
+        .init(
+          currentPageIndex: currentIndex,
+          currentPageID: currentPageID,
+          action: .cancel
+        )
       )
     }
 
     private func showNextPage() {
-      guard let currentIndex = pages.firstIndex(where: { $0.id == self.currentPageID }) else {
+      guard
+        let currentIndex = pages.firstIndex(
+          where: { $0.id == self.currentPageID }
+        )
+      else {
         return
       }
       let nextIndex = currentIndex + 1
@@ -104,7 +144,11 @@
         }
 
         onDimiss?(
-          .init(currentPageIndex: currentIndex, currentPageID: currentPageID, action: .next)
+          .init(
+            currentPageIndex: currentIndex,
+            currentPageID: currentPageID,
+            action: .next
+          )
         )
         // dismiss()
 
@@ -114,7 +158,11 @@
     }
 
     private func showPreviousPage() {
-      guard let currentIndex = pages.firstIndex(where: { $0.id == self.currentPageID }) else {
+      guard
+        let currentIndex = pages.firstIndex(
+          where: { $0.id == self.currentPageID }
+        )
+      else {
         return
       }
       let previousIndex = currentIndex - 1
@@ -126,7 +174,11 @@
         }
 
         onDimiss?(
-          .init(currentPageIndex: currentIndex, currentPageID: currentPageID, action: .previous)
+          .init(
+            currentPageIndex: currentIndex,
+            currentPageID: currentPageID,
+            action: .previous
+          )
         )
         dismiss()
 
@@ -135,4 +187,5 @@
       currentPageID = pages[currentIndex - 1].id
     }
   }
+
 #endif

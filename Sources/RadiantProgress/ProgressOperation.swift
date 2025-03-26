@@ -29,7 +29,8 @@
 
 public import Foundation
 
-@MainActor public protocol ProgressOperation<ValueType>: Identifiable, Sendable where ID == URL {
+@MainActor
+public protocol ProgressOperation<ValueType>: Identifiable where ID == URL {
   associatedtype ValueType: BinaryInteger & Sendable
   var currentValue: ValueType { get }
   var totalValue: ValueType? { get }

@@ -28,19 +28,27 @@
 //
 
 #if canImport(SwiftUI)
+
   import Foundation
   public import SwiftUI
 
-  fileprivate struct PreviousPageKey: EnvironmentKey, Sendable {
+  /// A private struct that serves as the environment key for the `previousPage`
+  /// environment value.
+  private struct PreviousPageKey: EnvironmentKey, Sendable {
+    /// The default value for the `previousPage` environment value.
     static let defaultValue: PreviousPageAction = .default
   }
 
+  /// A type alias for the `PageAction` type, used to represent the action to
+  /// take when navigating to the previous page.
   public typealias PreviousPageAction = PageAction
 
   extension EnvironmentValues {
+    /// The action to take when navigating to the previous page.
     public var previousPage: PreviousPageAction {
       get { self[PreviousPageKey.self] }
       set { self[PreviousPageKey.self] = newValue }
     }
   }
+
 #endif

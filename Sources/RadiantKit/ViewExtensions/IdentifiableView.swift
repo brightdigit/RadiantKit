@@ -30,17 +30,35 @@
 #if canImport(SwiftUI)
   public import SwiftUI
 
-  @MainActor public struct IdentifiableView: Identifiable, View, Sendable {
+  /// A SwiftUI view that wraps another view and provides an identifier.
+  @MainActor
+  public struct IdentifiableView: Identifiable, View {
+    /// The content view to be wrapped.
     private let content: any View
+
+    /// The unique identifier for the view.
     public let id: Int
 
-    public var body: some View { AnyView(content) }
+    /// The body of the `IdentifiableView`.
+    public var body: some View {
+      AnyView(content)
+    }
 
+    /// Initializes an `IdentifiableView` with the provided content view and
+    /// identifier.
+    /// - Parameters:
+    ///   - content: The view to be wrapped.
+    ///   - id: The unique identifier for the view.
     public init(_ content: any View, id: Int) {
       self.content = content
       self.id = id
     }
 
+    /// Initializes an `IdentifiableView` with a closure that produces the
+    /// content view and an identifier.
+    /// - Parameters:
+    ///   - content: A closure that produces the view to be wrapped.
+    ///   - id: The unique identifier for the view.
     public init(_ content: @escaping () -> some View, id: Int) {
       self.content = content()
       self.id = id

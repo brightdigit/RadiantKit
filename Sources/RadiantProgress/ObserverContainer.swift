@@ -1,5 +1,5 @@
 //
-//  DocumentFile.swift
+//  ObserverContainer.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,32 +27,38 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-public import Foundation
+internal actor ObserverContainer {
+  /// The download observer.
+  private nonisolated(unsafe) var observer: DownloadObserver?
 
-/// Represents a document file with a specific file type.
-public struct DocumentFile<FileType: FileTypeSpecification>: Codable, Hashable {
-  /// The URL of the document file.
-  public let url: URL
+  /// Sets the download observer.
+  ///
+  /// - Parameter observer: The download observer to set.
+  nonisolated internal func setObserver(_ observer: DownloadObserver) {
+    assert(self.observer == nil)
+    self.observer = observer
+  }
 
-  /// Initializes a `DocumentFile` with the given URL.
-  /// - Parameter url: The URL of the document file.
-  public init(url: URL) { self.url = url }
+  /// Executes the provided closure with the download observer.
+  ///
+  /// - Parameter closure: The closure to execute with the download observer.
+  nonisolated internal func on(
+    _ closure: @escaping @Sendable (DownloadObserver) -> Void
+  ) {
+    Task { await self.withObserver(closure) }
+  }
 
-  /// Hashes the `DocumentFile` instance into the given hasher.
-  /// - Parameter hasher: The hasher to combine the URL with.
-  public func hash(into hasher: inout Hasher) { hasher.combine(url) }
-}
-
-extension DocumentFile {
-  /// Creates a `DocumentFile` instance from the given URL
-  ///  if the file type matches the specified `FileType`.
-  /// - Parameter url: The URL of the document file.
-  /// - Returns: A `DocumentFile` instance if the file type matches, or `nil` if
-  /// it does not.
-  public static func documentFile(from url: URL) -> Self? {
-    guard url.pathExtension == FileType.fileType.fileExtension else {
-      return nil
+  /// Executes the provided closure with the download observer.
+  ///
+  /// - Parameter closure: The closure to execute with the download observer.
+  private func withObserver(
+    _ closure: @escaping @Sendable (DownloadObserver) -> Void
+  ) {
+    assert(self.observer != nil)
+    guard let observer else {
+      return
     }
-    return Self(url: url)
+
+    closure(observer)
   }
 }

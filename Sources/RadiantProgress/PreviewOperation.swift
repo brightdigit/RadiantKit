@@ -29,24 +29,40 @@
 
 public import Foundation
 
-@MainActor public struct PreviewOperation<ValueType: BinaryInteger & Sendable>: ProgressOperation {
+/// An operation that represents a progress-based operation.
+@MainActor
+public struct PreviewOperation<ValueType: BinaryInteger & Sendable>: ProgressOperation {
+  /// The current value of the operation.
   public let currentValue: ValueType
 
+  /// The total value of the operation, if available.
   public let totalValue: ValueType?
 
+  /// The unique identifier for the operation.
   public let id: URL
 
+  /// Initializes a new `PreviewOperation` instance.
+  ///
+  /// - Parameters:
+  ///   - currentValue: The current value of the operation.
+  ///   - totalValue: The total value of the operation, if available.
+  ///   - id: The unique identifier for the operation.
   public init(currentValue: ValueType, totalValue: ValueType?, id: URL) {
     self.currentValue = currentValue
     self.totalValue = totalValue
     self.id = id
   }
 
-  public func execute() async throws {}
+  /// Executes the operation.
+  public func execute() async throws {
+  }
 
-  public func cancel() {}
+  /// Cancels the operation.
+  public func cancel() {
+  }
 }
 
 #if canImport(FoundationNetworking)
-  extension URL: @unchecked Sendable {}
+  extension URL: @unchecked Sendable {
+  }
 #endif
