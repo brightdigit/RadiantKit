@@ -62,7 +62,6 @@
   }
 
   #if os(macOS) || os(iOS) || os(visionOS)
-
     extension WindowGroup {
       /// Initializes a new instance of the `WindowGroup` with a single window
       /// view.
