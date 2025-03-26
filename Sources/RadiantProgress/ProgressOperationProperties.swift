@@ -27,7 +27,7 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#if canImport(Observation) && (os(macOS) || os(iOS))
+#if canImport(Observation)
 
   public import Foundation
 
