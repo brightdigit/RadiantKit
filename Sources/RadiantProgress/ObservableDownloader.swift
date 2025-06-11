@@ -144,7 +144,9 @@
       configuration: URLSessionConfiguration? = nil,
       queue: OperationQueue? = nil
     ) {
-      self.totalBytesExpectedToWrite = totalBytesExpectedToWrite.map(Int64.init(_:))
+      self.totalBytesExpectedToWrite = totalBytesExpectedToWrite.map {
+        Int64($0)
+      }
 
       let delegate = DownloadDelegate()
       self.session = URLSession(
@@ -178,7 +180,6 @@
       to destinationFileURL: URL,
       _ completion: @escaping @Sendable (Result<Void, any Error>) -> Void
     ) {
-      #warning("Requires Testing")
       self.delegate.setObserver(self)
       assert(self.completion == nil)
       self.completion = completion
