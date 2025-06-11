@@ -30,7 +30,7 @@
 public import Foundation
 
 /// Represents a document file with a specific file type.
-public struct DocumentFile<FileType: FileTypeSpecification>: Codable, Hashable {
+public struct DocumentFile<FileType: FileTypeSpecification>: Codable, Hashable, Sendable {
   /// The URL of the document file.
   public let url: URL
 
