@@ -32,7 +32,7 @@ public import Foundation
 /// A protocol that defines a file type specification that can be initialized.
 public protocol InitializableFileTypeSpecification: FileTypeSpecification {
   /// The type of the window value associated with the file type specification.
-  associatedtype WindowValueType: Codable & Hashable
+  associatedtype WindowValueType: Codable & Hashable & Sendable
 
   /// Creates a new instance of the window value type at the specified URL.
   ///

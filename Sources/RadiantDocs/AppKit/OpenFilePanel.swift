@@ -58,12 +58,13 @@
       openPanel.allowedContentTypes = [UTType(fileType: FileType.fileType)]
       openPanel.isExtensionHidden = true
       openPanel.begin { response in
-        guard let fileURL = openPanel.url, response == .OK else {
-          #warning("logging-note: should we log something here?")
-          return
+        Task { @MainActor in
+          guard let fileURL = openPanel.url, response == .OK else {
+            return
+          }
+          let libraryFile = DocumentFile<FileType>(url: fileURL)
+          openWindow(value: libraryFile)
         }
-        let libraryFile = DocumentFile<FileType>(url: fileURL)
-        openWindow(value: libraryFile)
       }
     }
   }
