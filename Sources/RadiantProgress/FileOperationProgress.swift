@@ -42,14 +42,22 @@
     public let id: URL
 
     /// The total value of the operation in bytes, if available.
-    public var totalValueBytes: Int64? { operation.totalValue.map(Int64.init) }
+    public var totalValueBytes: Int64? {
+      operation.totalValue.map {
+        Int64($0)
+      }
+    }
 
     /// The current value of the operation in bytes.
     public var currentValueBytes: Int64 { Int64(operation.currentValue) }
 
     internal var currentValue: Double { Double(operation.currentValue) }
 
-    internal var totalValue: Double? { operation.totalValue.map(Double.init) }
+    internal var totalValue: Double? {
+      operation.totalValue.map {
+        Double($0)
+      }
+    }
 
     /// Initializes a new `FileOperationProgress` object with the given progress
     /// operation.

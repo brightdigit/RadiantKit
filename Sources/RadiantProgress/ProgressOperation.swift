@@ -40,7 +40,6 @@ public protocol ProgressOperation<ValueType>: Identifiable where ID == URL {
 extension ProgressOperation {
   public func percentValue(withFractionDigits fractionDigits: Int = 0) -> String? {
     guard let totalValue else {
-      #warning("logging-note: should we log something here?")
       return nil
     }
     let formatter = NumberFormatter()
@@ -48,8 +47,6 @@ extension ProgressOperation {
     formatter.minimumFractionDigits = fractionDigits
     let ratioValue = Double(currentValue) / Double(totalValue) * 100.0
     let string = formatter.string(from: .init(value: ratioValue))
-
-    #warning("logging-note: let's log the calculated percent value if not done somewhere")
     assert(string != nil)
     return string
   }

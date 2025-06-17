@@ -31,10 +31,7 @@
 
   import Combine
   import Foundation
-  #warning(
-    // swiftlint:disable:next line_length
-    "logging-note: can we have some operators for logging the recieved stuff in these subscriptions"
-  )
+
   /// Manages the setup and configuration of publishers for an
   /// `ObservableDownloader` instance.
   internal struct SetupPublishers {

@@ -68,10 +68,12 @@
       openPanel.allowedContentTypes = fileTypes.map(UTType.init(fileType:))
       openPanel.isExtensionHidden = true
       openPanel.begin { response in
-        guard let fileURL = openPanel.url, response == .OK else {
-          return
+        Task { @MainActor in
+          guard let fileURL = openPanel.url, response == .OK else {
+            return
+          }
+          openFileURL(fileURL, with: openWindow)
         }
-        openFileURL(fileURL, with: openWindow)
       }
     }
   }
