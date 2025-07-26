@@ -35,6 +35,7 @@
     public import SwiftUI
 
     /// A struct that represents an action to open a window with a given value.
+    @available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *)
     public struct OpenWindowWithValueAction<ValueType: Sendable>: Sendable {
       /// The default instance of `OpenWindowWithValueAction`.
       public static var `default`: Self {

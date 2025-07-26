@@ -32,6 +32,7 @@
   public import Foundation
 
   /// A structure that represents the properties of a progress operation.
+  @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
   public struct ProgressOperationProperties: Identifiable, Sendable {
     /// The name of the image associated with the progress operation.
     internal let imageName: String
@@ -65,6 +66,7 @@
   }
 
   #if canImport(SwiftUI)
+    @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
     extension ProgressOperationView {
       /// The properties of a progress operation.
       public typealias Properties = ProgressOperationProperties

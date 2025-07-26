@@ -37,6 +37,7 @@
 
   /// A download operation that downloads data from a source URL to a destination
   /// URL.
+  @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
   @MainActor
   @Observable
   public final class DownloadOperation<ValueType: BinaryInteger & Sendable>: Identifiable,

@@ -35,6 +35,7 @@
   /// An observable class that transforms an input value of type `InputValue` to
   /// an output value of type `OutputValue`, and provides a formatted
   /// representation of the output value as `FormattableValue`.
+  @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
   @Observable
   public class TransformedValueObject<InputValue, OutputValue, FormattableValue> {
     /// The default transformation function from `InputValue` to `OutputValue`.

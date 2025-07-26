@@ -42,6 +42,7 @@
     /// download publishers for.
     /// - Returns: An array of `AnyCancellable` instances representing the
     /// subscriptions.
+    @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
     @MainActor
     private func setupDownloadPublsihers(
       _ downloader: ObservableDownloader
@@ -80,6 +81,7 @@
     /// byte update publishers for.
     /// - Returns: An array of `AnyCancellable` instances representing the
     /// subscriptions.
+    @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
     @MainActor
     private func setupByteUpdatPublishers(
       _ downloader: ObservableDownloader
@@ -107,6 +109,7 @@
     /// publishers for.
     /// - Returns: An array of `AnyCancellable` instances representing the
     /// subscriptions.
+    @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
     @MainActor
     internal func callAsFunction(
       downloader: ObservableDownloader

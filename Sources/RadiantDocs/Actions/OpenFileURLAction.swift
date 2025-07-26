@@ -35,6 +35,7 @@
 
     /// A private environment key for storing the `OpenFileURLAction` in the
     /// environment.
+    @available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *)
     private struct OpenFileURLKey: EnvironmentKey, Sendable {
       typealias Value = OpenFileURLAction
 
@@ -42,13 +43,16 @@
     }
 
     /// A type alias for opening windows with URL values.
+    @available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *)
     public typealias OpenWindowURLAction = OpenWindowWithValueAction<URL>
 
     /// A type alias for opening files with URLs.
+    @available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *)
     public typealias OpenFileURLAction = OpenWindowURLAction
 
     /// Environment values extension that provides access to the file URL opening
     /// action.
+    @available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *)
     extension EnvironmentValues {
       /// The action used to open file URLs in the current environment.
       public var openFileURL: OpenFileURLAction {
@@ -58,6 +62,7 @@
     }
 
     /// Scene extension that provides file URL opening functionality.
+    @available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *)
     extension Scene {
       /// Configures the scene to handle file URL opening.
       /// - Parameter closure: A closure that handles the URL opening action,
@@ -69,6 +74,7 @@
     }
 
     /// View extension that provides file URL opening functionality.
+    @available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *)
     extension View {
       /// Configures the view to handle file URL opening.
       /// - Parameter closure: A closure that handles the URL opening action,

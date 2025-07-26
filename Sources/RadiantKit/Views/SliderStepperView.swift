@@ -41,6 +41,7 @@
   ///   - step: The step size for the slider and stepper.
   /// - content: A closure that returns a view representing the content of the
   /// view.
+  @available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *)
   @MainActor
   public struct SliderStepperView<Content: View, Label: View, TitleType>: View {
     private let title: TitleType

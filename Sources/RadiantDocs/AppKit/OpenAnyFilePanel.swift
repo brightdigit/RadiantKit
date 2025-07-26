@@ -38,6 +38,7 @@
 
   /// A struct that provides a convenient way
   /// to open a file panel and handle the selected file.
+  @available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *)
   public struct OpenAnyFilePanel {
     /// The file types that the file panel should allow.
     private let fileTypes: [FileType]
@@ -78,6 +79,7 @@
     }
   }
 
+  @available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *)
   extension OpenFileURLAction {
     /// Displays a file panel with the specified file types and
     /// calls the provided `OpenFileURLAction` with the selected file URL and the

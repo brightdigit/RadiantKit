@@ -37,6 +37,7 @@
   import UniformTypeIdentifiers
 
   /// A struct that represents an open file panel for a specific file type.
+  @available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *)
   public struct OpenFilePanel<FileType: FileTypeSpecification>: Sendable {
     /// Initializes a new instance of the `OpenFilePanel` struct.
     public init() {}
@@ -69,6 +70,7 @@
     }
   }
 
+  @available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *)
   extension OpenWindowAction {
     /// Calls the `OpenFilePanel` with the provided file type
     /// and passes the selected file to the `OpenWindowAction`.
