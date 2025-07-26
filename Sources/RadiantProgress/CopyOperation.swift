@@ -39,6 +39,7 @@
 
   /// An operation that copies a file from a source URL to a destination URL, and
   /// periodically updates the progress of the operation.
+  @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
   @MainActor
   @Observable
   public final class CopyOperation<ValueType: BinaryInteger & Sendable>: Identifiable {
@@ -176,5 +177,6 @@
     }
   }
 
+  @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
   extension CopyOperation: ProgressOperation {}
 #endif

@@ -33,6 +33,7 @@
 
   /// An observable downloader class that observes download progress and provides
   /// a way to resume downloads.
+  @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
   @Observable
   @MainActor
   public final class ObservableDownloader: DownloadObserver, Downloader {

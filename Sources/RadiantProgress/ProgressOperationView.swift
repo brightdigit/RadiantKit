@@ -37,6 +37,7 @@
   ///   - title: The title of the file operation.
   ///   - text: A closure that returns a view displaying the progress text.
   ///   - icon: A closure that returns a view displaying the icon.
+  @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
   public struct ProgressOperationView<Icon: View, ProgressText: View>: View {
     private let progress: FileOperationProgress<Int>
     private let title: any StringProtocol

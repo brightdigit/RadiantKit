@@ -67,6 +67,7 @@
     }
   }
 
+  @available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *)
   extension LabeledContentStyle {
     /// Creates a vertical label style with the given parameters.
     ///

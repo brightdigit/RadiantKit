@@ -35,10 +35,12 @@
     public import SwiftUI
 
     /// A type alias for opening windows without an associated value.
+    @available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *)
     public typealias OpenWindowWithAction = OpenWindowWithValueAction<Void>
 
     /// Extension providing functionality for opening windows without associated
     /// values.
+    @available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *)
     @MainActor
     extension OpenWindowWithAction {
       /// Creates a new window opening action with the specified closure.

@@ -43,6 +43,7 @@
   ///   - description: A closure that returns the description view.
   ///
   /// - Returns: A view that presents the labeled content and description.
+  @available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *)
   public struct GuidedLabeledContent<
     Label: View,
     Content: View,
@@ -70,6 +71,7 @@
     }
   }
 
+  @available(macOS 13.0, iOS 16.0, watchOS 9.0, tvOS 16.0, *)
   extension GuidedLabeledContent
   where Description == GuidedLabeledContentDescriptionView {
     /// Initializes a `GuidedLabeledContent` instance with a content view, a
