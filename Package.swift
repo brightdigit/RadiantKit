@@ -30,12 +30,12 @@ let swiftSettings: [SwiftSetting] = [
 let package = Package(
   name: "RadiantKit",
   platforms: [
-    .iOS(.v15),
-    .macCatalyst(.v15),
-    .macOS(.v12),
-    .tvOS(.v15),
-    .visionOS(.v1),
-    .watchOS(.v8)
+    .iOS(.v18),
+    .macCatalyst(.v18),
+    .macOS(.v15),
+    .tvOS(.v18),
+    .visionOS(.v2),
+    .watchOS(.v11)
   ],
   products: [
     .library(
@@ -56,7 +56,7 @@ let package = Package(
     )
   ],
   dependencies: [
-    .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
+    .package(url: "https://github.com/apple/swift-log.git", from: "1.7.1"),
   ],
   targets: [
     .target(
@@ -79,7 +79,7 @@ let package = Package(
         .product(
           name: "Logging",
           package: "swift-log",
-          condition: .when(platforms: [.linux])
+          condition: .when(platforms: [.linux, .android, .windows])
         )
       ],
       swiftSettings: swiftSettings
