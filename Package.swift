@@ -79,7 +79,7 @@ let package = Package(
         .product(
           name: "Logging",
           package: "swift-log",
-          condition: .when(platforms: [.linux])
+          condition: .when(platforms: [.linux, .android, .windows])
         )
       ],
       swiftSettings: swiftSettings

@@ -54,7 +54,7 @@ jobs:
           # macOS Build Matrix
           - type: macos
             runs-on: macos-15
-            xcode: "/Applications/Xcode_26.2.app"
+            xcode: "/Applications/Xcode_16.4.app"
           - type: macos
             runs-on: macos-26
             xcode: "/Applications/Xcode_26.2.app"
@@ -65,6 +65,7 @@ jobs:
             xcode: "/Applications/Xcode_16.1.app"
             deviceName: "iPhone 16"
             osVersion: "18.1"
+            download-platform: true
           - type: ios
             runs-on: macos-15
             xcode: "/Applications/Xcode_16.4.app"
@@ -74,7 +75,7 @@ jobs:
             runs-on: macos-26
             xcode: "/Applications/Xcode_26.2.app"
             deviceName: "iPhone 17 Pro"
-            osVersion: "26.0"
+            osVersion: "26.2"
 
           # watchOS Build Matrix
           - type: watchos
@@ -82,6 +83,7 @@ jobs:
             xcode: "/Applications/Xcode_16.1.app"
             deviceName: "Apple Watch Ultra 2 (49mm)"
             osVersion: "11.2"
+            download-platform: true
           - type: watchos
             runs-on: macos-15
             xcode: "/Applications/Xcode_16.4.app"
@@ -91,21 +93,21 @@ jobs:
             runs-on: macos-26
             xcode: "/Applications/Xcode_26.2.app"
             deviceName: "Apple Watch Ultra 3 (49mm)"
-            osVersion: "26.0"
+            osVersion: "26.2"
 
           # visionOS Build Matrix
           - type: visionos
-            runs-on: macos-15
+            runs-on: macos-26
             xcode: "/Applications/Xcode_26.2.app"
             deviceName: "Apple Vision Pro"
-            osVersion: "26.0"
+            osVersion: "26.2"
 
           # tvOS Build Matrix
           - type: tvos
-            runs-on: macos-15
+            runs-on: macos-26
             xcode: "/Applications/Xcode_26.2.app"
             deviceName: "Apple TV 4K (3rd generation)"
-            osVersion: "26.0"
+            osVersion: "26.2"
     steps:
       - uses: actions/checkout@v4
       
@@ -142,13 +144,16 @@ jobs:
       fail-fast: false
       matrix:
         runs-on: [windows-2022, windows-2025]
-        swift-version: ["6.2-RELEASE"]
+        swift:
+        - version: swift-6.2-release
+          build: 6.2-RELEASE
     steps:
       - uses: actions/checkout@v4
       - uses: brightdigit/swift-build@v1.4.2
         with:
           scheme: ${{ env.PACKAGE_NAME }}-Package
-          windows-swift-version: ${{ matrix.swift-version }}
+          windows-swift-version: ${{ matrix.swift.version }}
+          windows-swift-build: ${{ matrix.swift.build }}
 
   build-android:
     name: Build on Android
