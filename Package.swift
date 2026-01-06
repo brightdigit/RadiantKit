@@ -30,12 +30,12 @@ let swiftSettings: [SwiftSetting] = [
 let package = Package(
   name: "RadiantKit",
   platforms: [
-    .iOS(.v15),
-    .macCatalyst(.v15),
-    .macOS(.v12),
-    .tvOS(.v15),
-    .visionOS(.v1),
-    .watchOS(.v8)
+    .iOS(.v18),
+    .macCatalyst(.v18),
+    .macOS(.v15),
+    .tvOS(.v18),
+    .visionOS(.v2),
+    .watchOS(.v11)
   ],
   products: [
     .library(

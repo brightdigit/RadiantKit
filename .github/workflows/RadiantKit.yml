@@ -14,22 +14,26 @@ jobs:
     if: "!contains(github.event.head_commit.message, 'ci skip')"
     strategy:
       matrix:
-        image-name: ["swift:6.0", "swift:6.1", "swiftlang/swift:nightly-6.2-noble"]
+        include:
+          - image-name: "swift:6.2"
+            swift-label: "6.2"
+          - image-name: "swiftlang/swift:nightly-6.3-noble"
+            swift-label: "nightly-6.3"
 
     container:
       image: ${{ matrix.image-name }}
     steps:
       - uses: actions/checkout@v4
-      - uses: brightdigit/swift-build@v1.1.1
+      - uses: brightdigit/swift-build@v1.4.2
       - uses: sersoft-gmbh/swift-coverage-action@v4
         id: coverage-files
         with:
           fail-on-empty-output: true
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4       
+        uses: codecov/codecov-action@v4
         with:
           fail_ci_if_error: true
-          flags: swift-${{ matrix.image-name }},ubuntu
+          flags: ${{ matrix.swift-label }},ubuntu
           verbose: true        
           token: ${{ secrets.CODECOV_TOKEN }}  
           files: ${{ join(fromJSON(steps.coverage-files.outputs.files), ',') }}         
@@ -43,14 +47,18 @@ jobs:
         include:
           # SPM Build Matrix
           - runs-on: macos-15
-            xcode: "/Applications/Xcode_16.1.app"
-          - runs-on: macos-15
             xcode: "/Applications/Xcode_16.4.app"
+          - runs-on: macos-26
+            xcode: "/Applications/Xcode_26.2.app"
 
+          # macOS Build Matrix
           - type: macos
             runs-on: macos-15
-            xcode: "/Applications/Xcode_16.4.app"
-          
+            xcode: "/Applications/Xcode_26.2.app"
+          - type: macos
+            runs-on: macos-26
+            xcode: "/Applications/Xcode_26.2.app"
+
           # iOS Build Matrix
           - type: ios
             runs-on: macos-15
@@ -61,38 +69,48 @@ jobs:
             runs-on: macos-15
             xcode: "/Applications/Xcode_16.4.app"
             deviceName: "iPhone 16 Pro"
-            osVersion: "18.2"
-  
+            osVersion: "18.6"
+          - type: ios
+            runs-on: macos-26
+            xcode: "/Applications/Xcode_26.2.app"
+            deviceName: "iPhone 17 Pro"
+            osVersion: "26.0"
+
           # watchOS Build Matrix
           - type: watchos
             runs-on: macos-15
             xcode: "/Applications/Xcode_16.1.app"
             deviceName: "Apple Watch Ultra 2 (49mm)"
-            osVersion: "11.1"
+            osVersion: "11.2"
           - type: watchos
             runs-on: macos-15
             xcode: "/Applications/Xcode_16.4.app"
             deviceName: "Apple Watch Ultra 2 (49mm)"
-            osVersion: "11.2"
+            osVersion: "11.5"
+          - type: watchos
+            runs-on: macos-26
+            xcode: "/Applications/Xcode_26.2.app"
+            deviceName: "Apple Watch Ultra 3 (49mm)"
+            osVersion: "26.0"
 
           # visionOS Build Matrix
           - type: visionos
             runs-on: macos-15
-            xcode: "/Applications/Xcode_16.4.app"
+            xcode: "/Applications/Xcode_26.2.app"
             deviceName: "Apple Vision Pro"
-            osVersion: "2.1"
-    
+            osVersion: "26.0"
+
           # tvOS Build Matrix
           - type: tvos
             runs-on: macos-15
-            xcode: "/Applications/Xcode_16.4.app"
+            xcode: "/Applications/Xcode_26.2.app"
             deviceName: "Apple TV 4K (3rd generation)"
-            osVersion: "18.2"
+            osVersion: "26.0"
     steps:
       - uses: actions/checkout@v4
       
       - name: Build and Test
-        uses: brightdigit/swift-build@v1.1.1
+        uses: brightdigit/swift-build@v1.4.2
         with:
           scheme: ${{ env.PACKAGE_NAME }}-Package
           type: ${{ matrix.type }}
@@ -115,11 +133,62 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: ${{ matrix.type && format('{0}{1}', matrix.type, matrix.osVersion) || 'spm' }}
+
+  build-windows:
+    name: Build on Windows
+    runs-on: ${{ matrix.runs-on }}
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    strategy:
+      fail-fast: false
+      matrix:
+        runs-on: [windows-2022, windows-2025]
+        swift-version: ["6.2-RELEASE"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: brightdigit/swift-build@v1.4.2
+        with:
+          scheme: ${{ env.PACKAGE_NAME }}-Package
+          windows-swift-version: ${{ matrix.swift-version }}
+
+  build-android:
+    name: Build on Android
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - android-swift-version: "6.1"
+            android-api-level: "28"
+          - android-swift-version: "6.2"
+            android-api-level: "33"
+          - android-swift-version: "nightly-main"
+            android-api-level: "34"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Free disk space
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: false
+          android: false
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: true
+
+      - uses: brightdigit/swift-build@v1.4.2
+        with:
+          scheme: ${{ env.PACKAGE_NAME }}-Package
+          android-swift-version: ${{ matrix.android-swift-version }}
+          android-api-level: ${{ matrix.android-api-level }}
+
   lint:
     name: Linting
-    if: ${{ !contains(github.event.head_commit.message, 'ci skip') }}  
+    if: ${{ !contains(github.event.head_commit.message, 'ci skip') }}
     runs-on: ubuntu-latest
-    needs: [build-ubuntu, build-macos]
+    needs: [build-ubuntu, build-macos, build-windows, build-android]
     env:
       MINT_PATH: .mint/lib
       MINT_LINK_PATH: .mint/bin
