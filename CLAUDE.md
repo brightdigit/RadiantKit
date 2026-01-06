@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-RadiantKit is a Swift Package Manager library providing SwiftUI utilities across Apple platforms (iOS 15+, macOS 12+, tvOS 15+, watchOS 8+, visionOS 1+). The package contains four distinct modules with clear separation of concerns.
+RadiantKit is a Swift Package Manager library providing SwiftUI utilities across Apple platforms (iOS 18+, macOS 15+, tvOS 18+, watchOS 11+, visionOS 2+). The package contains four distinct modules with clear separation of concerns.
 
 ## Common Commands
 
@@ -167,8 +167,10 @@ Code must be compatible with strict concurrency checking and Sendable requiremen
 ## Testing
 
 Tests are located in `Tests/RadiantKitTests/`. The CI pipeline runs tests across:
-- Ubuntu (Swift 6.0, 6.1, nightly 6.2)
-- macOS/iOS/tvOS/watchOS/visionOS simulators with Xcode 16.1 and 16.4
+- Ubuntu (Swift 6.2, nightly 6.3)
+- Windows (Swift 6.2)
+- Android (Swift 6.1, 6.2, nightly-main)
+- macOS/iOS/tvOS/watchOS/visionOS simulators with Xcode 16.1, 16.4, and 26.2
 
 When adding features:
 1. Add tests to RadiantKitTests targeting the appropriate module
@@ -178,12 +180,12 @@ When adding features:
 ## Platform Support
 
 Minimum deployment targets:
-- iOS 15.0 / iPadOS 15.0
-- macOS 12.0
-- tvOS 15.0
-- watchOS 8.0
-- visionOS 1.0
-- Mac Catalyst 15.0
+- iOS 18.0 / iPadOS 18.0
+- macOS 15.0
+- tvOS 18.0
+- watchOS 11.0
+- visionOS 2.0
+- Mac Catalyst 18.0
 
 Platform-specific code should use `#if canImport()` or `#if os()` directives.
 
