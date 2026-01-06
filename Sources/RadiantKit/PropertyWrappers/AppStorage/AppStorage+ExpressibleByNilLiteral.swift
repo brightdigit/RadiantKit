@@ -136,6 +136,23 @@
       Value == Data? {
       self.init(type.key, store: store)
     }
+
+    /// Initializes an `AppStorage` property wrapper for a given `AppStored` type
+    /// with an optional `Date` value.
+    ///
+    /// - Parameters:
+    ///   - type: The `AppStored` type.
+    /// - store: The `UserDefaults` instance to use, or `nil` to use the shared
+    /// `UserDefaults`.
+    public init<AppStoredType: AppStored>(
+      for type: AppStoredType.Type,
+      store: UserDefaults? = nil
+    )
+    where
+      AppStoredType.Value == Value,
+      Value == Date? {
+      self.init(type.key, store: store)
+    }
   }
 
   extension AppStorage {
