@@ -144,6 +144,7 @@
     ///   - type: The `AppStored` type.
     /// - store: The `UserDefaults` instance to use, or `nil` to use the shared
     /// `UserDefaults`.
+    @available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     public init<AppStoredType: AppStored>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
