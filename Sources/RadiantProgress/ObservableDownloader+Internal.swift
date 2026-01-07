@@ -1,5 +1,5 @@
 //
-//  AppStorageDateTests.swift
+//  ObservableDownloader+Internal.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,50 +27,37 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import Foundation
-import RadiantKit
-import Testing
+#if canImport(Combine) && canImport(Observation)
+  import Combine
+  import Foundation
 
-#if canImport(SwiftUI)
-  import SwiftUI
-#endif
+  @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
+  extension ObservableDownloader {
+    // MARK: - Internal Implementation
 
-// MARK: - Test Types
+    /// Calls the completion closure with the result of the download.
+    internal func onCompletion(_ result: Result<Void, any Error>) {
+      assert(completion != nil)
+      completion?(result)
+    }
 
-internal enum TestDateStored: AppStored {
-  internal typealias Value = Date
-  internal static let keyType: KeyType = .describing
-}
+    internal func finishedDownloadingToAsync(_ location: URL) {
+      locationURLSubject.send(location)
+    }
 
-internal enum TestOptionalDateStored: AppStored {
-  internal typealias Value = Date?
-  internal static let keyType: KeyType = .describing
-}
+    internal func progressUpdatedAsync(_ progress: DownloadUpdate) {
+      self.downloadUpdate.send(progress)
+    }
 
-internal enum TestReflectingDateStored: AppStored {
-  internal typealias Value = Date
-  internal static let keyType: KeyType = .reflecting
-}
-
-internal enum TestReflectingOptionalDateStored: AppStored {
-  internal typealias Value = Date?
-  internal static let keyType: KeyType = .reflecting
-}
-
-// MARK: - Test Suite
-
-internal enum AppStorageDateTests {
-  #if canImport(SwiftUI)
-    internal static var isAppStorageDateAvailable: Bool {
-      if #available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *) {
-        return true
-      } else {
-        return false
+    internal func didCompleteAsync(withError error: (any Error)?) {
+      guard let error else {
+        // Handle success case.
+        return
+      }
+      let userInfo = (error as NSError).userInfo
+      if let resumeData = userInfo[NSURLSessionDownloadTaskResumeData] as? Data {
+        resumeDataSubject.send(resumeData)
       }
     }
-  #else
-    internal static var isAppStorageDateAvailable: Bool {
-      false
-    }
-  #endif
-}
+  }
+#endif

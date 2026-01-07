@@ -1,5 +1,5 @@
 {
-    "name": "Swift",
+    "name": "Swift 6.0",
     "image": "swift:6.0",
     "features": {
         "ghcr.io/devcontainers/features/common-utils:2": {
