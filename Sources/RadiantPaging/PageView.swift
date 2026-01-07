@@ -51,20 +51,21 @@
       let isFirst = currentPageID == pages.first?.id
       let isLast = currentPageID == pages.last?.id
       switch (currentPageID, isFirst, isLast) {
-        case (.none, _, _), (.some, true, true):
-          return .none
+      case (.none, _, _), (.some, true, true):
+        return .none
 
-        case (.some, false, false):
-          return .both
+      case (.some, false, false):
+        return .both
 
-        case (.some, false, true):
-          return .previous
+      case (.some, false, true):
+        return .previous
 
-        case (.some, true, false):
-          return .next
+      case (.some, true, false):
+        return .next
       }
     }
 
+    /// The content and behavior of the view.
     public var body: some View {
       ForEach(pages) { page in
         if page.id == currentPageID {
@@ -84,10 +85,11 @@
     /// Initializes a `PageView` with a builder closure that provides the
     /// collection of `IdentifiableView` instances.
     ///
-    /// - Parameter onDismiss: An optional closure that is called when the page
-    /// view is dismissed.
-    /// - Parameter pagesBuilder: A builder closure that provides the collection
-    /// of `IdentifiableView` instances to display.
+    /// - Parameters:
+    ///   - onDismiss: An optional closure that is called when the page
+    ///     view is dismissed.
+    ///   - pagesBuilder: A builder closure that provides the collection
+    ///     of `IdentifiableView` instances to display.
     public init(
       onDismiss: (@MainActor @Sendable (DismissParameters) -> Void)? = nil,
       @IdentifiableViewBuilder _ pagesBuilder: () -> [IdentifiableView]
@@ -96,10 +98,11 @@
     /// Initializes a `PageView` with a collection of `IdentifiableView`
     /// instances.
     ///
-    /// - Parameter pages: The collection of `IdentifiableView` instances to
-    /// display.
-    /// - Parameter onDismiss: An optional closure that is called when the page
-    /// view is dismissed.
+    /// - Parameters:
+    ///   - pages: The collection of `IdentifiableView` instances to
+    ///     display.
+    ///   - onDismiss: An optional closure that is called when the page
+    ///     view is dismissed.
     public init(
       pages: [IdentifiableView],
       onDismiss: (@Sendable @MainActor (DismissParameters) -> Void)?

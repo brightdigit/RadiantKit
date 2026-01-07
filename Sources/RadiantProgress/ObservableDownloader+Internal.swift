@@ -1,5 +1,5 @@
 //
-//  ProgressOperation.swift
+//  ObservableDownloader+Internal.swift
 //  RadiantKit
 //
 //  Created by Leo Dion.
@@ -27,32 +27,37 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-public import Foundation
+#if canImport(Combine) && canImport(Observation)
+  import Combine
+  import Foundation
 
-/// A protocol representing an operation that reports progress.
-@MainActor
-public protocol ProgressOperation<ValueType>: Identifiable where ID == URL {
-  associatedtype ValueType: BinaryInteger & Sendable
-  var currentValue: ValueType { get }
-  var totalValue: ValueType? { get }
-  func execute() async throws
-}
+  @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
+  extension ObservableDownloader {
+    // MARK: - Internal Implementation
 
-extension ProgressOperation {
-  /// Calculates and formats the progress as a percentage string.
-  ///
-  /// - Parameter fractionDigits: The number of decimal places to include in the percentage.
-  /// - Returns: A formatted percentage string, or `nil` if `totalValue` is `nil`.
-  public func percentValue(withFractionDigits fractionDigits: Int = 0) -> String? {
-    guard let totalValue else {
-      return nil
+    /// Calls the completion closure with the result of the download.
+    internal func onCompletion(_ result: Result<Void, any Error>) {
+      assert(completion != nil)
+      completion?(result)
     }
-    let formatter = NumberFormatter()
-    formatter.maximumFractionDigits = fractionDigits
-    formatter.minimumFractionDigits = fractionDigits
-    let ratioValue = Double(currentValue) / Double(totalValue) * 100.0
-    let string = formatter.string(from: .init(value: ratioValue))
-    assert(string != nil)
-    return string
+
+    internal func finishedDownloadingToAsync(_ location: URL) {
+      locationURLSubject.send(location)
+    }
+
+    internal func progressUpdatedAsync(_ progress: DownloadUpdate) {
+      self.downloadUpdate.send(progress)
+    }
+
+    internal func didCompleteAsync(withError error: (any Error)?) {
+      guard let error else {
+        // Handle success case.
+        return
+      }
+      let userInfo = (error as NSError).userInfo
+      if let resumeData = userInfo[NSURLSessionDownloadTaskResumeData] as? Data {
+        resumeDataSubject.send(resumeData)
+      }
+    }
   }
-}
+#endif

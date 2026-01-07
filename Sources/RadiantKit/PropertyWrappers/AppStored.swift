@@ -45,14 +45,14 @@ extension AppStored {
   /// The key used to store the value.
   public static var key: String {
     switch self.keyType {
-      case .describing:
-        return String(describing: Self.self)
+    case .describing:
+      return String(describing: Self.self)
 
-      case .reflecting:
-        return String(reflecting: Self.self)
-          .components(separatedBy: ".")
-          .dropFirst()
-          .joined(separator: ".")
+    case .reflecting:
+      return String(reflecting: Self.self)
+        .components(separatedBy: ".")
+        .dropFirst()
+        .joined(separator: ".")
     }
   }
 

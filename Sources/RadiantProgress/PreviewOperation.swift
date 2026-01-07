@@ -61,8 +61,3 @@ public struct PreviewOperation<ValueType: BinaryInteger & Sendable>: ProgressOpe
   public func cancel() {
   }
 }
-
-#if canImport(FoundationNetworking)
-  extension URL: @unchecked Sendable {
-  }
-#endif

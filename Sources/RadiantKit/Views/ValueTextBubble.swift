@@ -41,7 +41,8 @@
   >: View
   where
     FormatStyleType.FormatInput == ValueType,
-    FormatStyleType.FormatOutput == String {
+    FormatStyleType.FormatOutput == String
+  {
     /// The value to be displayed.
     public let value: ValueType
 
@@ -54,6 +55,7 @@
     /// The corner radius of the text bubble.
     public let cornerRadius: CGFloat
 
+    /// The content and behavior of the view.
     public var body: some View {
       Text(value, format: format)
         .background {
@@ -89,8 +91,8 @@
     /// - Parameters:
     ///   - value: The value to be displayed.
     ///   - format: The format style to be applied to the value.
-    /// - backgroundColor: The background color of the text bubble. Defaults to
-    /// `Color.primary.opacity(0.25)`.
+    ///   - backgroundColor: The background color of the text bubble. Defaults to
+    ///     `Color.primary.opacity(0.25)`.
     ///   - cornerRadius: The corner radius of the text bubble. Defaults to 18.
     public init(
       value: ValueType,
@@ -108,10 +110,10 @@
     /// background color, and corner radius.
     /// - Parameters:
     ///   - value: The integer value to be displayed.
-    /// - format: The integer format style to be applied to the value. Defaults
-    /// to `FormatStyleType.number`.
-    /// - backgroundColor: The background color of the text bubble. Defaults to
-    /// `Color.primary.opacity(0.25)`.
+    ///   - format: The integer format style to be applied to the value. Defaults
+    ///     to `FormatStyleType.number`.
+    ///   - backgroundColor: The background color of the text bubble. Defaults to
+    ///     `Color.primary.opacity(0.25)`.
     ///   - cornerRadius: The corner radius of the text bubble. Defaults to 18.
     public init(
       value: Int,
@@ -122,7 +124,8 @@
     where
       ValueType == Int,
       ShapeStyleType == Color,
-      FormatStyleType == IntegerFormatStyle<Int> {
+      FormatStyleType == IntegerFormatStyle<Int>
+    {
       self.value = value
       self.format = format
       self.cornerRadius = cornerRadius

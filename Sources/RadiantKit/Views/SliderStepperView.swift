@@ -69,6 +69,7 @@
 
     private var blurRadius: CGFloat { isValidBounds ? 0 : 1 }
 
+    /// The content and behavior of the view.
     public var body: some View {
       LabeledContent {
         HStack {
@@ -97,13 +98,13 @@
     ///
     /// - Parameters:
     ///   - title: The title of the view.
-    /// - label: A closure that returns a view representing the label for the
-    /// view.
+    ///   - label: A closure that returns a view representing the label for the
+    ///     view.
     ///   - value: A binding to the value being adjusted.
     ///   - bounds: The closed range of values the slider and stepper can take.
     ///   - step: The step size for the slider and stepper.
-    /// - content: A closure that returns a view representing the content of the
-    /// view.
+    ///   - content: A closure that returns a view representing the content of the
+    ///     view.
     public init(
       title: TitleType,
       label: @escaping @Sendable (TitleType) -> Label,

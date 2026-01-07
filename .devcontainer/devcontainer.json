@@ -1,6 +1,6 @@
 {
     "name": "Swift",
-    "image": "swiftlang/swift:nightly-6.1-jammy",
+    "image": "swift:6.2",
     "features": {
         "ghcr.io/devcontainers/features/common-utils:2": {
             "installZsh": "false",

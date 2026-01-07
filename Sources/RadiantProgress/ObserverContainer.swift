@@ -29,7 +29,7 @@
 
 internal actor ObserverContainer {
   /// The download observer.
-  private nonisolated(unsafe) var observer: DownloadObserver?
+  nonisolated(unsafe) private var observer: DownloadObserver?
 
   /// Sets the download observer.
   ///

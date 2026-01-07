@@ -41,14 +41,15 @@
   @MainActor
   @Observable
   public final class DownloadOperation<ValueType: BinaryInteger & Sendable>: Identifiable,
-    ProgressOperation {
+    ProgressOperation
+  {
     private let download: Downloader
     private let sourceURL: URL
     private let destinationURL: URL
 
     /// The unique identifier for the download operation, which is the source
     /// URL.
-    public nonisolated var id: URL { sourceURL }
+    nonisolated public var id: URL { sourceURL }
 
     /// The current value of the download progress, represented as a `ValueType`.
     public var currentValue: ValueType { .init(download.totalBytesWritten) }
@@ -63,14 +64,14 @@
       /// Initializes a new `DownloadOperation` instance.
       /// - Parameters:
       ///   - sourceURL: The URL from which the data should be downloaded.
-      /// - destinationURL: The URL to which the downloaded data should be
-      /// written.
-      /// - totalBytesExpectedToWrite: The total number of bytes expected to be
-      /// written, or `nil` if unknown.
-      /// - configuration: The `URLSessionConfiguration` to use for the download,
-      /// or `nil` to use the default configuration.
-      /// - queue: The `OperationQueue` to use for the download, or `nil` to use
-      /// the default queue.
+      ///   - destinationURL: The URL to which the downloaded data should be
+      ///     written.
+      ///   - totalBytesExpectedToWrite: The total number of bytes expected to be
+      ///     written, or `nil` if unknown.
+      ///   - configuration: The `URLSessionConfiguration` to use for the download,
+      ///     or `nil` to use the default configuration.
+      ///   - queue: The `OperationQueue` to use for the download, or `nil` to use
+      ///     the default queue.
       public init(
         sourceURL: URL,
         destinationURL: URL,
@@ -93,7 +94,7 @@
     /// Initializes a new `DownloadOperation` instance.
     /// - Parameters:
     ///   - sourceURL: The URL from which the data should be downloaded.
-    /// - destinationURL: The URL to which the downloaded data should be written.
+    ///   - destinationURL: The URL to which the downloaded data should be written.
     ///   - download: The `Downloader` instance to use for the download.
     public init(sourceURL: URL, destinationURL: URL, download: Downloader) {
       self.download = download

@@ -96,6 +96,7 @@
       }
     }
 
+    /// The content and behavior of the view.
     public var body: some View {
       VStack {
         HStack {
@@ -114,8 +115,8 @@
     ///
     /// - Parameters:
     ///   - label: A closure that returns the header view for the container.
-    /// - content: A closure that takes a `Binding<Bool>` and returns the content
-    /// view for the container.
+    ///   - content: A closure that takes a `Binding<Bool>` and returns the content
+    ///     view for the container.
     public init(
       label: @escaping () -> Label,
       content: @escaping (Binding<Bool>) -> Content

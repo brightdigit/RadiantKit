@@ -40,15 +40,16 @@
     ///
     /// - Parameters:
     ///   - type: The `AppStored` type.
-    /// - store: The `UserDefaults` instance to use, or `nil` to use the shared
-    /// `UserDefaults`.
+    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared
+    ///     `UserDefaults`.
     public init<AppStoredType: AppStored>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
     )
     where
       AppStoredType.Value == Value,
-      Value == Bool? {
+      Value == Bool?
+    {
       self.init(type.key, store: store)
     }
 
@@ -57,15 +58,16 @@
     ///
     /// - Parameters:
     ///   - type: The `AppStored` type.
-    /// - store: The `UserDefaults` instance to use, or `nil` to use the shared
-    /// `UserDefaults`.
+    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared
+    ///     `UserDefaults`.
     public init<AppStoredType: AppStored>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
     )
     where
       AppStoredType.Value == Value,
-      Value == Int? {
+      Value == Int?
+    {
       self.init(type.key, store: store)
     }
 
@@ -74,15 +76,16 @@
     ///
     /// - Parameters:
     ///   - type: The `AppStored` type.
-    /// - store: The `UserDefaults` instance to use, or `nil` to use the shared
-    /// `UserDefaults`.
+    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared
+    ///     `UserDefaults`.
     public init<AppStoredType: AppStored>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
     )
     where
       AppStoredType.Value == Value,
-      Value == Double? {
+      Value == Double?
+    {
       self.init(type.key, store: store)
     }
 
@@ -91,15 +94,16 @@
     ///
     /// - Parameters:
     ///   - type: The `AppStored` type.
-    /// - store: The `UserDefaults` instance to use, or `nil` to use the shared
-    /// `UserDefaults`.
+    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared
+    ///     `UserDefaults`.
     public init<AppStoredType: AppStored>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
     )
     where
       AppStoredType.Value == Value,
-      Value == String? {
+      Value == String?
+    {
       self.init(type.key, store: store)
     }
 
@@ -108,15 +112,16 @@
     ///
     /// - Parameters:
     ///   - type: The `AppStored` type.
-    /// - store: The `UserDefaults` instance to use, or `nil` to use the shared
-    /// `UserDefaults`.
+    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared
+    ///     `UserDefaults`.
     public init<AppStoredType: AppStored>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
     )
     where
       AppStoredType.Value == Value,
-      Value == URL? {
+      Value == URL?
+    {
       self.init(type.key, store: store)
     }
 
@@ -125,15 +130,16 @@
     ///
     /// - Parameters:
     ///   - type: The `AppStored` type.
-    /// - store: The `UserDefaults` instance to use, or `nil` to use the shared
-    /// `UserDefaults`.
+    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared
+    ///     `UserDefaults`.
     public init<AppStoredType: AppStored>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
     )
     where
       AppStoredType.Value == Value,
-      Value == Data? {
+      Value == Data?
+    {
       self.init(type.key, store: store)
     }
 
@@ -142,8 +148,8 @@
     ///
     /// - Parameters:
     ///   - type: The `AppStored` type.
-    /// - store: The `UserDefaults` instance to use, or `nil` to use the shared
-    /// `UserDefaults`.
+    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared
+    ///     `UserDefaults`.
     @available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     public init<AppStoredType: AppStored>(
       for type: AppStoredType.Type,
@@ -151,7 +157,8 @@
     )
     where
       AppStoredType.Value == Value,
-      Value == Date? {
+      Value == Date?
+    {
       self.init(type.key, store: store)
     }
   }
@@ -163,8 +170,8 @@
     ///
     /// - Parameters:
     ///   - type: The `AppStored` type.
-    /// - store: The `UserDefaults` instance to use, or `nil` to use the shared
-    /// `UserDefaults`.
+    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared
+    ///     `UserDefaults`.
     public init<AppStoredType: AppStored, R>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -173,7 +180,8 @@
       AppStoredType.Value == R?,
       R: RawRepresentable,
       Value == AppStoredType.Value,
-      R.RawValue == String {
+      R.RawValue == String
+    {
       self.init(type.key, store: store)
     }
 
@@ -182,8 +190,8 @@
     ///
     /// - Parameters:
     ///   - type: The `AppStored` type.
-    /// - store: The `UserDefaults` instance to use, or `nil` to use the shared
-    /// `UserDefaults`.
+    ///   - store: The `UserDefaults` instance to use, or `nil` to use the shared
+    ///     `UserDefaults`.
     public init<AppStoredType: AppStored, R>(
       for type: AppStoredType.Type,
       store: UserDefaults? = nil
@@ -192,7 +200,8 @@
       AppStoredType.Value == R?,
       R: RawRepresentable,
       Value == AppStoredType.Value,
-      R.RawValue == Int {
+      R.RawValue == Int
+    {
       self.init(type.key, store: store)
     }
     // swiftlint:enable discouraged_optional_boolean

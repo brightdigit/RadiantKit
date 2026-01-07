@@ -44,6 +44,7 @@
     private let text: (FileOperationProgress<Int>) -> ProgressText
     private let icon: () -> Icon
 
+    /// The content and behavior of the view.
     public var body: some View {
       VStack {
         HStack {

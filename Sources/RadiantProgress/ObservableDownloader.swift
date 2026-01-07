@@ -74,7 +74,7 @@
     internal let requestSubject = PassthroughSubject<DownloadRequest, Never>()
     internal let locationURLSubject = PassthroughSubject<URL, Never>()
     internal let downloadUpdate = PassthroughSubject<DownloadUpdate, Never>()
-    private var completion: ((Result<Void, any Error>) -> Void)?
+    internal var completion: ((Result<Void, any Error>) -> Void)?
 
     private let formatter = ByteCountFormatter()
 
@@ -161,12 +161,6 @@
       self.cancellables = setupPublishers(self)
     }
 
-    /// Calls the completion closure with the result of the download.
-    internal func onCompletion(_ result: Result<Void, any Error>) {
-      assert(completion != nil)
-      completion?(result)
-    }
-
     /// Cancels the current download task.
     public func cancel() { task?.cancel() }
 
@@ -175,7 +169,7 @@
     /// - Parameters:
     ///   - downloadSourceURL: The URL of the download source.
     ///   - destinationFileURL: The URL of the destination file.
-    /// - completion: A closure that is called with the result of the download.
+    ///   - completion: A closure that is called with the result of the download.
     public func begin(
       from downloadSourceURL: URL,
       to destinationFileURL: URL,
@@ -206,25 +200,6 @@
     /// error.
     nonisolated internal func didComplete(withError error: (any Error)?) {
       Task { @MainActor in self.didCompleteAsync(withError: error) }
-    }
-
-    private func finishedDownloadingToAsync(_ location: URL) {
-      locationURLSubject.send(location)
-    }
-
-    private func progressUpdatedAsync(_ progress: DownloadUpdate) {
-      self.downloadUpdate.send(progress)
-    }
-
-    private func didCompleteAsync(withError error: (any Error)?) {
-      guard let error else {
-        // Handle success case.
-        return
-      }
-      let userInfo = (error as NSError).userInfo
-      if let resumeData = userInfo[NSURLSessionDownloadTaskResumeData] as? Data {
-        resumeDataSubject.send(resumeData)
-      }
     }
 
     deinit {

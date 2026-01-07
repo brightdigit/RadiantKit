@@ -49,11 +49,11 @@ internal final class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
   /// Called when the download task has finished downloading the file.
   ///
   /// - Parameters:
-  ///   - _: The URL session that initiated the download task.
-  ///   - downloadTask: The download task that has finished downloading.
+  ///   - session: The URL session that initiated the download task.
+  ///   - _: The download task that has finished downloading.
   ///   - location: The temporary URL where the downloaded file is located.
   internal func urlSession(
-    _: URLSession,
+    _ session: URLSession,
     downloadTask _: URLSessionDownloadTask,
     didFinishDownloadingTo location: URL
   ) {
@@ -73,16 +73,16 @@ internal final class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
   /// Called periodically to report the progress of the download task.
   ///
   /// - Parameters:
-  ///   - _: The URL session that initiated the download task.
-  ///   - downloadTask: The download task that is reporting progress.
-  ///   - _: The amount of data that has been written to the file.
-  /// - totalBytesWritten: The total number of bytes written to the file so far.
-  /// - totalBytesExpectedToWrite: The total number of bytes expected to be
-  /// written to the file.
+  ///   - session: The URL session that initiated the download task.
+  ///   - _: The download task that is reporting progress.
+  ///   - bytesWritten: The amount of data that has been written to the file.
+  ///   - totalBytesWritten: The total number of bytes written to the file so far.
+  ///   - totalBytesExpectedToWrite: The total number of bytes expected to be
+  ///     written to the file.
   internal func urlSession(
-    _: URLSession,
+    _ session: URLSession,
     downloadTask _: URLSessionDownloadTask,
-    didWriteData _: Int64,
+    didWriteData bytesWritten: Int64,
     totalBytesWritten: Int64,
     totalBytesExpectedToWrite: Int64
   ) {
@@ -100,11 +100,11 @@ internal final class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
   /// error.
   ///
   /// - Parameters:
-  ///   - _: The URL session that initiated the download task.
-  ///   - task: The download task that has completed.
+  ///   - session: The URL session that initiated the download task.
+  ///   - _: The download task that has completed.
   ///   - error: The error, if any, that occurred during the download.
   internal func urlSession(
-    _: URLSession,
+    _ session: URLSession,
     task _: URLSessionTask,
     didCompleteWithError error: (any Error)?
   ) {

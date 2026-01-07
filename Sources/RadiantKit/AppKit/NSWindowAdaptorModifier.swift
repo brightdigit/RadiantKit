@@ -52,7 +52,7 @@ import Foundation
 
       /// Creates the `NSView` that will be used to access the underlying
       /// `NSWindow`.
-      /// - Parameter context: The context provided by the SwiftUI framework.
+      /// - Parameter _:  The context provided by the SwiftUI framework.
       /// - Returns: An `NSView` instance.
       fileprivate func makeNSView(context _: Self.Context) -> NSView {
         let view = NSView()
@@ -65,8 +65,8 @@ import Foundation
 
       /// Updates the `NSView` if necessary.
       /// - Parameters:
-      ///   - nsView: The `NSView` to be updated.
-      ///   - context: The context provided by the SwiftUI framework.
+      ///   - _: The `NSView` to be updated.
+      ///   - _: The context provided by the SwiftUI framework.
       fileprivate func updateNSView(_: NSView, context _: Context) {}
     }
 
@@ -110,8 +110,8 @@ import Foundation
   #else
     extension View {
       /// Adds a no-op `nsWindowAdaptor` modifier to the `View`.
-      /// - Parameter callback: A closure that will be called with `Any?`, but
-      /// does nothing.
+      /// - Parameter _:  A closure that will be called with `Any?`, but
+      ///     does nothing.
       /// - Returns: The original `View`.
       public func nsWindowAdaptor(_: @escaping (Any?) -> Void) -> some View { self }
     }

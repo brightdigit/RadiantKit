@@ -50,28 +50,29 @@
 
     private var multilineTextAlignment: TextAlignment {
       switch alignment {
-        case .leading: .leading
-        case .trailing: .trailing
-        case nil: .center
+      case .leading: .leading
+      case .trailing: .trailing
+      case nil: .center
       }
     }
 
     private var leftSpacer: Bool {
       switch (alignment, layoutDirection) {
-        case (.trailing, .leftToRight): true
-        case (.leading, .rightToLeft): true
-        default: false
+      case (.trailing, .leftToRight): true
+      case (.leading, .rightToLeft): true
+      default: false
       }
     }
 
     private var rightSpacer: Bool {
       switch (alignment, layoutDirection) {
-        case (.leading, .leftToRight): true
-        case (.trailing, .rightToLeft): true
-        default: false
+      case (.leading, .leftToRight): true
+      case (.trailing, .rightToLeft): true
+      default: false
       }
     }
 
+    /// The content and behavior of the view.
     public var body: some View {
       HStack {
         if leftSpacer { Spacer() }
@@ -82,10 +83,10 @@
 
     /// Initializes a `GuidedLabeledContentDescriptionView` with the specified
     /// alignment and text.
-    /// - Parameter alignment: The alignment of the content within the view.
-    /// Defaults to `nil`, which centers the content.
-    /// - Parameter text: A closure that returns the text to be displayed in the
-    /// view.
+    /// - Parameters:
+    ///   - alignment: The alignment of the content within the view.
+    ///     Defaults to `nil`, which centers the content.
+    ///   - text: A closure that returns the text to be displayed in the view.
     internal init(alignment: Alignment? = nil, text: @escaping () -> Text) {
       self.text = text
       self.alignment = alignment

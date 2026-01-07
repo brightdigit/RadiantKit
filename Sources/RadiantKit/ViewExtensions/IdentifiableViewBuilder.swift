@@ -55,7 +55,8 @@
     /// plus a new `IdentifiableView` with an ID equal to the count of the
     /// existing array.
     public static func buildPartialBlock(accumulated: [IdentifiableView], next: any View)
-      -> [IdentifiableView] {
+      -> [IdentifiableView]
+    {
       accumulated + [IdentifiableView(next, id: accumulated.count)]
     }
 
