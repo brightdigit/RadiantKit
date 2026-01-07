@@ -53,7 +53,6 @@ import Foundation
       /// Creates the `NSView` that will be used to access the underlying
       /// `NSWindow`.
       /// - Parameter _:  The context provided by the SwiftUI framework.
-      ///   -
       /// - Returns: An `NSView` instance.
       fileprivate func makeNSView(context _: Self.Context) -> NSView {
         let view = NSView()
