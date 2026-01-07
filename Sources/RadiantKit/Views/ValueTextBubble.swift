@@ -34,7 +34,6 @@
   public import SwiftUI
 
   /// A SwiftUI view that displays a value with a formatted text bubble.
-  @available(iOS 15.0, *)
   public struct ValueTextBubble<
     ShapeStyleType: ShapeStyle,
     ValueType: Equatable,

@@ -151,6 +151,25 @@
     /// - store: The `UserDefaults` instance to use for storing the app-stored
     /// value. If `nil`, the standard `UserDefaults` will be used.
     /// - Requires:
+    ///   - `AppStoredType.Value` must be `Date` and `Value` must be `Date`.
+    @available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
+    public init<AppStoredType: AppStored>(
+      wrappedValue: Value,
+      for type: AppStoredType.Type,
+      store: UserDefaults? = nil
+    ) where AppStoredType.Value == Date, Value == Date {
+      self.init(wrappedValue: wrappedValue, type.key, store: store)
+    }
+
+    /// Initializes an `AppStorage` instance with a wrapped value and an
+    /// `AppStored` type.
+    ///
+    /// - Parameters:
+    ///   - wrappedValue: The initial value for the app-stored value.
+    ///   - type: The `AppStored` type to associate with the app-stored value.
+    /// - store: The `UserDefaults` instance to use for storing the app-stored
+    /// value. If `nil`, the standard `UserDefaults` will be used.
+    /// - Requires:
     /// - `AppStoredType.Value` must be `Value` and `Value` must be
     /// `RawRepresentable` with a `RawValue` of `Int`.
     public init<AppStoredType: AppStored>(
