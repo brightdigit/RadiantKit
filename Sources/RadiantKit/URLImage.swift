@@ -36,6 +36,7 @@
     /// The path to the local file containing the image.
     private let path: String
 
+    /// The content and behavior of the view.
     public var body: some View {
       Group {
         #if os(iOS) || os(watchOS) || os(tvOS)

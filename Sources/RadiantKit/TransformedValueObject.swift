@@ -107,8 +107,8 @@
     ///
     /// - Parameters:
     ///   - bindingValue: The binding to the input value of type `InputValue?`.
-    /// - transform: The custom transformation function from `InputValue` to
-    /// `OutputValue`.
+    ///   - transform: The custom transformation function from `InputValue` to
+    ///     `OutputValue`.
     public func bindTo(
       _ bindingValue: Binding<InputValue?>,
       using transform: @escaping (InputValue) -> OutputValue

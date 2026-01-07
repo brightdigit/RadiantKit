@@ -32,6 +32,7 @@
   public import Foundation
   public import Observation
 
+  /// A wrapper class that makes progress operations observable in SwiftUI views.
   @available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
   @MainActor
   @Observable

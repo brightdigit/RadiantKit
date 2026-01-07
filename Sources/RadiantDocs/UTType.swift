@@ -57,7 +57,8 @@
       if fileType.isOwned { types.append(.init(exportedAs: fileType.utIdentifier)) }
 
       if let fileExtensionType =
-        fileType.fileExtension.flatMap({ UTType(filenameExtension: $0) }) {
+        fileType.fileExtension.flatMap({ UTType(filenameExtension: $0) })
+      {
         types.append(fileExtensionType)
       }
 

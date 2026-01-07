@@ -58,8 +58,8 @@
     /// - Parameters:
     ///   - wrappedValue: The initial value for the app-stored value.
     ///   - type: The `AppStored` type to associate with the app-stored value.
-    /// - store: The `UserDefaults` instance to use for storing the app-stored
-    /// value. If `nil`, the standard `UserDefaults` will be used.
+    ///   - store: The `UserDefaults` instance to use for storing the app-stored
+    ///     value. If `nil`, the standard `UserDefaults` will be used.
     /// - Requires:
     ///   - `AppStoredType.Value` must be `Int` and `Value` must be `Int`.
     public init<AppStoredType: AppStored>(
@@ -76,8 +76,8 @@
     /// - Parameters:
     ///   - wrappedValue: The initial value for the app-stored value.
     ///   - type: The `AppStored` type to associate with the app-stored value.
-    /// - store: The `UserDefaults` instance to use for storing the app-stored
-    /// value. If `nil`, the standard `UserDefaults` will be used.
+    ///   - store: The `UserDefaults` instance to use for storing the app-stored
+    ///     value. If `nil`, the standard `UserDefaults` will be used.
     /// - Requires:
     ///   - `AppStoredType.Value` must be `Double` and `Value` must be `Double`.
     public init<AppStoredType: AppStored>(
@@ -94,8 +94,8 @@
     /// - Parameters:
     ///   - wrappedValue: The initial value for the app-stored value.
     ///   - type: The `AppStored` type to associate with the app-stored value.
-    /// - store: The `UserDefaults` instance to use for storing the app-stored
-    /// value. If `nil`, the standard `UserDefaults` will be used.
+    ///   - store: The `UserDefaults` instance to use for storing the app-stored
+    ///     value. If `nil`, the standard `UserDefaults` will be used.
     /// - Requires:
     ///   - `AppStoredType.Value` must be `String` and `Value` must be `String`.
     public init<AppStoredType: AppStored>(
@@ -112,8 +112,8 @@
     /// - Parameters:
     ///   - wrappedValue: The initial value for the app-stored value.
     ///   - type: The `AppStored` type to associate with the app-stored value.
-    /// - store: The `UserDefaults` instance to use for storing the app-stored
-    /// value. If `nil`, the standard `UserDefaults` will be used.
+    ///   - store: The `UserDefaults` instance to use for storing the app-stored
+    ///     value. If `nil`, the standard `UserDefaults` will be used.
     /// - Requires:
     ///   - `AppStoredType.Value` must be `URL` and `Value` must be `URL`.
     public init<AppStoredType: AppStored>(
@@ -130,8 +130,8 @@
     /// - Parameters:
     ///   - wrappedValue: The initial value for the app-stored value.
     ///   - type: The `AppStored` type to associate with the app-stored value.
-    /// - store: The `UserDefaults` instance to use for storing the app-stored
-    /// value. If `nil`, the standard `UserDefaults` will be used.
+    ///   - store: The `UserDefaults` instance to use for storing the app-stored
+    ///     value. If `nil`, the standard `UserDefaults` will be used.
     /// - Requires:
     ///   - `AppStoredType.Value` must be `Data` and `Value` must be `Data`.
     public init<AppStoredType: AppStored>(
@@ -148,8 +148,8 @@
     /// - Parameters:
     ///   - wrappedValue: The initial value for the app-stored value.
     ///   - type: The `AppStored` type to associate with the app-stored value.
-    /// - store: The `UserDefaults` instance to use for storing the app-stored
-    /// value. If `nil`, the standard `UserDefaults` will be used.
+    ///   - store: The `UserDefaults` instance to use for storing the app-stored
+    ///     value. If `nil`, the standard `UserDefaults` will be used.
     /// - Requires:
     ///   - `AppStoredType.Value` must be `Date` and `Value` must be `Date`.
     @available(macOS 15.0, iOS 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
@@ -167,11 +167,11 @@
     /// - Parameters:
     ///   - wrappedValue: The initial value for the app-stored value.
     ///   - type: The `AppStored` type to associate with the app-stored value.
-    /// - store: The `UserDefaults` instance to use for storing the app-stored
-    /// value. If `nil`, the standard `UserDefaults` will be used.
+    ///   - store: The `UserDefaults` instance to use for storing the app-stored
+    ///     value. If `nil`, the standard `UserDefaults` will be used.
     /// - Requires:
-    /// - `AppStoredType.Value` must be `Value` and `Value` must be
-    /// `RawRepresentable` with a `RawValue` of `Int`.
+    ///   - `AppStoredType.Value` must be `Value` and `Value` must be
+    ///     `RawRepresentable` with a `RawValue` of `Int`.
     public init<AppStoredType: AppStored>(
       wrappedValue: Value,
       for type: AppStoredType.Type,
@@ -186,11 +186,11 @@
     /// - Parameters:
     ///   - wrappedValue: The initial value for the app-stored value.
     ///   - type: The `AppStored` type to associate with the app-stored value.
-    /// - store: The `UserDefaults` instance to use for storing the app-stored
-    /// value. If `nil`, the standard `UserDefaults` will be used.
+    ///   - store: The `UserDefaults` instance to use for storing the app-stored
+    ///     value. If `nil`, the standard `UserDefaults` will be used.
     /// - Requires:
-    /// - `AppStoredType.Value` must be `Value` and `Value` must be
-    /// `RawRepresentable` with a `RawValue` of `String`.
+    ///   - `AppStoredType.Value` must be `Value` and `Value` must be
+    ///     `RawRepresentable` with a `RawValue` of `String`.
     public init<AppStoredType: AppStored>(
       wrappedValue: Value,
       for type: AppStoredType.Type,
@@ -199,7 +199,8 @@
     where
       AppStoredType.Value == Value,
       Value: RawRepresentable,
-      Value.RawValue == String {
+      Value.RawValue == String
+    {
       self.init(wrappedValue: wrappedValue, type.key, store: store)
     }
   }

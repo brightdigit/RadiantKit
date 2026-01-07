@@ -175,7 +175,7 @@
     /// - Parameters:
     ///   - downloadSourceURL: The URL of the download source.
     ///   - destinationFileURL: The URL of the destination file.
-    /// - completion: A closure that is called with the result of the download.
+    ///   - completion: A closure that is called with the result of the download.
     public func begin(
       from downloadSourceURL: URL,
       to destinationFileURL: URL,

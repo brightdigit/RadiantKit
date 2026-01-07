@@ -76,10 +76,10 @@
       ///
       /// - Parameters:
       ///   - initial: The initial value for the preferred layout.
-      /// - reduce: A function that reduces two values of type `ValueType` into a
-      /// single value.
-      /// - content: A function that creates the content of the view based on the
-      /// preferred layout value.
+      ///   - reduce: A function that reduces two values of type `ValueType` into a
+      ///     single value.
+      ///   - content: A function that creates the content of the view based on the
+      ///     preferred layout value.
       public init(
         initial: ValueType? = nil,
         reduce: @escaping (ValueType, ValueType) -> ValueType,
@@ -114,6 +114,7 @@
     /// - Parameters:
     ///   - keyPath: The key path to the value in the `GeometryProxy`.
     ///   - valueType: The preferred layout value to apply.
+    /// - Returns: A view with the preferred layout value applied.
     public func apply<V>(
       _ keyPath: KeyPath<GeometryProxy, V>,
       with valueType: PreferredLayout.Value<V>
@@ -125,8 +126,9 @@
     /// - Parameters:
     ///   - keyPath: The key path to the value in the `GeometryProxy`.
     ///   - valueType: The preferred layout value to apply.
-    /// - backgroundView: A function that creates the background view for the
-    /// preferred layout.
+    ///   - backgroundView: A function that creates the background view for the
+    ///     preferred layout.
+    /// - Returns: A view with the preferred layout value applied.
     public func apply<V>(
       _ keyPath: KeyPath<GeometryProxy, V>,
       with valueType: PreferredLayout.Value<V>,

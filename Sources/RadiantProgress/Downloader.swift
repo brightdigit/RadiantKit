@@ -48,8 +48,8 @@ public protocol Downloader {
   /// - Parameters:
   ///   - downloadSourceURL: The URL to download from.
   ///   - destinationFileURL: The URL to download to.
-  /// - completion: A completion handler that is called with the result of the
-  /// download operation.
+  ///   - completion: A completion handler that is called with the result of the
+  ///     download operation.
   func begin(
     from downloadSourceURL: URL,
     to destinationFileURL: URL,

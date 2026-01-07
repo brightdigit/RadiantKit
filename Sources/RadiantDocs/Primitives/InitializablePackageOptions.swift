@@ -29,6 +29,7 @@
 
 public import Foundation
 
+/// Options for controlling how package files are written and protected.
 public struct InitializablePackageOptions: OptionSet, Sendable {
   /// An option to write data to an auxiliary file first and
   /// then replace the original file
@@ -46,10 +47,12 @@ public struct InitializablePackageOptions: OptionSet, Sendable {
   /// or the file is already open.
   public static let completeFileProtectionUnlessOpen =
     InitializablePackageOptions(rawValue: 1 << 4)
+  // swiftlint:disable identifier_name
   /// An option to allow the file to be accessible after a user first unlocks the
   /// device.
   public static let completeFileProtectionUntilFirstUserAuthentication =
     InitializablePackageOptions(rawValue: 1 << 5)
+  // swiftlint:enable identifier_name
   /// An option the system uses when determining the file protection options that
   /// the system assigns to the data.
   public static let fileProtectionMask = InitializablePackageOptions(rawValue: 0x0F << 2)
@@ -58,21 +61,24 @@ public struct InitializablePackageOptions: OptionSet, Sendable {
   public static let withIntermediateDirectories =
     InitializablePackageOptions(rawValue: 1 << 6)
   // Common combinations
+  /// No options enabled.
   public static let none: InitializablePackageOptions = []
+  /// The raw integer value representing the option set.
   public let rawValue: Int
   /// Returns true if the withIntermediateDirectories option is enabled
   public var withIntermediateDirectoriesIsEnabled: Bool {
     contains(.withIntermediateDirectories)
   }
+  /// Creates an option set with the specified raw value.
+  ///
+  /// - Parameter rawValue: The raw integer value for the option set.
   public init(rawValue: Int) { self.rawValue = rawValue }
 }
 
 extension Data.WritingOptions {
   /// Initialize Data.WritingOptions from InitializablePackageOptions
   /// - Parameter options: The `InitializablePackageOptions`
-  /// to convert to `Data.WritingOptions`
-  /// - Returns: The `Data.WritingOptions` equivalent
-  /// of the provided `InitializablePackageOptions`
+  ///   to convert to `Data.WritingOptions`
   public init(options: InitializablePackageOptions) {
     var dataOptions: Data.WritingOptions = []
     if options.contains(.atomic) { dataOptions.insert(.atomic) }

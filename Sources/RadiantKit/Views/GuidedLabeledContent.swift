@@ -53,6 +53,7 @@
     private let label: () -> Label
     private let description: () -> Description
 
+    /// The content and behavior of the view.
     public var body: some View {
       VStack {
         LabeledContent(content: content, label: label)
@@ -60,6 +61,13 @@
       }
     }
 
+    /// Initializes a `GuidedLabeledContent` instance with a content view, a
+    /// label view, and a description view.
+    ///
+    /// - Parameters:
+    ///   - content: A closure that returns the content view.
+    ///   - label: A closure that returns the label view.
+    ///   - description: A closure that returns the description view.
     public init(
       _ content: @escaping () -> Content,
       label: @escaping () -> Label,
@@ -81,11 +89,8 @@
     ///   - content: A closure that returns the content view.
     ///   - label: A closure that returns the label view.
     ///   - text: A closure that returns the text-based description view.
-    /// - descriptionAlignment: The alignment of the description view (default is
-    /// `.leading`).
-    ///
-    /// - Returns: A `GuidedLabeledContent` instance with the specified content,
-    /// label, and description.
+    ///   - descriptionAlignment: The alignment of the description view (default is
+    ///     `.leading`).
     public init(
       _ content: @escaping () -> Content,
       label: @escaping () -> Label,

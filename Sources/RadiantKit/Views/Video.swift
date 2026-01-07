@@ -49,7 +49,7 @@
 
     /// Creates an `AVPlayerView` to display the video.
     ///
-    /// - Parameter context: The context provided by SwiftUI.
+    /// - Parameter _: The context provided by SwiftUI.
     /// - Returns: An `AVPlayerView` instance.
     public func makeNSView(context _: Context) -> AVPlayerView {
       let view = AVPlayerView()
@@ -62,8 +62,8 @@
     /// Updates the `AVPlayerView` if necessary.
     ///
     /// - Parameters:
-    ///   - view: The `AVPlayerView` to be updated.
-    ///   - context: The context provided by SwiftUI.
+    ///   - _: The `AVPlayerView` to be updated.
+    ///   - _: The context provided by SwiftUI.
     public func updateNSView(_: AVPlayerView, context _: Context) {}
   }
 

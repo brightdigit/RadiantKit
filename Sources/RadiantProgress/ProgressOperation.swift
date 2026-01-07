@@ -29,6 +29,7 @@
 
 public import Foundation
 
+/// A protocol representing an operation that reports progress.
 @MainActor
 public protocol ProgressOperation<ValueType>: Identifiable where ID == URL {
   associatedtype ValueType: BinaryInteger & Sendable
@@ -38,6 +39,10 @@ public protocol ProgressOperation<ValueType>: Identifiable where ID == URL {
 }
 
 extension ProgressOperation {
+  /// Calculates and formats the progress as a percentage string.
+  ///
+  /// - Parameter fractionDigits: The number of decimal places to include in the percentage.
+  /// - Returns: A formatted percentage string, or `nil` if `totalValue` is `nil`.
   public func percentValue(withFractionDigits fractionDigits: Int = 0) -> String? {
     guard let totalValue else {
       return nil

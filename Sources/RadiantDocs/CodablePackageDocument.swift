@@ -83,7 +83,8 @@
           configuration.existingFile ?? FileWrapper(directoryWithFileWrappers: [:])
 
         if let oldConfigJSONWrapper = rootFileWrapper
-          .fileWrappers?[T.configurationFileWrapperKey] {
+          .fileWrappers?[T.configurationFileWrapperKey]
+        {
           rootFileWrapper.removeFileWrapper(oldConfigJSONWrapper)
         }
 

@@ -51,7 +51,7 @@ public struct FileType: Hashable, ExpressibleByStringLiteral, Sendable {
   /// - Parameters:
   ///   - utIdentifier: The Uniform Type Identifier (UTI) for the file type.
   ///   - isOwned: A boolean indicating whether the file type is owned.
-  /// - fileExtension: The optional file extension associated with the file type.
+  ///   - fileExtension: The optional file extension associated with the file type.
   public init(utIdentifier: String, isOwned: Bool, fileExtension: String? = nil) {
     self.utIdentifier = utIdentifier
     self.isOwned = isOwned
